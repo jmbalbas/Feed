@@ -11,6 +11,7 @@
 		4A0AE47D293BBF66009D95C1 /* FeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0AE47C293BBF66009D95C1 /* FeedTests.swift */; };
 		4A0AE47E293BBF66009D95C1 /* Feed.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A0AE472293BBF66009D95C1 /* Feed.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4A0AE488293BBF95009D95C1 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0AE487293BBF94009D95C1 /* FeedItem.swift */; };
+		4A0AE48A293BC043009D95C1 /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0AE489293BC043009D95C1 /* FeedLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		4A0AE477293BBF66009D95C1 /* FeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A0AE47C293BBF66009D95C1 /* FeedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTests.swift; sourceTree = "<group>"; };
 		4A0AE487293BBF94009D95C1 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
+		4A0AE489293BC043009D95C1 /* FeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				4A0AE472293BBF66009D95C1 /* Feed.h */,
-				4A0AE487293BBF94009D95C1 /* FeedItem.swift */,
+				4A0AE48B293BC0F1009D95C1 /* Feed Feature */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -83,6 +85,15 @@
 				4A0AE47C293BBF66009D95C1 /* FeedTests.swift */,
 			);
 			path = FeedTests;
+			sourceTree = "<group>";
+		};
+		4A0AE48B293BC0F1009D95C1 /* Feed Feature */ = {
+			isa = PBXGroup;
+			children = (
+				4A0AE487293BBF94009D95C1 /* FeedItem.swift */,
+				4A0AE489293BC043009D95C1 /* FeedLoader.swift */,
+			);
+			path = "Feed Feature";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,6 +206,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A0AE48A293BC043009D95C1 /* FeedLoader.swift in Sources */,
 				4A0AE488293BBF95009D95C1 /* FeedItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
