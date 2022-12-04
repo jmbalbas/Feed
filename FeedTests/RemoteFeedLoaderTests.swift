@@ -12,6 +12,7 @@ import Feed
 class RemoteFeedLoaderTests: XCTestCase {
 
     private var client: HTTPClientSpy!
+    private var sut: RemoteFeedLoader!
 
     override func setUp() {
         super.setUp()
@@ -20,40 +21,41 @@ class RemoteFeedLoaderTests: XCTestCase {
 
     override func tearDown() {
         client = nil
+        sut = nil
         super.tearDown()
     }
 
     func test_init_doesNotRequestDataFromURL() {
-        _ = givenSUT()
+        givenSUT()
 
         XCTAssertTrue(client.requestedURLs.isEmpty)
     }
 
     func test_load_requestsDataFromURL() throws {
         let url = URL(string: "https://a-given-url.com")!
-        let sut = givenSUT(url: url)
+        givenSUT(url: url)
 
-        try sut.load()
+        try whenCallingLoad()
 
         XCTAssertEqual(client.requestedURLs, [url])
     }
 
     func test_loadTwice_requestsDataFromURLTwice() throws {
         let url = URL(string: "https://a-given-url.com")!
-        let sut = givenSUT(url: url)
+        givenSUT(url: url)
 
-        try sut.load()
-        try sut.load()
+        try whenCallingLoad()
+        try whenCallingLoad()
 
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
 
     func test_load_deliversErrorOnClientError() {
-        let sut = givenSUT()
+        givenSUT()
         let expectedError: RemoteFeedLoader.Error = .connectivity
         client.error = expectedError
 
-        XCTAssertThrowsError(try sut.load()) {
+        XCTAssertThrowsError(try whenCallingLoad()) {
             XCTAssertEqual($0 as? RemoteFeedLoader.Error, expectedError)
         }
     }
@@ -64,8 +66,12 @@ class RemoteFeedLoaderTests: XCTestCase {
 
 private extension RemoteFeedLoaderTests {
 
-    func givenSUT(url: URL = URL(string: "https://a-url.com")!) -> RemoteFeedLoader {
-        RemoteFeedLoader(client: client, url: url)
+    func givenSUT(url: URL = URL(string: "https://a-url.com")!) {
+        sut = RemoteFeedLoader(client: client, url: url)
+    }
+
+    func whenCallingLoad() throws {
+        try sut.load()
     }
 
 }
