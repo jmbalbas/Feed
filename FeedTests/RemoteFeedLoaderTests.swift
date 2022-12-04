@@ -53,7 +53,7 @@ class RemoteFeedLoaderTests: XCTestCase {
     func test_load_deliversErrorOnClientError() {
         givenSUT()
         let expectedError: RemoteFeedLoader.Error = .connectivity
-        client.error = expectedError
+        client.stub(error: expectedError)
 
         XCTAssertThrowsError(try whenCallingLoad()) {
             XCTAssertEqual($0 as? RemoteFeedLoader.Error, expectedError)
@@ -62,13 +62,12 @@ class RemoteFeedLoaderTests: XCTestCase {
 
     func test_load_deliversErrorOnNon200HTTPResponse() {
         givenSUT()
-        let expectedError: RemoteFeedLoader.Error = .invalidData
 
         for code in [199, 201, 300, 400, 500] {
-            client.responseCode = code
+            client.stub(statusCode: code)
 
             XCTAssertThrowsError(try whenCallingLoad()) {
-                XCTAssertEqual($0 as? RemoteFeedLoader.Error, expectedError)
+                XCTAssertEqual($0 as? RemoteFeedLoader.Error, .invalidData)
             }
         }
     }
@@ -93,19 +92,7 @@ private extension RemoteFeedLoaderTests {
 
 private class HTTPClientStub: HTTPClient {
     private(set) var requestedURLs: [URL] = []
-    var result: Result<Int, Error> = .success(200)
-    var error: Error? {
-        didSet {
-            if let error = error {
-                result = .failure(error)
-            }
-        }
-    }
-    var responseCode: Int = 200 {
-        didSet {
-            result = .success(responseCode)
-        }
-    }
+    private var result: Result<Int, Error> = .success(200)
 
     func get(from url: URL) throws -> HTTPURLResponse {
         requestedURLs.append(url)
@@ -115,5 +102,13 @@ private class HTTPClientStub: HTTPClient {
         case .failure(let error):
             throw error
         }
+    }
+
+    func stub(error: Error) {
+        result = .failure(error)
+    }
+
+    func stub(statusCode: Int) {
+        result = .success(statusCode)
     }
 }
