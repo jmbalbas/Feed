@@ -11,7 +11,7 @@ import Feed
 
 class RemoteFeedLoaderTests: XCTestCase {
 
-    private var client: HTTPClientSpy!
+    private var client: HTTPClientStub!
     private var sut: RemoteFeedLoader!
 
     override func setUp() {
@@ -78,7 +78,7 @@ private extension RemoteFeedLoaderTests {
 
 // MARK: - HTTPClientSpy
 
-private class HTTPClientSpy: HTTPClient {
+private class HTTPClientStub: HTTPClient {
     private(set) var requestedURLs: [URL] = []
     var error: RemoteFeedLoader.Error?
 
