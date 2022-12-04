@@ -31,21 +31,21 @@ class RemoteFeedLoaderTests: XCTestCase {
         XCTAssertTrue(client.requestedURLs.isEmpty)
     }
 
-    func test_load_requestsDataFromURL() throws {
+    func test_load_requestsDataFromURL() {
         let url = URL(string: "https://a-given-url.com")!
         givenSUT(url: url)
 
-        try whenCallingLoad()
+        try? whenCallingLoad()
 
         XCTAssertEqual(client.requestedURLs, [url])
     }
 
-    func test_loadTwice_requestsDataFromURLTwice() throws {
+    func test_loadTwice_requestsDataFromURLTwice() {
         let url = URL(string: "https://a-given-url.com")!
         givenSUT(url: url)
 
-        try whenCallingLoad()
-        try whenCallingLoad()
+        try? whenCallingLoad()
+        try? whenCallingLoad()
 
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
