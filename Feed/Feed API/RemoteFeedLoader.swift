@@ -25,6 +25,10 @@ public final class RemoteFeedLoader {
     }
 
     public func load() throws {
-        try client.get(from: url)
+        do {
+            try client.get(from: url)
+        } catch {
+            throw Error.connectivity
+        }
     }
 }

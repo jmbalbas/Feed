@@ -80,7 +80,7 @@ private extension RemoteFeedLoaderTests {
 
 private class HTTPClientStub: HTTPClient {
     private(set) var requestedURLs: [URL] = []
-    var error: RemoteFeedLoader.Error?
+    var error: Error?
 
     func get(from url: URL) throws {
         requestedURLs.append(url)
