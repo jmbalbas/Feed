@@ -25,7 +25,7 @@ public final class RemoteFeedLoader {
         self.url = url
     }
 
-    public func load() async throws {
+    public func load() async throws -> [FeedItem] {
         do {
             _ = try await client.get(from: url)
         } catch {

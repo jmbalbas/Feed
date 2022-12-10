@@ -91,7 +91,7 @@ private extension RemoteFeedLoaderTests {
             try await Task.sleep(nanoseconds: 1_000_000)
             client.complete(withStatusCode: code, data: data, at: index)
         }
-        try await sut.load()
+        _ = try await sut.load()
     }
 
     func whenCallingLoad(completingWithError error: Error, at index: Int = 0) async throws {
@@ -99,7 +99,7 @@ private extension RemoteFeedLoaderTests {
             try await Task.sleep(nanoseconds: 1_000_000)
             self.client.complete(withError: error, at: index)
         }
-        try await sut.load()
+        _ = try await sut.load()
     }
 
     func expectToComplete(withError error: RemoteFeedLoader.Error, when action: () async throws -> Void, line: UInt = #line) async {
