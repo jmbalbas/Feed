@@ -89,39 +89,13 @@ class RemoteFeedLoaderTests: XCTestCase {
     func test_load_deliversItemsOn200HTTPResponseWithJSONItems() async throws {
         givenSUT()
 
-        let item1 = FeedItem(
-            id: UUID(),
-            description: nil,
-            location: nil,
-            imageURL: URL(string: "http://a-url.com")!
-        )
-        let item1JSON = [
-            "id": item1.id.uuidString,
-            "image": item1.imageURL.absoluteString
-        ]
+        let item1 = makeItem(id: UUID(), imageURL: URL(string: "http://a-url.com")!)
+        let item2 = makeItem(id: UUID(), description: "A description", location: "A location", imageURL: URL(string: "http://another-url.com")!)
+        let items = [item1.model, item2.model]
 
-        let item2 = FeedItem(
-            id: UUID(),
-            description: "A description",
-            location: "A location",
-            imageURL: URL(string: "http://another-url.com")!
-        )
-        let item2JSON = [
-            "id": item2.id.uuidString,
-            "description": item2.description,
-            "location": item2.location,
-            "image": item2.imageURL.absoluteString
-        ]
-
-        let itemsJSON = [
-            "items": [item1JSON, item2JSON]
-        ]
-
-        try await expectToComplete(withItems: [item1, item2], when: {
-            try await whenCallingLoad(
-                completingWithStatusCode: 200,
-                data: try JSONSerialization.data(withJSONObject: itemsJSON)
-            )
+        try await expectToComplete(withItems: items, when: {
+            let json = [item1.json, item2.json]
+            return try await whenCallingLoad(completingWithStatusCode: 200, data: makeItemsJSON(json))
         })
     }
 }
@@ -167,6 +141,21 @@ private extension RemoteFeedLoaderTests {
     func expectToComplete(withItems items: [FeedItem], when action: () async throws -> [FeedItem], line: UInt = #line) async throws {
         let retrievedItems = try await action()
         XCTAssertEqual(items, retrievedItems, line: line)
+    }
+
+    func makeItem(id: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedItem, json: [String: Any]) {
+        let item = FeedItem(id: id, description: description, location: location, imageURL: imageURL)
+        let json = [
+            "id": id.uuidString,
+            "description": description,
+            "location": location,
+            "image": imageURL.absoluteString
+        ].compactMapValues { $0 }
+        return (model: item, json: json)
+    }
+
+    func makeItemsJSON(_ items: [[String: Any]]) throws -> Data {
+        try JSONSerialization.data(withJSONObject: ["items": items])
     }
 }
 
