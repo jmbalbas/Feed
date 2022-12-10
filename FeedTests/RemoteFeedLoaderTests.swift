@@ -81,8 +81,10 @@ class RemoteFeedLoaderTests: XCTestCase {
         givenSUT()
         let emptyListJSON = Data("{\"items\": []}".utf8)
 
-        let feedItems = try await whenCallingLoad(completingWithStatusCode: 200, data: emptyListJSON)
-        XCTAssert(feedItems.isEmpty)
+        try await expectToComplete(withItems: [], when: {
+            try await whenCallingLoad(completingWithStatusCode: 200, data: emptyListJSON)
+        })
+    }
     }
 }
 
@@ -122,6 +124,11 @@ private extension RemoteFeedLoaderTests {
         await XCTAssertThrowsError(try await action(), line: line) {
             XCTAssertEqual($0 as? RemoteFeedLoader.Error, error, line: line)
         }
+    }
+
+    func expectToComplete(withItems items: [FeedItem], when action: () async throws -> [FeedItem], line: UInt = #line) async throws {
+        let retrievedItems = try await action()
+        XCTAssertEqual(items, retrievedItems, line: line)
     }
 }
 
