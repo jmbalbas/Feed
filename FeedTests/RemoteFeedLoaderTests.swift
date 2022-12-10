@@ -73,6 +73,17 @@ class RemoteFeedLoaderTests: XCTestCase {
         }
     }
 
+    func test_load_deliversErrorOn200HTTPResponseWithInvalidJSON() async {
+        givenSUT()
+        let invalidJSON = Data("Invalid json".utf8)
+        let expectedError: RemoteFeedLoader.Error = .invalidData
+
+        await XCTAssertThrowsError(
+            try await whenCallingLoad(completingWithStatusCode: 200, data: invalidJSON)
+        ) {
+            XCTAssertEqual($0 as? RemoteFeedLoader.Error, expectedError)
+        }
+    }
 }
 
 // MARK: - Helpers
@@ -83,10 +94,10 @@ private extension RemoteFeedLoaderTests {
         sut = RemoteFeedLoader(client: client, url: url)
     }
 
-    func whenCallingLoad(completingWithStatusCode code: Int = 200, at index: Int = 0) async throws {
+    func whenCallingLoad(completingWithStatusCode code: Int = 200, data: Data = Data(), at index: Int = 0) async throws {
         Task {
             try await Task.sleep(nanoseconds: 1_000_000)
-            client.complete(withStatusCode: code, at: index)
+            client.complete(withStatusCode: code, data: data, at: index)
         }
         try await sut.load()
     }
@@ -107,9 +118,9 @@ private class HTTPClientSpy: HTTPClient {
         messages.map { $0.url }
     }
 
-    private var messages: [(url: URL, continuation: CheckedContinuation<HTTPURLResponse, Error>)] = []
+    private var messages: [(url: URL, continuation: CheckedContinuation<(Data, HTTPURLResponse), Error>)] = []
 
-    func get(from url: URL) async throws -> HTTPURLResponse {
+    func get(from url: URL) async throws -> (Data, HTTPURLResponse) {
         try await withCheckedThrowingContinuation {
             messages.append((url: url, continuation: $0))
         }
@@ -119,10 +130,10 @@ private class HTTPClientSpy: HTTPClient {
         messages[index].continuation.resume(throwing: error)
     }
 
-    func complete(withStatusCode code: Int = 200, at index: Int = 0) {
+    func complete(withStatusCode code: Int = 200, data: Data = Data(), at index: Int = 0) {
         let message = messages[index]
         message.continuation.resume(
-            returning: .init(url: message.url, statusCode: code, httpVersion: nil, headerFields: nil)!
+            returning: (data, .init(url: message.url, statusCode: code, httpVersion: nil, headerFields: nil)!)
         )
     }
 }
