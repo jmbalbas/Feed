@@ -26,12 +26,26 @@ public final class RemoteFeedLoader {
     }
 
     public func load() async throws -> [FeedItem] {
+        let data: Data
+        let response: HTTPURLResponse
+
         do {
-            _ = try await client.get(from: url)
+            (data, response) = try await client.get(from: url)
         } catch {
             throw Error.connectivity
         }
 
-        throw Error.invalidData
+        guard response.statusCode == 200 else {
+            throw Error.invalidData
+        }
+
+        do {
+            let _ = try JSONDecoder().decode([String: [String]].self, from: data)
+            return []
+        } catch {
+            throw Error.invalidData
+        }
+
     }
+
 }

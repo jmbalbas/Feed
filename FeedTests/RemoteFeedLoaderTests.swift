@@ -35,7 +35,7 @@ class RemoteFeedLoaderTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
         givenSUT(url: url)
 
-        try? await whenCallingLoad()
+        _ = try? await whenCallingLoad()
 
         XCTAssertEqual(client.requestedURLs, [url])
     }
@@ -44,8 +44,8 @@ class RemoteFeedLoaderTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
         givenSUT(url: url)
 
-        try? await whenCallingLoad(at: 0)
-        try? await whenCallingLoad(at: 1)
+        _ = try? await whenCallingLoad(at: 0)
+        _ = try? await whenCallingLoad(at: 1)
 
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
@@ -76,6 +76,14 @@ class RemoteFeedLoaderTests: XCTestCase {
             try await whenCallingLoad(completingWithStatusCode: 200, data: invalidJSON)
         })
     }
+
+    func test_load_deliversNoItemsOn200HTTPResponseWithEmptyJSONList() async throws {
+        givenSUT()
+        let emptyListJSON = Data("{\"items\": []}".utf8)
+
+        let feedItems = try await whenCallingLoad(completingWithStatusCode: 200, data: emptyListJSON)
+        XCTAssert(feedItems.isEmpty)
+    }
 }
 
 // MARK: - Helpers
@@ -86,26 +94,28 @@ private extension RemoteFeedLoaderTests {
         sut = RemoteFeedLoader(client: client, url: url)
     }
 
-    func whenCallingLoad(completingWithStatusCode code: Int = 200, data: Data = Data(), at index: Int = 0) async throws {
+    @discardableResult
+    func whenCallingLoad(completingWithStatusCode code: Int = 200, data: Data = Data(), at index: Int = 0) async throws -> [FeedItem]  {
         try await whenCallingLoad(
             completingWith: { self.client.complete(withStatusCode: code, data: data, at: index) },
             at: index
         )
     }
 
-    func whenCallingLoad(completingWithError error: Error, at index: Int = 0) async throws {
+    @discardableResult
+    func whenCallingLoad(completingWithError error: Error, at index: Int = 0) async throws -> [FeedItem]  {
         try await whenCallingLoad(
             completingWith: { self.client.complete(withError: error, at: index) },
             at: index
         )
     }
 
-    func whenCallingLoad(completingWith action: @escaping () -> Void, at index: Int) async throws {
+    func whenCallingLoad(completingWith action: @escaping () -> Void, at index: Int) async throws -> [FeedItem] {
         Task {
             try await Task.sleep(nanoseconds: 1_000_000)
             action()
         }
-        _ = try await sut.load()
+        return try await sut.load()
     }
 
     func expectToComplete(withError error: RemoteFeedLoader.Error, when action: () async throws -> Void, line: UInt = #line) async {
