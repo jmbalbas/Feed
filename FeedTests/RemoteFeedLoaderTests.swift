@@ -52,37 +52,29 @@ class RemoteFeedLoaderTests: XCTestCase {
 
     func test_load_deliversErrorOnClientError() async {
         givenSUT()
-        let expectedError: RemoteFeedLoader.Error = .connectivity
 
-        await XCTAssertThrowsError(
-            try await self.whenCallingLoad(completingWithError: expectedError)
-        ) {
-            XCTAssertEqual($0 as? RemoteFeedLoader.Error, expectedError)
-        }
+        await expectToComplete(withError: .connectivity, when: {
+            try await self.whenCallingLoad(completingWithError: NSError(domain: "Test", code: 0))
+        })
     }
 
     func test_load_deliversErrorOnNon200HTTPResponse() async {
         givenSUT()
 
         for (index, code) in [199, 201, 300, 400, 500].enumerated() {
-            await XCTAssertThrowsError(
+            await expectToComplete(withError: .invalidData, when: {
                 try await whenCallingLoad(completingWithStatusCode: code, at: index)
-            ) {
-                XCTAssertEqual($0 as? RemoteFeedLoader.Error, .invalidData)
-            }
+            })
         }
     }
 
     func test_load_deliversErrorOn200HTTPResponseWithInvalidJSON() async {
         givenSUT()
         let invalidJSON = Data("Invalid json".utf8)
-        let expectedError: RemoteFeedLoader.Error = .invalidData
 
-        await XCTAssertThrowsError(
+        await expectToComplete(withError: .invalidData, when: {
             try await whenCallingLoad(completingWithStatusCode: 200, data: invalidJSON)
-        ) {
-            XCTAssertEqual($0 as? RemoteFeedLoader.Error, expectedError)
-        }
+        })
     }
 }
 
@@ -108,6 +100,12 @@ private extension RemoteFeedLoaderTests {
             self.client.complete(withError: error, at: index)
         }
         try await sut.load()
+    }
+
+    func expectToComplete(withError error: RemoteFeedLoader.Error, when action: () async throws -> Void, line: UInt = #line) async {
+        await XCTAssertThrowsError(try await action(), line: line) {
+            XCTAssertEqual($0 as? RemoteFeedLoader.Error, error, line: line)
+        }
     }
 }
 
