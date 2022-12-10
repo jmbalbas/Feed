@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol HTTPClient {
-    func get(from url: URL) throws -> HTTPURLResponse
+    func get(from url: URL) async throws -> HTTPURLResponse
 }
 
 public final class RemoteFeedLoader {
@@ -25,9 +25,9 @@ public final class RemoteFeedLoader {
         self.url = url
     }
 
-    public func load() throws {
+    public func load() async throws {
         do {
-            _ = try client.get(from: url)
+            _ = try await client.get(from: url)
         } catch {
             throw Error.connectivity
         }

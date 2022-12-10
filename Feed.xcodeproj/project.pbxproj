@@ -13,6 +13,7 @@
 		4A0AE48A293BC043009D95C1 /* FeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0AE489293BC043009D95C1 /* FeedLoader.swift */; };
 		4A0AE48D293BC450009D95C1 /* RemoteFeedLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0AE48C293BC450009D95C1 /* RemoteFeedLoaderTests.swift */; };
 		4A0AE490293D259B009D95C1 /* RemoteFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0AE48F293D259B009D95C1 /* RemoteFeedLoader.swift */; };
+		4A4952AF294495EC0010A69F /* XCTest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4952AE294495EC0010A69F /* XCTest+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,7 @@
 		4A0AE489293BC043009D95C1 /* FeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoader.swift; sourceTree = "<group>"; };
 		4A0AE48C293BC450009D95C1 /* RemoteFeedLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoaderTests.swift; sourceTree = "<group>"; };
 		4A0AE48F293D259B009D95C1 /* RemoteFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedLoader.swift; sourceTree = "<group>"; };
+		4A4952AE294495EC0010A69F /* XCTest+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTest+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 		4A0AE47B293BBF66009D95C1 /* FeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				4A4952AD294495D10010A69F /* Extensions */,
 				4A0AE48C293BC450009D95C1 /* RemoteFeedLoaderTests.swift */,
 			);
 			path = FeedTests;
@@ -105,6 +108,14 @@
 				4A0AE48F293D259B009D95C1 /* RemoteFeedLoader.swift */,
 			);
 			path = "Feed API";
+			sourceTree = "<group>";
+		};
+		4A4952AD294495D10010A69F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4A4952AE294495EC0010A69F /* XCTest+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,6 +238,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A4952AF294495EC0010A69F /* XCTest+Extension.swift in Sources */,
 				4A0AE48D293BC450009D95C1 /* RemoteFeedLoaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
