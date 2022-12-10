@@ -85,6 +85,44 @@ class RemoteFeedLoaderTests: XCTestCase {
             try await whenCallingLoad(completingWithStatusCode: 200, data: emptyListJSON)
         })
     }
+
+    func test_load_deliversItemsOn200HTTPResponseWithJSONItems() async throws {
+        givenSUT()
+
+        let item1 = FeedItem(
+            id: UUID(),
+            description: nil,
+            location: nil,
+            imageURL: URL(string: "http://a-url.com")!
+        )
+        let item1JSON = [
+            "id": item1.id.uuidString,
+            "image": item1.imageURL.absoluteString
+        ]
+
+        let item2 = FeedItem(
+            id: UUID(),
+            description: "A description",
+            location: "A location",
+            imageURL: URL(string: "http://another-url.com")!
+        )
+        let item2JSON = [
+            "id": item2.id.uuidString,
+            "description": item2.description,
+            "location": item2.location,
+            "image": item2.imageURL.absoluteString
+        ]
+
+        let itemsJSON = [
+            "items": [item1JSON, item2JSON]
+        ]
+
+        try await expectToComplete(withItems: [item1, item2], when: {
+            try await whenCallingLoad(
+                completingWithStatusCode: 200,
+                data: try JSONSerialization.data(withJSONObject: itemsJSON)
+            )
+        })
     }
 }
 

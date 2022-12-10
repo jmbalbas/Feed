@@ -40,12 +40,16 @@ public final class RemoteFeedLoader {
         }
 
         do {
-            let _ = try JSONDecoder().decode([String: [String]].self, from: data)
-            return []
+            let root = try JSONDecoder().decode(Root.self, from: data)
+            return root.items
         } catch {
             throw Error.invalidData
         }
 
     }
 
+}
+
+private class Root: Decodable {
+    let items: [FeedItem]
 }
