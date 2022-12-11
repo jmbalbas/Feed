@@ -7,10 +7,6 @@
 
 import Foundation
 
-public protocol HTTPClient {
-    func get(from url: URL) async throws -> (Data, HTTPURLResponse)
-}
-
 public final class RemoteFeedLoader {
     private let client: HTTPClient
     private let url: URL
