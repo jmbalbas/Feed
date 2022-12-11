@@ -29,7 +29,7 @@ public final class RemoteFeedLoader {
         guard let (data, response) = try? await client.get(from: url) else {
             throw Error.connectivity
         }
-        
+
         do {
             return try FeedItemsMapper.map(data, response)
         } catch {
@@ -54,8 +54,12 @@ private enum FeedItemsMapper {
         }
     }
 
+    private enum C {
+        static let ok200 = 200
+    }
+
     static func map(_ data: Data, _ response: HTTPURLResponse) throws -> [FeedItem] {
-        guard response.statusCode == 200 else {
+        guard response.statusCode == C.ok200 else {
             throw RemoteFeedLoader.Error.invalidData
         }
         return try JSONDecoder().decode(Root.self, from: data).items.map(\.item)
