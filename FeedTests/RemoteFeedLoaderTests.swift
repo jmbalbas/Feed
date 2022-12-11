@@ -63,7 +63,8 @@ class RemoteFeedLoaderTests: XCTestCase {
 
         for (index, code) in [199, 201, 300, 400, 500].enumerated() {
             await expectToComplete(withError: .invalidData, when: {
-                try await whenCallingLoad(completingWithStatusCode: code, at: index)
+                let json = try makeItemsJSON([])
+                try await whenCallingLoad(completingWithStatusCode: code, data: json, at: index)
             })
         }
     }
