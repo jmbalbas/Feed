@@ -26,14 +26,10 @@ public final class RemoteFeedLoader {
     }
 
     public func load() async throws -> [FeedItem] {
-        let data: Data
-        let response: HTTPURLResponse
-
-        do {
-            (data, response) = try await client.get(from: url)
-        } catch {
+        guard let (data, response) = try? await client.get(from: url) else {
             throw Error.connectivity
         }
+        
         do {
             return try FeedItemsMapper.map(data, response)
         } catch {
