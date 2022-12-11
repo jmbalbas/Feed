@@ -80,10 +80,10 @@ class RemoteFeedLoaderTests: XCTestCase {
 
     func test_load_deliversNoItemsOn200HTTPResponseWithEmptyJSONList() async throws {
         givenSUT()
-        let emptyListJSON = Data("{\"items\": []}".utf8)
 
         try await expectToComplete(withItems: [], when: {
-            try await whenCallingLoad(completingWithStatusCode: 200, data: emptyListJSON)
+            let emptyListJSON = try makeItemsJSON([])
+            return try await whenCallingLoad(completingWithStatusCode: 200, data: emptyListJSON)
         })
     }
 
