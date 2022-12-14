@@ -26,10 +26,6 @@ public final class RemoteFeedLoader {
             throw Error.connectivity
         }
 
-        do {
-            return try FeedItemsMapper.map(data, response)
-        } catch {
-            throw Error.invalidData
-        }
+        return try FeedItemsMapper.map(data, from: response)
     }
 }
