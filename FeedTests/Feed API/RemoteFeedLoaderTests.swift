@@ -11,56 +11,54 @@ import Feed
 
 class RemoteFeedLoaderTests: XCTestCase {
 
-    func test_init_doesNotRequestDataFromURL() {
+    func test_init_doesNotRequestDataFromURL() async {
         let (_, client) = givenSUT()
 
-        XCTAssertTrue(client.requestedURLs.isEmpty)
+        let requestedURLs = await client.requestedURLs
+        XCTAssertTrue(requestedURLs.isEmpty)
     }
 
     func test_load_requestsDataFromURL() async {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = givenSUT(url: url)
 
-        _ = try? await whenCallingLoad(on: sut, using: client)
+        let task = whenCallingLoad(on: sut)
+        complete(using: client)
+        _ = try? await task.value
 
-        XCTAssertEqual(client.requestedURLs, [url])
+        let requestedURLs = await client.requestedURLs
+        XCTAssertEqual(requestedURLs, [url])
     }
 
     func test_loadTwice_requestsDataFromURLTwice() async {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = givenSUT(url: url)
 
-        _ = try? await whenCallingLoad(on: sut, using: client, at: 0)
-        _ = try? await whenCallingLoad(on: sut, using: client, at: 1)
+        for index in 0...1 {
+            let task = whenCallingLoad(on: sut)
+            complete(using: client, at: index)
+            _ = try? await task.value
+        }
 
-        XCTAssertEqual(client.requestedURLs, [url, url])
+        let requestedURLs = await client.requestedURLs
+        XCTAssertEqual(requestedURLs, [url, url])
     }
 
     func test_load_deliversErrorOnClientError() async {
         let (sut, client) = givenSUT()
 
-        await expectToComplete(withError: .connectivity, when: {
-            try await self.whenCallingLoad(
-                on: sut,
-                using: client,
-                completingWithError: NSError(domain: "Test", code: 0)
-            )
+        await expect(sut, toCompleteWithError: .connectivity, when: {
+            complete(withError: NSError(domain: "Test", code: 0), using: client)
         })
     }
 
-    func test_load_deliversErrorOnNon200HTTPResponse() async {
+    func test_load_deliversErrorOnNon200HTTPResponse() async throws {
         let (sut, client) = givenSUT()
+        let json = try makeItemsJSON([])
 
         for (index, code) in [199, 201, 300, 400, 500].enumerated() {
-            await expectToComplete(withError: .invalidData, when: {
-                let json = try makeItemsJSON([])
-                try await whenCallingLoad(
-                    on: sut,
-                    using: client,
-                    completingWithStatusCode: code,
-                    data: json,
-                    at: index
-                )
+            await expect(sut, toCompleteWithError: .invalidData, when: {
+                complete(withStatusCode: code, data: json, using: client, at: index)
             })
         }
     }
@@ -69,27 +67,17 @@ class RemoteFeedLoaderTests: XCTestCase {
         let (sut, client) = givenSUT()
         let invalidJSON = Data("Invalid json".utf8)
 
-        await expectToComplete(withError: .invalidData, when: {
-            try await whenCallingLoad(
-                on: sut,
-                using: client,
-                completingWithStatusCode: 200,
-                data: invalidJSON
-            )
+        await expect(sut, toCompleteWithError: .invalidData, when: {
+            complete(withStatusCode: 200, data: invalidJSON, using: client)
         })
     }
 
     func test_load_deliversNoItemsOn200HTTPResponseWithEmptyJSONList() async throws {
         let (sut, client) = givenSUT()
+        let emptyListJSON = try makeItemsJSON([])
 
-        try await expectToComplete(withItems: [], when: {
-            let emptyListJSON = try makeItemsJSON([])
-            return try await whenCallingLoad(
-                on: sut,
-                using: client,
-                completingWithStatusCode: 200,
-                data: emptyListJSON
-            )
+        try await expect(sut, toCompleteWithItems: [], when: {
+            complete(withStatusCode: 200, data: emptyListJSON, using: client)
         })
     }
 
@@ -98,18 +86,14 @@ class RemoteFeedLoaderTests: XCTestCase {
 
         let item1 = makeItem(id: UUID(), imageURL: URL(string: "http://a-url.com")!)
         let item2 = makeItem(id: UUID(), description: "A description", location: "A location", imageURL: URL(string: "http://another-url.com")!)
-        let items = [item1.model, item2.model]
+        let items = [item1, item2].map(\.model)
+        let json = try makeItemsJSON([item1, item2].map(\.json))
 
-        try await expectToComplete(withItems: items, when: {
-            let json = [item1.json, item2.json]
-            return try await whenCallingLoad(
-                on: sut,
-                using: client,
-                completingWithStatusCode: 200,
-                data: makeItemsJSON(json)
-            )
+        try await expect(sut, toCompleteWithItems: items, when: {
+            complete(withStatusCode: 200, data: json, using: client)
         })
     }
+
 }
 
 // MARK: - Helpers
@@ -127,62 +111,53 @@ private extension RemoteFeedLoaderTests {
         return (sut, client)
     }
 
-    private func trackForMemoryLeaks(_ instance: AnyObject, line: UInt = #line) {
+    func trackForMemoryLeaks(_ instance: AnyObject, line: UInt = #line) {
         addTeardownBlock { [weak instance] in
             XCTAssertNil(instance, "Instance should have been deallocated", line: line)
         }
     }
 
-    @discardableResult
-    func whenCallingLoad(
-        on sut: RemoteFeedLoader,
-        using client: HTTPClientSpy,
-        completingWithStatusCode code: Int = 200,
-        data: Data = Data(),
-        at index: Int = 0
-    ) async throws -> [FeedItem]  {
-        try await whenCallingLoad(
-            on: sut,
-            completingWith: { client.complete(withStatusCode: code, data: data, at: index) },
-            at: index
-        )
-    }
-
-    @discardableResult
-    func whenCallingLoad(
-        on sut: RemoteFeedLoader,
-        using client: HTTPClientSpy,
-        completingWithError error: Error,
-        at index: Int = 0
-    ) async throws -> [FeedItem]  {
-        try await whenCallingLoad(
-            on: sut,
-            completingWith: { client.complete(withError: error, at: index) },
-            at: index
-        )
-    }
-
-    func whenCallingLoad(
-        on sut: RemoteFeedLoader,
-        completingWith action: @escaping () -> Void,
-        at index: Int
-    ) async throws -> [FeedItem] {
-        Task {
-            try await Task.sleep(nanoseconds: 1_000_000)
-            action()
+    func whenCallingLoad(on sut: RemoteFeedLoader) -> Task<[FeedItem], Error> {
+        Task(priority: .userInitiated) {
+            try await sut.load()
         }
-        return try await sut.load()
     }
 
-    func expectToComplete(withError error: RemoteFeedLoader.Error, when action: () async throws -> Void, line: UInt = #line) async {
-        await XCTAssertThrowsError(try await action(), line: line) {
+    func complete(withError error: Error, using client: HTTPClientSpy, at index: Int = 0) {
+        Task(priority: .background) {
+            await client.complete(withError: error, at: index)
+        }
+    }
+
+    func complete(withStatusCode code: Int = 200, data: Data = Data(), using client: HTTPClientSpy, at index: Int = 0) {
+        Task(priority: .background) {
+            await client.complete(withStatusCode: code, data: data, at: index)
+        }
+    }
+
+    func expect(
+        _ sut: RemoteFeedLoader,
+        toCompleteWithItems items: [FeedItem],
+        when action: () -> Void,
+        line: UInt = #line
+    ) async throws {
+        let task = whenCallingLoad(on: sut)
+        action()
+        let retrievedItems = try await task.value
+        XCTAssertEqual(items, retrievedItems, line: line)
+    }
+
+    func expect(
+        _ sut: RemoteFeedLoader,
+        toCompleteWithError error: RemoteFeedLoader.Error,
+        when action: () -> Void,
+        line: UInt = #line
+    ) async {
+        let task = whenCallingLoad(on: sut)
+        action()
+        await XCTAssertThrowsError(try await task.value, line: line) {
             XCTAssertEqual($0 as? RemoteFeedLoader.Error, error, line: line)
         }
-    }
-
-    func expectToComplete(withItems items: [FeedItem], when action: () async throws -> [FeedItem], line: UInt = #line) async throws {
-        let retrievedItems = try await action()
-        XCTAssertEqual(items, retrievedItems, line: line)
     }
 
     func makeItem(id: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedItem, json: [String: Any]) {
@@ -203,8 +178,7 @@ private extension RemoteFeedLoaderTests {
 
 // MARK: - HTTPClientSpy
 
-private class HTTPClientSpy: HTTPClient {
-    var remoteFeedLoader: Feed.RemoteFeedLoader?
+private actor HTTPClientSpy: HTTPClient {
 
     var requestedURLs: [URL] {
         messages.map { $0.url }
