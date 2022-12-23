@@ -64,8 +64,16 @@ final class URLSessionHTTPClientTests: XCTestCase {
 // MARK: - Helpers
 
 private extension URLSessionHTTPClientTests {
-    func givenSUT() -> URLSessionHTTPClient {
-        URLSessionHTTPClient()
+    func givenSUT(line: UInt = #line) -> URLSessionHTTPClient {
+        let sut = URLSessionHTTPClient()
+        trackForMemoryLeaks(sut, line: line)
+        return sut
+    }
+
+    func trackForMemoryLeaks(_ instance: AnyObject, line: UInt = #line) {
+        addTeardownBlock { [weak instance] in
+            XCTAssertNil(instance, "Instance should have been deallocated", line: line)
+        }
     }
 }
 
