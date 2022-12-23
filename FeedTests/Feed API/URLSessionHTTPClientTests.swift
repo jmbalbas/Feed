@@ -69,12 +69,6 @@ private extension URLSessionHTTPClientTests {
         trackForMemoryLeaks(sut, line: line)
         return sut
     }
-
-    func trackForMemoryLeaks(_ instance: AnyObject, line: UInt = #line) {
-        addTeardownBlock { [weak instance] in
-            XCTAssertNil(instance, "Instance should have been deallocated", line: line)
-        }
-    }
 }
 
 private class URLProtocolStub: URLProtocol {

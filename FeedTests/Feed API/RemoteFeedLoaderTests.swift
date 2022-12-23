@@ -111,12 +111,6 @@ private extension RemoteFeedLoaderTests {
         return (sut, client)
     }
 
-    func trackForMemoryLeaks(_ instance: AnyObject, line: UInt = #line) {
-        addTeardownBlock { [weak instance] in
-            XCTAssertNil(instance, "Instance should have been deallocated", line: line)
-        }
-    }
-
     func whenCallingLoad(on sut: RemoteFeedLoader) -> Task<[FeedItem], Error> {
         Task(priority: .userInitiated) {
             try await sut.load()
