@@ -64,9 +64,9 @@ final class URLSessionHTTPClientTests: XCTestCase {
 // MARK: - Helpers
 
 private extension URLSessionHTTPClientTests {
-    func givenSUT(line: UInt = #line) -> URLSessionHTTPClient {
+    func givenSUT(file: StaticString = #filePath, line: UInt = #line) -> URLSessionHTTPClient {
         let sut = URLSessionHTTPClient()
-        trackForMemoryLeaks(sut, line: line)
+        trackForMemoryLeaks(sut, file: file, line: line)
         return sut
     }
 }
