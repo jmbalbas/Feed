@@ -58,6 +58,21 @@ final class URLSessionHTTPClientTests: XCTestCase {
             XCTAssertEqual(expectedError.code, error.code)
         }
     }
+
+    func test_getFromURL_succeedsOnHTTPURLResponseWithData() async throws {
+        let sut = givenSUT()
+        let data = Data()
+        let url = anyURL()
+        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+        URLProtocolStub.stub(data: data, response: response, error: nil)
+
+        let (receivedData, receivedResponse) = try await sut.get(from: anyURL())
+        let receivedHTTPResponse = try XCTUnwrap(receivedResponse as? HTTPURLResponse)
+        
+        XCTAssertEqual(data, receivedData)
+        XCTAssertEqual(response.url, receivedHTTPResponse.url)
+        XCTAssertEqual(response.statusCode, receivedHTTPResponse.statusCode)
+    }
 }
 
 // MARK: - Helpers
