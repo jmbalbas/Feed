@@ -6,16 +6,27 @@
 //
 
 import XCTest
+import Feed
 
-class URLSessionHTTPClient {
+class URLSessionHTTPClient: HTTPClient {
     let session: URLSession
 
     init(session: URLSession = .shared) {
         self.session = session
     }
 
-    func get(from url: URL) async throws -> (Data, URLResponse) {
-        try await session.data(from: url)
+    func get(from url: URL) async throws -> (Data, HTTPURLResponse) {
+        let (data, response) = try await session.data(from: url)
+        guard let httpURLResponse = response as? HTTPURLResponse else {
+            throw Error.nonHTTPUrlResponse
+        }
+        return (data, httpURLResponse)
+    }
+}
+
+extension URLSessionHTTPClient {
+    enum Error: Swift.Error {
+        case nonHTTPUrlResponse
     }
 }
 
@@ -59,6 +70,18 @@ final class URLSessionHTTPClientTests: XCTestCase {
         }
     }
 
+    func test_getFromURL_failsOnNonHTTPUrlResponse() async throws {
+        let sut = givenSUT()
+        let data = Data()
+        let url = anyURL()
+        let response = URLResponse(url: url, mimeType: nil, expectedContentLength: 1, textEncodingName: nil)
+        URLProtocolStub.stub(data: data, response: response, error: nil)
+
+        await XCTAssertThrowsError(try await sut.get(from: url)) {
+            XCTAssertEqual($0 as? URLSessionHTTPClient.Error, .nonHTTPUrlResponse)
+        }
+    }
+
     func test_getFromURL_succeedsOnHTTPURLResponseWithData() async throws {
         let sut = givenSUT()
         let data = Data()
@@ -67,11 +90,10 @@ final class URLSessionHTTPClientTests: XCTestCase {
         URLProtocolStub.stub(data: data, response: response, error: nil)
 
         let (receivedData, receivedResponse) = try await sut.get(from: anyURL())
-        let receivedHTTPResponse = try XCTUnwrap(receivedResponse as? HTTPURLResponse)
         
         XCTAssertEqual(data, receivedData)
-        XCTAssertEqual(response.url, receivedHTTPResponse.url)
-        XCTAssertEqual(response.statusCode, receivedHTTPResponse.statusCode)
+        XCTAssertEqual(response.url, receivedResponse.url)
+        XCTAssertEqual(response.statusCode, receivedResponse.statusCode)
     }
 }
 
