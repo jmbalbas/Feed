@@ -11,34 +11,40 @@ import Feed
 final class FeedAPIEndToEndTests: XCTestCase {
 
     func test_endToEndTestServerGETFeedResult_matchesFixedTestAccountData() async throws  {
+        let items = try await getFeedResult()
+
+        XCTAssertEqual(items.count, 8)
+        XCTAssertEqual(items[0], expectedItem(at: 0))
+        XCTAssertEqual(items[1], expectedItem(at: 1))
+        XCTAssertEqual(items[2], expectedItem(at: 2))
+        XCTAssertEqual(items[3], expectedItem(at: 3))
+        XCTAssertEqual(items[4], expectedItem(at: 4))
+        XCTAssertEqual(items[5], expectedItem(at: 5))
+        XCTAssertEqual(items[6], expectedItem(at: 6))
+        XCTAssertEqual(items[7], expectedItem(at: 7))
+    }
+
+}
+
+private extension FeedAPIEndToEndTests {
+
+    func getFeedResult() async throws -> [FeedItem] {
         let testServerURL = URL(string: "https://essentialdeveloper.com/feed-case-study/test-api/feed")!
         let client = URLSessionHTTPClient()
         let loader = RemoteFeedLoader(client: client, url: testServerURL)
 
         let exp = expectation(description: "wait for load completion")
 
-        Task {
+        let task = Task {
             let items = try await loader.load()
-
-            XCTAssertEqual(items.count, 8)
-            XCTAssertEqual(items[0], expectedItem(at: 0))
-            XCTAssertEqual(items[1], expectedItem(at: 1))
-            XCTAssertEqual(items[2], expectedItem(at: 2))
-            XCTAssertEqual(items[3], expectedItem(at: 3))
-            XCTAssertEqual(items[4], expectedItem(at: 4))
-            XCTAssertEqual(items[5], expectedItem(at: 5))
-            XCTAssertEqual(items[6], expectedItem(at: 6))
-            XCTAssertEqual(items[7], expectedItem(at: 7))
-
             exp.fulfill()
+            return items
         }
 
         await waitForExpectations(timeout: 5)
+        return try await task.value
     }
 
-}
-
-private extension FeedAPIEndToEndTests {
     func expectedItem(at index: Int) -> FeedItem {
         FeedItem(
             id: id(at: index),
