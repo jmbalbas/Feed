@@ -8,28 +8,6 @@
 import XCTest
 import Feed
 
-class URLSessionHTTPClient: HTTPClient {
-    let session: URLSession
-
-    init(session: URLSession = .shared) {
-        self.session = session
-    }
-
-    func get(from url: URL) async throws -> (Data, HTTPURLResponse) {
-        let (data, response) = try await session.data(from: url)
-        guard let httpURLResponse = response as? HTTPURLResponse else {
-            throw Error.nonHTTPUrlResponse
-        }
-        return (data, httpURLResponse)
-    }
-}
-
-extension URLSessionHTTPClient {
-    enum Error: Swift.Error {
-        case nonHTTPUrlResponse
-    }
-}
-
 final class URLSessionHTTPClientTests: XCTestCase {
 
     override func setUp() {
