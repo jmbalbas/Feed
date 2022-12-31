@@ -43,7 +43,7 @@ private extension FeedAPIEndToEndTests {
             return items
         }
 
-        await waitForExpectations(timeout: 5)
+        await waitForExpectations(timeout: 10)
         return try await task.value
     }
 
