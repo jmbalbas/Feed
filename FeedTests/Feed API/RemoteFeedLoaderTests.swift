@@ -120,13 +120,15 @@ private extension RemoteFeedLoaderTests {
 
     func complete(withError error: Error, using client: HTTPClientSpy, at index: Int = 0) {
         Task(priority: .background) {
-            await client.complete(withError: error, at: index)
+            try await Task.sleep(nanoseconds: 1_000_00)
+            return await client.complete(withError: error, at: index)
         }
     }
 
     func complete(withStatusCode code: Int = 200, data: Data = Data(), using client: HTTPClientSpy, at index: Int = 0) {
         Task(priority: .background) {
-            await client.complete(withStatusCode: code, data: data, at: index)
+            try await Task.sleep(nanoseconds: 1_000_00)
+            return await client.complete(withStatusCode: code, data: data, at: index)
         }
     }
 
