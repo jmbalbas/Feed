@@ -57,8 +57,11 @@ private extension CacheFeedUseCase {
         URL(string: "http://any-url.com")!
     }
 
-    func givenSUT() -> (sut: LocalFeedStore, store: FeedStore) {
+    func givenSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalFeedStore, store: FeedStore) {
         let store = FeedStore()
-        return (LocalFeedStore(store: store), store)
+        let sut = LocalFeedStore(store: store)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(store, file: file, line: line)
+        return (sut, store)
     }
 }
