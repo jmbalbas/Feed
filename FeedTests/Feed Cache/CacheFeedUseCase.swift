@@ -36,7 +36,7 @@ class FeedStore {
     }
 }
 
-class LocalFeedStore {
+class LocalFeedLoader {
     private let store: FeedStore
     private let currentDate: () -> Date
 
@@ -125,9 +125,9 @@ private extension CacheFeedUseCase {
         currentDate: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (sut: LocalFeedStore, store: FeedStore) {
+    ) -> (sut: LocalFeedLoader, store: FeedStore) {
         let store = FeedStore()
-        let sut = LocalFeedStore(store: store, currentDate: currentDate)
+        let sut = LocalFeedLoader(store: store, currentDate: currentDate)
         trackForMemoryLeaks(sut, file: file, line: line)
         trackForMemoryLeaks(store, file: file, line: line)
         return (sut, store)
