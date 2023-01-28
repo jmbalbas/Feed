@@ -21,7 +21,7 @@ public final class RemoteFeedLoader: FeedLoader {
         self.url = url
     }
 
-    public func load() async throws -> [FeedItem] {
+    public func load() async throws -> [FeedImage] {
         guard let (data, response) = try? await client.get(from: url) else {
             throw Error.connectivity
         }
@@ -29,13 +29,13 @@ public final class RemoteFeedLoader: FeedLoader {
         return try Self.map(data, from: response)
     }
 
-    private static func map(_ data: Data, from response: HTTPURLResponse) throws -> [FeedItem] {
+    private static func map(_ data: Data, from response: HTTPURLResponse) throws -> [FeedImage] {
         try FeedItemsMapper.map(data, from: response).toModels
     }
 }
 
 private extension Array where Element == RemoteFeedItem {
-    var toModels: [FeedItem] {
-        map { FeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.image) }
+    var toModels: [FeedImage] {
+        map { FeedImage(id: $0.id, description: $0.description, location: $0.location, url: $0.image) }
     }
 }
