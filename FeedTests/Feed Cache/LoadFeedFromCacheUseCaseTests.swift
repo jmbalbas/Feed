@@ -1,5 +1,5 @@
 //
-//  LoadFeedFromCacheUseCase.swift
+//  LoadFeedFromCacheUseCaseTests.swift
 //  FeedTests
 //
 //  Created by Juan Santiago Martín Balbás on 7/2/23.
@@ -8,7 +8,7 @@
 import XCTest
 import Feed
 
-class LoadFeedFromCacheUseCase: XCTestCase {
+class LoadFeedFromCacheUseCaseTests: XCTestCase {
 
     func test_init_doesNotMessageStoreUponCreation() {
         let (_, store) = givenSUT()
@@ -41,7 +41,7 @@ class LoadFeedFromCacheUseCase: XCTestCase {
     }
 }
 
-private extension LoadFeedFromCacheUseCase {
+private extension LoadFeedFromCacheUseCaseTests {
 
     var anyNSError: NSError {
         NSError(domain: "Any error", code: 1)
