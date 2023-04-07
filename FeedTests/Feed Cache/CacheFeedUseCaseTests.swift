@@ -1,5 +1,5 @@
 //
-//  CacheFeedUseCase.swift
+//  CacheFeedUseCaseTests.swift
 //  FeedTests
 //
 //  Created by Juan Santiago Martín Balbás on 10/1/23.
@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 import Feed
 
-class CacheFeedUseCase: XCTestCase {
+class CacheFeedUseCaseTests: XCTestCase {
 
     func test_init_doesNotMessageStoreUponCreation() {
         let (_, store) = givenSUT()
@@ -102,7 +102,7 @@ class CacheFeedUseCase: XCTestCase {
     }
 }
 
-private extension CacheFeedUseCase {
+private extension CacheFeedUseCaseTests {
 
     var uniqueImage: FeedImage {
         FeedImage(id: UUID(), description: nil, location: nil, url: anyURL)
