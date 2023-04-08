@@ -16,9 +16,6 @@ public final class LocalFeedLoader {
         static let maxCacheAgeInDays = 7
     }
 
-    public typealias SaveResult = Error?
-    public typealias LoadResult = Result<[FeedImage], Error>
-
     public init(store: FeedStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
@@ -39,6 +36,8 @@ public final class LocalFeedLoader {
 }
 
 extension LocalFeedLoader {
+    public typealias SaveResult = Error?
+
     public func save(_ feed: [FeedImage], completion: @escaping (SaveResult) -> Void) {
         deleteCache { [weak self] error in
             guard let self = self else { return }
@@ -69,6 +68,8 @@ extension LocalFeedLoader: FeedLoader {
 }
 
 extension LocalFeedLoader {
+    public typealias LoadResult = Result<[FeedImage], Error>
+
     public func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self else { return }
