@@ -30,11 +30,17 @@ public final class LocalFeedLoader {
         }
         return currentDate() < maxCacheAge
     }
+
+    private func deleteCache(completion: ((Error?) -> Void)? = nil) {
+        store.deleteCachedFeed { error in
+            completion?(error)
+        }
+    }
 }
 
 extension LocalFeedLoader {
     public func save(_ feed: [FeedImage], completion: @escaping (SaveResult) -> Void) {
-        store.deleteCachedFeed { [weak self] error in
+        deleteCache { [weak self] error in
             guard let self = self else { return }
 
             if let cacheDeletionError = error {
@@ -76,9 +82,9 @@ extension LocalFeedLoader {
             guard let self else { return }
             switch result {
             case .failure:
-                self.store.deleteCachedFeed { _ in }
+                self.deleteCache()
             case let .found(_, timestamp) where !self.validate(timestamp):
-                self.store.deleteCachedFeed { _ in }
+                self.deleteCache()
             case .empty, .found:
                 break
             }
