@@ -60,6 +60,14 @@ extension LocalFeedLoader {
     }
 }
 
+extension LocalFeedLoader: FeedLoader {
+    public func load() async throws -> [FeedImage] {
+        try await withCheckedThrowingContinuation { continuation in
+            load(completion: continuation.resume(with:))
+        }
+    }
+}
+
 extension LocalFeedLoader {
     public func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
