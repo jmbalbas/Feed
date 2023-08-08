@@ -8,14 +8,15 @@
 import Foundation
 
 private struct FeedCachePolicy {
-
     private enum Constants {
         static let maxCacheAgeInDays = 7
     }
+    
+    private static let calendar = Calendar(identifier: .gregorian)
 
-    private let calendar = Calendar(identifier: .gregorian)
-
-    func validate(_ timestamp: Date, against date: Date) -> Bool {
+    private init() {}
+    
+    static func validate(_ timestamp: Date, against date: Date) -> Bool {
         guard let maxCacheAge = calendar.date(byAdding: .day, value: Constants.maxCacheAgeInDays, to: timestamp) else {
             return false
         }
@@ -26,14 +27,11 @@ private struct FeedCachePolicy {
 public final class LocalFeedLoader {
     private let store: FeedStore
     private let currentDate: () -> Date
-    private let cachePolicy: FeedCachePolicy
 
     public init(store: FeedStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
-        self.cachePolicy = FeedCachePolicy()
     }
-
 
     private func deleteCache(completion: ((Error?) -> Void)? = nil) {
         store.deleteCachedFeed { error in
@@ -66,7 +64,7 @@ extension LocalFeedLoader {
     }
 
     private func validate(_ timestamp: Date) -> Bool {
-        cachePolicy.validate(timestamp, against: currentDate())
+        FeedCachePolicy.validate(timestamp, against: currentDate())
     }
 }
 
