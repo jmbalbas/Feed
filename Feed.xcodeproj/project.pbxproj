@@ -31,6 +31,7 @@
 		4AA53AA029786AE200D2B713 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA53A9F29786AE200D2B713 /* FeedStore.swift */; };
 		4AE2EBDE2946697F00AACDC1 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE2EBDD2946697F00AACDC1 /* HTTPClient.swift */; };
 		4AE2EBE0294669D600AACDC1 /* FeedItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE2EBDF294669D600AACDC1 /* FeedItemsMapper.swift */; };
+		73B7E9822A82B11300ABE056 /* FeedCachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B7E9812A82B11300ABE056 /* FeedCachePolicy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		4AA53A9F29786AE200D2B713 /* FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStore.swift; sourceTree = "<group>"; };
 		4AE2EBDD2946697F00AACDC1 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		4AE2EBDF294669D600AACDC1 /* FeedItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsMapper.swift; sourceTree = "<group>"; };
+		73B7E9812A82B11300ABE056 /* FeedCachePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCachePolicy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +217,7 @@
 		4AA53A9C29786A6100D2B713 /* Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
+				73B7E9812A82B11300ABE056 /* FeedCachePolicy.swift */,
 				4AA53A9F29786AE200D2B713 /* FeedStore.swift */,
 				4A207A0729859E0C002A75DB /* LocalFeedImage.swift */,
 				4AA53A9D29786A7400D2B713 /* LocalFeedLoader.swift */,
@@ -363,6 +366,7 @@
 				4AE2EBE0294669D600AACDC1 /* FeedItemsMapper.swift in Sources */,
 				4A0AE48A293BC043009D95C1 /* FeedLoader.swift in Sources */,
 				4A207A0629859DD8002A75DB /* RemoteFeedItem.swift in Sources */,
+				73B7E9822A82B11300ABE056 /* FeedCachePolicy.swift in Sources */,
 				4A0AE490293D259B009D95C1 /* RemoteFeedLoader.swift in Sources */,
 				4A207A0829859E0C002A75DB /* LocalFeedImage.swift in Sources */,
 				4AA53AA029786AE200D2B713 /* FeedStore.swift in Sources */,
