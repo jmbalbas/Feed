@@ -13,18 +13,13 @@ private struct FeedCachePolicy {
         static let maxCacheAgeInDays = 7
     }
 
-    private let currentDate: () -> Date
     private let calendar = Calendar(identifier: .gregorian)
 
-    init(currentDate: @escaping () -> Date) {
-        self.currentDate = currentDate
-    }
-
-    func validate(_ timestamp: Date) -> Bool {
+    func validate(_ timestamp: Date, against date: Date) -> Bool {
         guard let maxCacheAge = calendar.date(byAdding: .day, value: Constants.maxCacheAgeInDays, to: timestamp) else {
             return false
         }
-        return currentDate() < maxCacheAge
+        return date < maxCacheAge
     }
 }
 
@@ -36,7 +31,7 @@ public final class LocalFeedLoader {
     public init(store: FeedStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
-        self.cachePolicy = FeedCachePolicy(currentDate: currentDate)
+        self.cachePolicy = FeedCachePolicy()
     }
 
 
@@ -71,7 +66,7 @@ extension LocalFeedLoader {
     }
 
     private func validate(_ timestamp: Date) -> Bool {
-        cachePolicy.validate(timestamp)
+        cachePolicy.validate(timestamp, against: currentDate())
     }
 }
 
