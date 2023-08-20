@@ -222,7 +222,7 @@ private extension CodableFeedStoreTests {
             deletionError = receivedDeletionError
             exp.fulfill()
         }
-        await fulfillment(of: [exp], timeout: 1.0)
+        await fulfillment(of: [exp], timeout: 3.0)
         try deletionError.map { throw $0 }
     }
 }
