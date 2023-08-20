@@ -60,8 +60,13 @@ final class CodableFeedStore {
         let encoder = JSONEncoder()
         let cache = Cache(feed: feed.map(CodableFeedImage.init), timestamp: timestamp)
         let encoded = try! encoder.encode(cache)
-        try! encoded.write(to: storeURL)
-        completion(nil)
+        do {
+            try encoded.write(to: storeURL)
+            completion(nil)
+
+        } catch {
+            completion(error)
+        }
     }
 }
 
@@ -138,6 +143,17 @@ final class CodableFeedStoreTests: XCTestCase {
 
         XCTAssertNil(latestInsertionError, "Expected to override cache successfully")
         await expect(sut, toRetrieve: .found(feed: latestFeed, timestamp: latestTimestamp))
+    }
+
+    func test_insert_deliversFailureOnInsertionError() async {
+        let invalidStoreURL = URL(string: "invalid://store-url")
+        let sut = makeSUT(storeURL: invalidStoreURL)
+        let feed = uniqueImageFeed.local
+        let timestamp = Date()
+
+        let insertionError = await insert((feed, timestamp), to: sut)
+
+        XCTAssertNotNil(insertionError, "Expected cache insertion to fail with an error")
     }
 }
 
