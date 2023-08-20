@@ -199,7 +199,7 @@ private extension CodableFeedStoreTests {
         FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
     }
 
-    func makeSUT(storeURL: URL? = nil, file: StaticString = #file, line: UInt = #line) -> CodableFeedStore {
+    func makeSUT(storeURL: URL? = nil, file: StaticString = #file, line: UInt = #line) -> FeedStore {
         let sut = CodableFeedStore(storeURL: storeURL ?? testSpecificStoreURL)
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
@@ -218,7 +218,7 @@ private extension CodableFeedStoreTests {
     }
     
     func expect(
-        _ sut: CodableFeedStore,
+        _ sut: FeedStore,
         toRetrieve expectedResult: RetrieveCachedFeedResult,
         file: StaticString = #file,
         line: UInt = #line
@@ -242,7 +242,7 @@ private extension CodableFeedStoreTests {
     }
     
     func expect(
-        _ sut: CodableFeedStore,
+        _ sut: FeedStore,
         toRetrieveTwice expectedResult: RetrieveCachedFeedResult,
         file: StaticString = #file,
         line: UInt = #line
@@ -251,7 +251,7 @@ private extension CodableFeedStoreTests {
         await expect(sut, toRetrieve: expectedResult, file: file, line: line)
     }
     
-    func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date), to sut: CodableFeedStore) async throws {
+    func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date), to sut: FeedStore) async throws {
         let exp = expectation(description: "Wait for cache insertion")
         var insertionError: Error?
         sut.insert(cache.feed, timestamp: cache.timestamp) { receivedInsertionError in
@@ -262,7 +262,7 @@ private extension CodableFeedStoreTests {
         try insertionError.map { throw $0 }
     }
     
-    func deleteCache(from sut: CodableFeedStore) async throws {
+    func deleteCache(from sut: FeedStore) async throws {
         let exp = expectation(description: "Wait for cache deletion")
         var deletionError: Error?
         sut.deleteCachedFeed { receivedDeletionError in
