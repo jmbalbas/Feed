@@ -8,6 +8,38 @@
 import Feed
 import XCTest
 
+protocol FeedStoreSpecs {
+    func test_retrieve_deliversEmptyOnEmptyCache() async throws
+    func test_retrieve_hasNoSideEffectsOnEmptyCache() async throws
+    func test_retrieve_deliversFoundValuesOnNonEmptyCache() async throws
+    func test_retrieve_hasNoSideEffectsOnNonEmptyCache() async throws
+
+    func test_insert_deliversNoErrorOnEmptyCache() async throws
+    func test_insert_deliversNoErrorOnNonEmptyCache() async throws
+    func test_insert_overridesPreviouslyInsertedCacheValues() async throws
+
+    func test_delete_hasNoSideEffectsOnEmptyCache() async throws
+    func test_delete_deliversNoErrorOnNonEmptyCache() async throws
+    func test_delete_emptiesPreviouslyInsertedCache() async throws
+
+    func test_storeSideEffects_runSerially() async throws
+}
+
+protocol FailableRetrieveFeedStoreSpecs {
+    func test_retrieve_deliversFailureOnRetrievalError() async throws
+    func test_retrieve_hasNoSideEffectsOnFailure() async throws
+}
+
+protocol FailableInsertFeedStoreSpecs {
+    func test_insert_deliversFailureOnInsertionError() async throws
+    func test_insert_hasNoSideEffectsOnInsertionError() async throws
+}
+
+protocol FailableDeleteFeedStoreSpecs {
+    func test_delete_deliversErrorOnDeletionError() async throws
+    func test_delete_hasNoSideEffectsOnDeletionError() async throws
+}
+
 final class CodableFeedStoreTests: XCTestCase {
     override func setUp() {
         super.setUp()
@@ -19,13 +51,13 @@ final class CodableFeedStoreTests: XCTestCase {
         super.tearDown()
     }
     
-    func test_retrieve_deliversEmptyOnEmptyCache() async {
+    func test_retrieve_deliversEmptyOnEmptyCache() async throws {
         let sut = makeSUT()
         
         await expect(sut, toRetrieve: .empty)
     }
     
-    func test_retrieve_hasNoSideEffectsOnEmptyCache() async {
+    func test_retrieve_hasNoSideEffectsOnEmptyCache() async throws {
         let sut = makeSUT()
         
         await expect(sut, toRetrieveTwice: .empty)
@@ -51,37 +83,49 @@ final class CodableFeedStoreTests: XCTestCase {
         await expect(sut, toRetrieveTwice: .found(feed: feed, timestamp: timestamp))
     }
     
-    func test_retrieve_deliversFailureOnRetrievalError() async {
+    func test_retrieve_deliversFailureOnRetrievalError() async throws {
         let storeURL = testSpecificStoreURL
         let sut = makeSUT(storeURL: storeURL)
 
-        try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
+        try "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
         
         await expect(sut, toRetrieve: .failure(anyNSError))
     }
     
-    func test_retrieve_hasNoSideEffectsOnFailure() async {
+    func test_retrieve_hasNoSideEffectsOnFailure() async throws {
         let storeURL = testSpecificStoreURL
         let sut = makeSUT(storeURL: storeURL)
 
-        try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
+        try "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
         
         await expect(sut, toRetrieveTwice: .failure(anyNSError))
     }
-    
-    func test_insert_overridesPreviouslyInsertedCacheValues() async {
+
+    func test_insert_deliversNoErrorOnEmptyCache() async throws {
         let sut = makeSUT()
 
-        await XCTAssertNoThrow(try await insert((uniqueImageFeed.local, Date()), to: sut), "Expected to insert cache successfully")
+        await XCTAssertNoThrow(try await insert((uniqueImageFeed.local, Date()), to: sut))
+    }
+
+    func test_insert_deliversNoErrorOnNonEmptyCache() async throws {
+        let sut = makeSUT()
+        try await insert((uniqueImageFeed.local, Date()), to: sut)
+
+        await XCTAssertNoThrow(try await insert((uniqueImageFeed.local, Date()), to: sut), "Expected to override cache successfully")
+    }
+
+    func test_insert_overridesPreviouslyInsertedCacheValues() async throws {
+        let sut = makeSUT()
+        try await insert((uniqueImageFeed.local, Date()), to: sut)
 
         let latestFeed = uniqueImageFeed.local
         let latestTimestamp = Date()
-        await XCTAssertNoThrow(try await insert((latestFeed, latestTimestamp), to: sut), "Expected to override cache successfully")
+        try await insert((latestFeed, latestTimestamp), to: sut)
 
         await expect(sut, toRetrieve: .found(feed: latestFeed, timestamp: latestTimestamp))
     }
 
-    func test_insert_deliversFailureOnInsertionError() async {
+    func test_insert_deliversFailureOnInsertionError() async throws {
         let invalidStoreURL = URL(string: "invalid://store-url")
         let sut = makeSUT(storeURL: invalidStoreURL)
         let feed = uniqueImageFeed.local
@@ -89,34 +133,59 @@ final class CodableFeedStoreTests: XCTestCase {
 
         await XCTAssertThrowsError(try await insert((feed, timestamp), to: sut), "Expected cache insertion to fail with an error")
     }
-    
-    func test_delete_hasNoSideEffectsOnEmptyCache() async {
-        let sut = makeSUT()
-        
-        await XCTAssertNoThrow(try await deleteCache(from: sut), "Expected non-empty cache deletion to succeed")
+
+    func test_insert_hasNoSideEffectsOnInsertionError() async throws {
+        let invalidStoreURL = URL(string: "invalid://store-url")
+        let sut = makeSUT(storeURL: invalidStoreURL)
+        let feed = uniqueImageFeed.local
+        let timestamp = Date()
+
+        try? await insert((feed, timestamp), to: sut)
 
         await expect(sut, toRetrieve: .empty)
+    }
+    
+    func test_delete_hasNoSideEffectsOnEmptyCache() async throws {
+        let sut = makeSUT()
+        
+        try await deleteCache(from: sut)
+
+        await expect(sut, toRetrieve: .empty)
+    }
+
+    func test_delete_deliversNoErrorOnNonEmptyCache() async throws {
+        let sut = makeSUT()
+        try await insert((uniqueImageFeed.local, Date()), to: sut)
+
+        await XCTAssertNoThrow(try await deleteCache(from: sut), "Expected non-empty cache deletion to succeed")
     }
     
     func test_delete_emptiesPreviouslyInsertedCache() async throws {
         let sut = makeSUT()
         try await insert((uniqueImageFeed.local, Date()), to: sut)
         
-        await XCTAssertNoThrow(try await deleteCache(from: sut), "Expected non-empty cache deletion to succeed")
+        try await deleteCache(from: sut)
         
         await expect(sut, toRetrieve: .empty)
     }
 
-    func test_delete_deliversErrorOnDeletionError() async {
+    func test_delete_deliversErrorOnDeletionError() async throws {
         let noDeletePermissionURL = cachesDirectory
         let sut = makeSUT(storeURL: noDeletePermissionURL)
 
         await XCTAssertThrowsError(try await deleteCache(from: sut), "Expected cache deletion to fail")
+    }
+
+    func test_delete_hasNoSideEffectsOnDeletionError() async throws {
+        let noDeletePermissionURL = cachesDirectory
+        let sut = makeSUT(storeURL: noDeletePermissionURL)
+
+        try? await deleteCache(from: sut)
 
         await expect(sut, toRetrieve: .empty)
     }
 
-    func test_storeSideEffects_runSerially() async {
+    func test_storeSideEffects_runSerially() async throws {
         let sut = makeSUT()
         var completedOperationsInOrder: [XCTestExpectation] = []
 
