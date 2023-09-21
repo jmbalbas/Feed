@@ -112,7 +112,7 @@ private extension LoadFeedFromRemoteUseCaseTests {
         return (sut, client)
     }
 
-    func whenCallingLoad(on sut: RemoteFeedLoader) -> Task<[FeedItem], Error> {
+    func whenCallingLoad(on sut: RemoteFeedLoader) -> Task<[FeedImage], Error> {
         Task(priority: .userInitiated) {
             try await sut.load()
         }
@@ -134,7 +134,7 @@ private extension LoadFeedFromRemoteUseCaseTests {
 
     func expect(
         _ sut: RemoteFeedLoader,
-        toCompleteWithItems items: [FeedItem],
+        toCompleteWithItems items: [FeedImage],
         when action: () -> Void,
         line: UInt = #line
     ) async throws {
@@ -157,8 +157,8 @@ private extension LoadFeedFromRemoteUseCaseTests {
         }
     }
 
-    func makeItem(id: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedItem, json: [String: Any]) {
-        let item = FeedItem(id: id, description: description, location: location, imageURL: imageURL)
+    func makeItem(id: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedImage, json: [String: Any]) {
+        let item = FeedImage(id: id, description: description, location: location, url: imageURL)
         let json = [
             "id": id.uuidString,
             "description": description,

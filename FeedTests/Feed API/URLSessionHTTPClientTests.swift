@@ -21,7 +21,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
     }
 
     func test_getFromURL_performsGETRequestWithURL() async {
-        let url = anyURL()
+        let url = anyURL
         let sut = givenSUT()
         let exp = expectation(description: "wait for completion")
 
@@ -37,7 +37,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
     }
 
     func test_getFromURL_failsOnRequestError() async {
-        let error = NSError(domain: "Any error", code: 1)
+        let error = anyNSError
 
         let receivedError = await resultErrorFor(error: error) as? NSError
 
@@ -73,20 +73,16 @@ private extension URLSessionHTTPClientTests {
         return sut
     }
 
-    func anyURL() -> URL {
-        URL(string: "http://any-url.com")!
-    }
-
     func anyData() -> Data {
         Data("any data".utf8)
     }
 
     func anyURLResponse() -> URLResponse {
-        URLResponse(url: anyURL(), mimeType: nil, expectedContentLength: 1, textEncodingName: nil)
+        URLResponse(url: anyURL, mimeType: nil, expectedContentLength: 1, textEncodingName: nil)
     }
 
     func anyHTTPURLResponse() -> HTTPURLResponse {
-        HTTPURLResponse(url: anyURL(), statusCode: 200, httpVersion: nil, headerFields: nil)!
+        HTTPURLResponse(url: anyURL, statusCode: 200, httpVersion: nil, headerFields: nil)!
     }
 
     func resultValuesFor(
@@ -131,7 +127,7 @@ private extension URLSessionHTTPClientTests {
         do {
             URLProtocolStub.stub(data: data, response: response, error: error)
             let sut = givenSUT(file: file, line: line)
-            return .success(try await sut.get(from: anyURL()))
+            return .success(try await sut.get(from: anyURL))
         } catch {
             return .failure(error)
         }

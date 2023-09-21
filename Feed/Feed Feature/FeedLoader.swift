@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol FeedLoader {
-    func load() async throws -> [FeedItem]
+    func load() async throws -> [FeedImage]
 }
