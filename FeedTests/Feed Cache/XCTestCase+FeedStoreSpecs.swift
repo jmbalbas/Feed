@@ -11,7 +11,7 @@ import XCTest
 extension FeedStoreSpecs where Self: XCTestCase {
     func expect(
         _ sut: FeedStore,
-        toRetrieve expectedResult: RetrieveCachedFeedResult,
+        toRetrieve expectedResult: FeedStore.RetrievalResult,
         file: StaticString = #file,
         line: UInt = #line
     ) async {
@@ -19,9 +19,9 @@ extension FeedStoreSpecs where Self: XCTestCase {
 
         sut.retrieve { retrievedResult in
             switch (expectedResult, retrievedResult) {
-            case (.empty, .empty), (.failure, .failure):
+            case (.success(.empty), .success(.empty)), (.failure, .failure):
                 break
-            case let (.found(expectedFeed, expectedTimestamp), .found(retrievedFeed, retrievedTimestamp)):
+            case let (.success(.found(expectedFeed, expectedTimestamp)), .success(.found(retrievedFeed, retrievedTimestamp))):
                 XCTAssertEqual(retrievedFeed, expectedFeed, file: file, line: line)
                 XCTAssertEqual(retrievedTimestamp, expectedTimestamp, file: file, line: line)
             default:
@@ -35,7 +35,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
 
     func expect(
         _ sut: FeedStore,
-        toRetrieveTwice expectedResult: RetrieveCachedFeedResult,
+        toRetrieveTwice expectedResult: FeedStore.RetrievalResult,
         file: StaticString = #file,
         line: UInt = #line
     ) async {

@@ -22,13 +22,13 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
     func test_retrieve_deliversEmptyOnEmptyCache() async throws {
         let sut = makeSUT()
         
-        await expect(sut, toRetrieve: .empty)
+        await expect(sut, toRetrieve: .success(.empty))
     }
     
     func test_retrieve_hasNoSideEffectsOnEmptyCache() async throws {
         let sut = makeSUT()
         
-        await expect(sut, toRetrieveTwice: .empty)
+        await expect(sut, toRetrieveTwice: .success(.empty))
     }
     
     func test_retrieve_deliversFoundValuesOnNonEmptyCache() async throws {
@@ -38,7 +38,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
         
         try await insert((feed, timestamp), to: sut)
         
-        await expect(sut, toRetrieve: .found(feed: feed, timestamp: timestamp))
+        await expect(sut, toRetrieve: .success(.found(feed: feed, timestamp: timestamp)))
     }
     
     func test_retrieve_hasNoSideEffectsOnNonEmptyCache() async throws {
@@ -48,7 +48,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
         
         try await insert((feed, timestamp), to: sut)
 
-        await expect(sut, toRetrieveTwice: .found(feed: feed, timestamp: timestamp))
+        await expect(sut, toRetrieveTwice: .success(.found(feed: feed, timestamp: timestamp)))
     }
     
     func test_retrieve_deliversFailureOnRetrievalError() async throws {
@@ -90,7 +90,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
         let latestTimestamp = Date()
         try await insert((latestFeed, latestTimestamp), to: sut)
 
-        await expect(sut, toRetrieve: .found(feed: latestFeed, timestamp: latestTimestamp))
+        await expect(sut, toRetrieve: .success(.found(feed: latestFeed, timestamp: latestTimestamp)))
     }
 
     func test_insert_deliversFailureOnInsertionError() async throws {
@@ -110,7 +110,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
 
         try? await insert((feed, timestamp), to: sut)
 
-        await expect(sut, toRetrieve: .empty)
+        await expect(sut, toRetrieve: .success(.empty))
     }
     
     func test_delete_hasNoSideEffectsOnEmptyCache() async throws {
@@ -118,7 +118,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
         
         try await deleteCache(from: sut)
 
-        await expect(sut, toRetrieve: .empty)
+        await expect(sut, toRetrieve: .success(.empty))
     }
 
     func test_delete_deliversNoErrorOnNonEmptyCache() async throws {
@@ -134,7 +134,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
         
         try await deleteCache(from: sut)
         
-        await expect(sut, toRetrieve: .empty)
+        await expect(sut, toRetrieve: .success(.empty))
     }
 
     func test_delete_deliversErrorOnDeletionError() async throws {
@@ -150,7 +150,7 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
 
         try? await deleteCache(from: sut)
 
-        await expect(sut, toRetrieve: .empty)
+        await expect(sut, toRetrieve: .success(.empty))
     }
 
     func test_storeSideEffects_runSerially() async throws {

@@ -68,9 +68,9 @@ extension LocalFeedLoader {
             switch result {
             case .failure(let error):
                 completion(.failure(error))
-            case let .found(feed, timestamp) where self.validate(timestamp):
+            case let .success(.found(feed, timestamp)) where self.validate(timestamp):
                 completion(.success(feed.toModels))
-            case .found, .empty:
+            case .success:
                 completion(.success([]))
             }
         }
@@ -84,9 +84,9 @@ extension LocalFeedLoader {
             switch result {
             case .failure:
                 self.deleteCache()
-            case let .found(_, timestamp) where !self.validate(timestamp):
+            case let .success(.found(_, timestamp)) where !self.validate(timestamp):
                 self.deleteCache()
-            case .empty, .found:
+            case .success:
                 break
             }
         }
