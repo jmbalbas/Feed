@@ -16,7 +16,7 @@ public final class LocalFeedLoader {
         self.currentDate = currentDate
     }
 
-    private func deleteCache(completion: ((Error?) -> Void)? = nil) {
+    private func deleteCache(completion: ((Result<Void, Error>) -> Void)? = nil) {
         store.deleteCachedFeed { error in
             completion?(error)
         }
@@ -24,15 +24,16 @@ public final class LocalFeedLoader {
 }
 
 extension LocalFeedLoader {
-    public typealias SaveResult = Error?
+    public typealias SaveResult = Result<Void, Error>
 
     public func save(_ feed: [FeedImage], completion: @escaping (SaveResult) -> Void) {
-        deleteCache { [weak self] error in
+        deleteCache { [weak self] result in
             guard let self = self else { return }
 
-            if let cacheDeletionError = error {
-                completion(cacheDeletionError)
-            } else {
+            switch result {
+            case let .failure(error):
+                completion(.failure(error))
+            case .success:
                 self.cache(feed, with: completion)
             }
         }
@@ -68,9 +69,9 @@ extension LocalFeedLoader {
             switch result {
             case .failure(let error):
                 completion(.failure(error))
-            case let .found(feed, timestamp) where self.validate(timestamp):
-                completion(.success(feed.toModels))
-            case .found, .empty:
+            case let .success(.some(cache)) where self.validate(cache.timestamp):
+                completion(.success(cache.feed.toModels))
+            case .success:
                 completion(.success([]))
             }
         }
@@ -84,9 +85,9 @@ extension LocalFeedLoader {
             switch result {
             case .failure:
                 self.deleteCache()
-            case let .found(_, timestamp) where !self.validate(timestamp):
+            case let .success(.some(cache)) where !self.validate(cache.timestamp):
                 self.deleteCache()
-            case .empty, .found:
+            case .success:
                 break
             }
         }
