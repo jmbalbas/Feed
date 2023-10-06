@@ -5,14 +5,16 @@
 //  Created by Juan Santiago Martín Balbás on 6/10/23.
 //
 
+import Combine
+import Feed
 import Foundation
 import UIKit
 import XCTest
 
 class FeedViewController: UIViewController {
-    private var loader: LoaderSpy?
+    private var loader: FeedLoader?
 
-    convenience init(loader: LoaderSpy) {
+    convenience init(loader: FeedLoader) {
         self.init()
         self.loader = loader
     }
@@ -20,10 +22,13 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        loader?.load()
+        Task {
+            try? await loader?.load()
+        }
     }
 }
 
+@MainActor
 final class FeedViewControllerTests: XCTestCase {
     func test_init_doesNotLoadFeed() {
         let loader = LoaderSpy()
@@ -32,20 +37,46 @@ final class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 0)
     }
 
-    func test_viewDidLoad_loadsFeed() {
+    func test_viewDidLoad_loadsFeed() async {
         let loader = LoaderSpy()
         let sut = FeedViewController(loader: loader)
 
         sut.loadViewIfNeeded()
 
-        XCTAssertEqual(loader.loadCallCount, 1)
+        await assert(publisher: loader.$loadCallCount, equals: 1)
     }
 }
 
-class LoaderSpy {
-    private(set) var loadCallCount = 0
+private extension FeedViewControllerTests {
+    func assert<E: Equatable>(
+        publisher: Published<E>.Publisher,
+        equals expectedValue: E,
+        file: StaticString = #file,
+        line: UInt = #line
+    ) async {
+        let expectation = expectation(description: "Changes to expected value")
+        var cancellable: AnyCancellable?
+        var currentValue: E?
+        cancellable = publisher.sink { newValue in
+            currentValue = newValue
+            if newValue == expectedValue {
+                expectation.fulfill()
+                cancellable?.cancel()
+            }
+        }
+        
+        await fulfillment(of: [expectation], timeout: 1)
+        if currentValue != expectedValue {
+            XCTFail("Expected \(expectedValue), got \(String(describing: currentValue))", file: file, line: line)
+        }
+    }
+}
 
-    func load() {
+class LoaderSpy: FeedLoader {
+    @Published private(set) var loadCallCount = 0
+
+    func load() async throws -> [FeedImage] {
         loadCallCount += 1
+        return []
     }
 }
