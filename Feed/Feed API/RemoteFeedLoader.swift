@@ -11,7 +11,7 @@ public final class RemoteFeedLoader: FeedLoader {
     private let client: HTTPClient
     private let url: URL
 
-    public enum Error: Swift.Error {
+    public enum Errors: Error {
         case connectivity
         case invalidData
     }
@@ -21,9 +21,20 @@ public final class RemoteFeedLoader: FeedLoader {
         self.url = url
     }
 
+    public func load(completion: @escaping (FeedLoader.Result) -> Void) {
+        Task {
+            do {
+                let feed = try await load()
+                completion(.success(feed))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
     public func load() async throws -> [FeedImage] {
         guard let (data, response) = try? await client.get(from: url) else {
-            throw Error.connectivity
+            throw Errors.connectivity
         }
 
         return try Self.map(data, from: response)

@@ -132,7 +132,7 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         let store = FeedStoreSpy()
         var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
 
-        var receivedResults: [LocalFeedLoader.LoadResult] = []
+        var receivedResults: [FeedLoader.Result] = []
         sut?.load { result in
             receivedResults.append(result)
         }
@@ -159,7 +159,7 @@ private extension LoadFeedFromCacheUseCaseTests {
 
     func expect(
         _ sut: LocalFeedLoader,
-        toCompleteWith expectedResult: LocalFeedLoader.LoadResult,
+        toCompleteWith expectedResult: FeedLoader.Result,
         when action: () -> Void,
         line: UInt = #line
     ) {

@@ -30,9 +30,7 @@ class FeedViewController: UITableViewController {
     }
 
     @objc private func load() {
-        Task {
-            _ = try? await loader?.load()
-        }
+        loader?.load { _ in }
     }
 }
 
@@ -44,27 +42,28 @@ final class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 0)
     }
 
-    func test_viewDidLoad_loadsFeed() async {
+    func test_viewDidLoad_loadsFeed() {
         let (sut, loader) = makeSUT()
 
         sut.loadViewIfNeeded()
 
-        await assert(publisher: loader.$loadCallCount, equals: 1)
+        XCTAssertEqual(loader.loadCallCount, 1)
     }
 
-    func test_pullToRefresh_reloadsFeed() async {
+    func test_pullToRefresh_reloadsFeed() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
 
         sut.refreshControl?.simulatePullToRefresh()
-        await assert(publisher: loader.$loadCallCount, equals: 2)
+        XCTAssertEqual(loader.loadCallCount, 2)
 
         sut.refreshControl?.simulatePullToRefresh()
-        await assert(publisher: loader.$loadCallCount, equals: 3)
+        XCTAssertEqual(loader.loadCallCount, 3)
     }
 
-    func test_viewDidLoad_showsLoadingIndicator() async {
+    func test_viewDidLoad_showsLoadingIndicator() {
         let (sut, _) = makeSUT()
+
         sut.loadViewIfNeeded()
 
         XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
@@ -78,13 +77,11 @@ private extension FeedViewControllerTests {
     }
 }
 
-@MainActor
 class LoaderSpy: FeedLoader {
-    @Published private(set) var loadCallCount = 0
-
-    func load() async throws -> [FeedImage] {
+    private(set) var loadCallCount = 0
+    
+    func load(completion: @escaping (Result<[Feed.FeedImage], Error>) -> Void) {
         loadCallCount += 1
-        return []
     }
 }
 
