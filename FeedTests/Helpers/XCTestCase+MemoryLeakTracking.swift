@@ -16,6 +16,7 @@ extension XCTestCase {
         }
     }
 
+    @MainActor
     func assert<E: Equatable>(
         publisher: Published<E>.Publisher,
         equals expectedValue: E,
@@ -25,7 +26,7 @@ extension XCTestCase {
         let expectation = expectation(description: "Changes to expected value")
         var cancellable: AnyCancellable?
         var currentValue: E?
-        cancellable = publisher.sink { newValue in
+        cancellable = publisher.receive(on: DispatchQueue.main).sink { newValue in
             currentValue = newValue
             if newValue == expectedValue {
                 expectation.fulfill()

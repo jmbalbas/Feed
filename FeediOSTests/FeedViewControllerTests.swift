@@ -11,7 +11,7 @@ import Foundation
 import UIKit
 import XCTest
 
-class FeedViewController: UIViewController {
+class FeedViewController: UITableViewController {
     private var loader: FeedLoader?
 
     convenience init(loader: FeedLoader) {
@@ -22,8 +22,15 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
+
+        load()
+    }
+
+    @objc private func load() {
         Task {
-            try? await loader?.load()
+            _ = try? await loader?.load()
         }
     }
 }
@@ -43,6 +50,19 @@ final class FeedViewControllerTests: XCTestCase {
 
         await assert(publisher: loader.$loadCallCount, equals: 1)
     }
+
+    func test_pullToRefresh_reloadsFeed() async {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+
+        sut.refreshControl?.allTargets.forEach { target in
+            sut.refreshControl?.actions(forTarget: target, forControlEvent: .valueChanged)?.forEach { action in
+                (target as NSObject).perform(Selector(action))
+            }
+        }
+
+        await assert(publisher: loader.$loadCallCount, equals: 2)
+    }
 }
 
 private extension FeedViewControllerTests {
@@ -55,6 +75,7 @@ private extension FeedViewControllerTests {
     }
 }
 
+@MainActor
 class LoaderSpy: FeedLoader {
     @Published private(set) var loadCallCount = 0
 
