@@ -55,13 +55,11 @@ final class FeedViewControllerTests: XCTestCase {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
 
-        sut.refreshControl?.allTargets.forEach { target in
-            sut.refreshControl?.actions(forTarget: target, forControlEvent: .valueChanged)?.forEach { action in
-                (target as NSObject).perform(Selector(action))
-            }
-        }
-
+        sut.refreshControl?.simulatePullToRefresh()
         await assert(publisher: loader.$loadCallCount, equals: 2)
+
+        sut.refreshControl?.simulatePullToRefresh()
+        await assert(publisher: loader.$loadCallCount, equals: 3)
     }
 }
 
@@ -82,5 +80,15 @@ class LoaderSpy: FeedLoader {
     func load() async throws -> [FeedImage] {
         loadCallCount += 1
         return []
+    }
+}
+
+private extension UIRefreshControl {
+    func simulatePullToRefresh() {
+        allTargets.forEach { target in
+            actions(forTarget: target, forControlEvent: .valueChanged)?.forEach { action in
+                (target as NSObject).perform(Selector(action))
+            }
+        }
     }
 }
