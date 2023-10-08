@@ -397,7 +397,8 @@ private extension FeedViewController {
     }
 
     func feedImageView(at row: Int) -> UITableViewCell? {
-        tableView(tableView, cellForRowAt: IndexPath(row: row, section: feedImagesSection))
+        let indexPath = IndexPath(row: row, section: feedImagesSection)
+        return tableView.dataSource?.tableView(tableView, cellForRowAt: indexPath)
     }
 
     @discardableResult
@@ -405,9 +406,10 @@ private extension FeedViewController {
         feedImageView(at: index) as? FeedImageCell
     }
 
-    func simulateFeedImageViewNotVisible(at index: Int) {
-        let view = simulateFeedImageViewVisible(at: index)!
-        tableView(tableView, didEndDisplaying: view, forRowAt: IndexPath(row: index, section: feedImagesSection))
+    func simulateFeedImageViewNotVisible(at row: Int) {
+        let view = simulateFeedImageViewVisible(at: row)!
+        let indexPath = IndexPath(row: row, section: feedImagesSection)
+        tableView.delegate?.tableView?(tableView, didEndDisplaying: view, forRowAt: indexPath)
     }
 
     func simulateFeedImageViewNearVisible(at row: Int) {
