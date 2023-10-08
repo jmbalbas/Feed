@@ -151,6 +151,27 @@ final class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(view0.renderedImage, imageData0, "Expected no image state change for first view once second image loading completes successfully")
         XCTAssertEqual(view1.renderedImage, imageData1, "Expected image for second view once second image loading completes successfully")
     }
+
+    func test_feedImageViewRetryButton_isVisibleOnImageURLLoadError() throws {
+        let (sut, loader) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [makeImage(), makeImage()])
+
+        let view0 = try XCTUnwrap(sut.simulateFeedImageViewVisible(at: 0))
+        let view1 = try XCTUnwrap(sut.simulateFeedImageViewVisible(at: 1))
+        XCTAssertFalse(view0.isShowingRetryAction, "Expected no retry action for first view while loading first image")
+        XCTAssertFalse(view1.isShowingRetryAction, "Expected no retry action for second view while loading second image")
+
+        let imageData = try XCTUnwrap(UIImage.make(withColor: .red).pngData())
+        loader.completeImageLoading(with: imageData, at: 0)
+        XCTAssertFalse(view0.isShowingRetryAction, "Expected no retry action for first view once first image loading completes successfully")
+        XCTAssertFalse(view1.isShowingRetryAction, "Expected no retry action state change for second view once first image loading completes successfully")
+
+        loader.completeImageLoadingWithError(at: 1)
+        XCTAssertFalse(view0.isShowingRetryAction, "Expected no retry action state change for first view once second image loading completes with error")
+        XCTAssert(view1.isShowingRetryAction, "Expected retry action for second view once second image loading completes with error")
+    }
 }
 
 private extension FeedViewControllerTests {
@@ -345,6 +366,10 @@ private extension FeedImageCell {
 
     var renderedImage: Data? {
         feedImageView.image?.pngData()
+    }
+
+    var isShowingRetryAction: Bool {
+        !feedImageRetryButton.isHidden
     }
 }
 
