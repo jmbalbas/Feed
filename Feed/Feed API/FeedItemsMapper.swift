@@ -21,7 +21,7 @@ enum FeedItemsMapper {
             response.statusCode == C.ok200,
             let feed = try? JSONDecoder().decode(Root.self, from: data).items
         else {
-            throw RemoteFeedLoader.Error.invalidData
+            throw RemoteFeedLoader.Errors.invalidData
         }
         return feed
     }

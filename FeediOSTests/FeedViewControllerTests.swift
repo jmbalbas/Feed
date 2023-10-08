@@ -1,0 +1,90 @@
+//
+//  FeedViewControllerTests.swift
+//  FeediOSTests
+//
+//  Created by Juan Santiago Martín Balbás on 6/10/23.
+//
+
+import Feed
+import FeediOS
+import Foundation
+import XCTest
+
+@MainActor
+final class FeedViewControllerTests: XCTestCase {
+    func test_loadFeedActions_requestFeedFromLoader() {
+        let (sut, loader) = makeSUT()
+
+        XCTAssertEqual(loader.loadCallCount, 0, "Expected no loading requests before view is loaded")
+
+        sut.loadViewIfNeeded()
+        XCTAssertEqual(loader.loadCallCount, 1, "Expected a loading request once view is loaded")
+
+        sut.simulateUserInitiatedFeedReload()
+        XCTAssertEqual(loader.loadCallCount, 2, "Expected another loading request once user initiates a load")
+
+        sut.simulateUserInitiatedFeedReload()
+        XCTAssertEqual(loader.loadCallCount, 3, "Expected a third loading request once user initiates another load")
+    }
+
+    func test_loadingFeedIndicator_isVisibibleWhileLoadingFeed() {
+        let (sut, loader) = makeSUT()
+
+        sut.loadViewIfNeeded()
+        XCTAssert(sut.isShowingLoadingIndicator, "Expected loading indicator once view is loaded")
+
+        loader.completeFeedLoading(at: 0)
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading is completed")
+
+        sut.simulateUserInitiatedFeedReload()
+        XCTAssert(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiates a reload")
+
+        loader.completeFeedLoading(at: 1)
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading is completed")
+    }
+}
+
+private extension FeedViewControllerTests {
+    func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedViewController, loader: LoaderSpy) {
+        let loader = LoaderSpy()
+        let sut = FeedViewController(loader: loader)
+        trackForMemoryLeaks(loader, file: file, line: line)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        return (sut, loader)
+    }
+}
+
+class LoaderSpy: FeedLoader {
+    private var completions: [(Result<[Feed.FeedImage], Error>) -> Void] = []
+    var loadCallCount: Int {
+        completions.count
+    }
+
+    func load(completion: @escaping (Result<[Feed.FeedImage], Error>) -> Void) {
+        completions.append(completion)
+    }
+
+    func completeFeedLoading(at index: Int) {
+        completions[index](.success([]))
+    }
+}
+
+private extension UIRefreshControl {
+    func simulatePullToRefresh() {
+        allTargets.forEach { target in
+            actions(forTarget: target, forControlEvent: .valueChanged)?.forEach { action in
+                (target as NSObject).perform(Selector(action))
+            }
+        }
+    }
+}
+
+private extension FeedViewController {
+    var isShowingLoadingIndicator: Bool {
+        refreshControl?.isRefreshing == true
+    }
+
+    func simulateUserInitiatedFeedReload() {
+        refreshControl?.simulatePullToRefresh()
+    }
+}

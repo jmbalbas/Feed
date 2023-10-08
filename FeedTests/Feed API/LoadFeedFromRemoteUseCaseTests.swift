@@ -146,14 +146,14 @@ private extension LoadFeedFromRemoteUseCaseTests {
 
     func expect(
         _ sut: RemoteFeedLoader,
-        toCompleteWithError error: RemoteFeedLoader.Error,
+        toCompleteWithError error: RemoteFeedLoader.Errors,
         when action: () -> Void,
         line: UInt = #line
     ) async {
         let task = whenCallingLoad(on: sut)
         action()
         await XCTAssertThrowsError(try await task.value, line: line) {
-            XCTAssertEqual($0 as? RemoteFeedLoader.Error, error, line: line)
+            XCTAssertEqual($0 as? RemoteFeedLoader.Errors, error, line: line)
         }
     }
 
