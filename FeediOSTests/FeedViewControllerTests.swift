@@ -374,16 +374,6 @@ class LoaderSpy: FeedLoader, FeedImageDataLoader {
     }
 }
 
-private extension UIButton {
-    func simulateTap() {
-        allTargets.forEach { target in
-            actions(forTarget: target, forControlEvent: .touchUpInside)?.forEach { action in
-                (target as NSObject).perform(Selector(action))
-            }
-        }
-    }
-}
-
 private extension FeedViewController {
     var isShowingLoadingIndicator: Bool {
         refreshControl?.isRefreshing == true
