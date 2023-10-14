@@ -5,7 +5,6 @@
 //  Created by Juan Santiago Martín Balbás on 7/10/23.
 //
 
-import Feed
 import UIKit
 
 public final class FeedViewController: UITableViewController {
