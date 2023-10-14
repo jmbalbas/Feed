@@ -359,11 +359,28 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		7377A9C12ACB516500CEA604 /* FeediOS */ = {
+		7357886D2ADA9F4300030C88 /* Feed UI */ = {
 			isa = PBXGroup;
 			children = (
 				735788622ADA9C7A00030C88 /* Controllers */,
 				735788632ADA9C8600030C88 /* Views */,
+			);
+			path = "Feed UI";
+			sourceTree = "<group>";
+		};
+		7357886E2ADA9F5900030C88 /* Feed UI */ = {
+			isa = PBXGroup;
+			children = (
+				735788642ADA9C9700030C88 /* Controllers */,
+				735788592AD7F32700030C88 /* Helpers */,
+			);
+			path = "Feed UI";
+			sourceTree = "<group>";
+		};
+		7377A9C12ACB516500CEA604 /* FeediOS */ = {
+			isa = PBXGroup;
+			children = (
+				7357886D2ADA9F4300030C88 /* Feed UI */,
 				7377A9C32ACB516500CEA604 /* FeediOS.docc */,
 			);
 			path = FeediOS;
@@ -372,8 +389,7 @@
 		7377A9CD2ACB516500CEA604 /* FeediOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				735788642ADA9C9700030C88 /* Controllers */,
-				735788592AD7F32700030C88 /* Helpers */,
+				7357886E2ADA9F5900030C88 /* Feed UI */,
 				73EB0F822ACB524C00B0E8AC /* FeediOS.xctestplan */,
 			);
 			path = FeediOSTests;
