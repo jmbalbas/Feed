@@ -18,10 +18,6 @@ final class FeedImageCellController {
         self.imageLoader = imageLoader
     }
 
-    deinit {
-        task?.cancel()
-    }
-
     func view() -> UITableViewCell {
         let cell = FeedImageCell()
         cell.locationContainer.isHidden = model.location == nil
@@ -48,6 +44,10 @@ final class FeedImageCellController {
 
     func preload() {
         loadImageData()
+    }
+
+    func cancelLoad() {
+        task?.cancel()
     }
 
     private func loadImageData(completion: ((FeedImageDataLoader.Result) -> Void)? = nil) {
