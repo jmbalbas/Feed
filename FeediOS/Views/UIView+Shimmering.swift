@@ -32,7 +32,7 @@ extension UIView {
 
         let animation = CABasicAnimation(keyPath: #keyPath(CAGradientLayer.locations))
         animation.fromValue = [0.0, 0.1, 0.2]
-        animation.toValue = [0.8, 0.9, 1.0]
+        animation.toValue = [0.8, 0.9, 1.0]     
         animation.duration = 1.25
         animation.repeatCount = .infinity
         gradient.add(animation, forKey: shimmerAnimationKey)
