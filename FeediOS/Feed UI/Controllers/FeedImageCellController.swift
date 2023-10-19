@@ -41,6 +41,7 @@ final class FeedImageCellController: FeedImageView {
         cell?.locationLabel.text = viewModel.location
         cell?.descriptionLabel.text = viewModel.description
         cell?.feedImageView.image = nil
+        cell?.feedImageView.setImageAnimated(viewModel.image)
         cell?.feedImageRetryButton.isHidden = true
         cell?.feedImageView.image = viewModel.image
         cell?.feedImageContainer.isShimmering = viewModel.isLoading
