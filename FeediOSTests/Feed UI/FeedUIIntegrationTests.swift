@@ -1,5 +1,5 @@
 //
-//  FeedViewControllerTests.swift
+//  FeedUIIntegrationTests.swift
 //  FeediOSTests
 //
 //  Created by Juan Santiago Martín Balbás on 6/10/23.
@@ -11,7 +11,7 @@ import Foundation
 import XCTest
 
 @MainActor
-final class FeedViewControllerTests: XCTestCase {
+final class FeedUIIntegrationTests: XCTestCase {
     func test_feedView_hasTitle() {
         let (sut, _) = makeSUT()
         sut.loadViewIfNeeded()
@@ -261,7 +261,7 @@ final class FeedViewControllerTests: XCTestCase {
     }
 }
 
-private extension FeedViewControllerTests {
+private extension FeedUIIntegrationTests {
     func makeSUT(file: StaticString = #file, line: UInt = #line) -> (sut: FeedViewController, loader: LoaderSpy) {
         let loader = LoaderSpy()
         let sut = FeedUIComposer.feedComposedWith(feedLoader: loader, imageLoader: loader)

@@ -1,5 +1,5 @@
 //
-//  FeedViewControllerTests+LoaderSpy.swift
+//  FeedUIIntegrationTests+LoaderSpy.swift
 //  FeediOSTests
 //
 //  Created by Juan Santiago Martín Balbás on 14/10/23.
@@ -9,7 +9,7 @@ import Feed
 import FeediOS
 import Foundation
 
-extension FeedViewControllerTests {
+extension FeedUIIntegrationTests {
     class LoaderSpy: FeedLoader, FeedImageDataLoader {
         // MARK: - FeedLoader
         private var feedRequests: [(Result<[FeedImage], Error>) -> Void] = []
