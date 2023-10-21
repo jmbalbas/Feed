@@ -51,8 +51,8 @@
 		7357888B2AE1957800030C88 /* Feed.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7357888A2AE1957800030C88 /* Feed.xcassets */; };
 		7357888D2AE1A0CB00030C88 /* UITableView+Dequeueing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7357888C2AE1A0CB00030C88 /* UITableView+Dequeueing.swift */; };
 		7357888F2AE1A1C500030C88 /* UIImageView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7357888E2AE1A1C500030C88 /* UIImageView+Animations.swift */; };
-		735788912AE4282400030C88 /* Feed.strings in Resources */ = {isa = PBXBuildFile; fileRef = 735788902AE4282400030C88 /* Feed.strings */; };
 		735788932AE42A7E00030C88 /* FeedViewControllerTests+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735788922AE42A7E00030C88 /* FeedViewControllerTests+Localization.swift */; };
+		735788942AE42BAF00030C88 /* Feed.strings in Resources */ = {isa = PBXBuildFile; fileRef = 735788962AE42BAF00030C88 /* Feed.strings */; };
 		735926142AA348900083C799 /* FeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735926132AA348900083C799 /* FeedStoreSpecs.swift */; };
 		735926162AA349320083C799 /* XCTestCase+FeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735926152AA349320083C799 /* XCTestCase+FeedStoreSpecs.swift */; };
 		7377A9C42ACB516500CEA604 /* FeediOS.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7377A9C32ACB516500CEA604 /* FeediOS.docc */; };
@@ -159,8 +159,8 @@
 		7357888A2AE1957800030C88 /* Feed.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Feed.xcassets; sourceTree = "<group>"; };
 		7357888C2AE1A0CB00030C88 /* UITableView+Dequeueing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Dequeueing.swift"; sourceTree = "<group>"; };
 		7357888E2AE1A1C500030C88 /* UIImageView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Animations.swift"; sourceTree = "<group>"; };
-		735788902AE4282400030C88 /* Feed.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Feed.strings; sourceTree = "<group>"; };
 		735788922AE42A7E00030C88 /* FeedViewControllerTests+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedViewControllerTests+Localization.swift"; sourceTree = "<group>"; };
+		735788952AE42BAF00030C88 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Feed.strings; sourceTree = "<group>"; };
 		735926132AA348900083C799 /* FeedStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStoreSpecs.swift; sourceTree = "<group>"; };
 		735926152AA349320083C799 /* XCTestCase+FeedStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FeedStoreSpecs.swift"; sourceTree = "<group>"; };
 		7377A9C02ACB516500CEA604 /* FeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -428,7 +428,7 @@
 				735788842ADEF0FE00030C88 /* FeedLoadingViewModel.swift */,
 				735788802ADB0F7900030C88 /* FeedPresenter.swift */,
 				735788862ADEF11300030C88 /* FeedViewModel.swift */,
-				735788902AE4282400030C88 /* Feed.strings */,
+				735788962AE42BAF00030C88 /* Feed.strings */,
 			);
 			path = "Feed Presentation";
 			sourceTree = "<group>";
@@ -651,7 +651,7 @@
 			files = (
 				735788892AE1956A00030C88 /* Feed.storyboard in Resources */,
 				7357888B2AE1957800030C88 /* Feed.xcassets in Resources */,
-				735788912AE4282400030C88 /* Feed.strings in Resources */,
+				735788942AE42BAF00030C88 /* Feed.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,6 +777,17 @@
 			targetProxy = 73E14F952AD04F750055004C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		735788962AE42BAF00030C88 /* Feed.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				735788952AE42BAF00030C88 /* en */,
+			);
+			name = Feed.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		4A0AE47F293BBF66009D95C1 /* Debug */ = {
