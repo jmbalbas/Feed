@@ -15,7 +15,13 @@ public final class FeedViewController: UITableViewController {
     var delegate: FeedViewControllerDelegate?
     var tableModel: [FeedImageCellController] = [] {
         didSet {
-            tableView.reloadData()
+            if Thread.isMainThread {
+                tableView.reloadData()
+            } else {
+                Task { @MainActor in
+                    tableView.reloadData()
+                }
+            }
         }
     }
 
@@ -64,6 +70,12 @@ extension FeedViewController: UITableViewDataSourcePrefetching {
 
 extension FeedViewController: FeedLoadingView {
     func display(_ viewModel: FeedLoadingViewModel) {
+        guard Thread.isMainThread else {
+            Task { @MainActor in
+                display(viewModel)
+            }
+            return
+        }
         viewModel.isLoading ? refreshControl?.beginRefreshing() : refreshControl?.endRefreshing()
     }
 }
