@@ -268,6 +268,18 @@ final class FeedUIIntegrationTests: XCTestCase {
             loader.completeFeedLoading()
         }.value
     }
+
+    func test_loadImageDataCompletion_dispatchesFromBackgroundToMainThread() async {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+
+        loader.completeFeedLoading(with: [makeImage()])
+        _ = sut.simulateFeedImageViewVisible(at: 0)
+
+        await Task.detached {
+            await loader.completeImageLoading(with: self.anyImageData)
+        }.value
+    }
 }
 
 private extension FeedUIIntegrationTests {
