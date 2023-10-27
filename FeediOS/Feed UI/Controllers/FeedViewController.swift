@@ -18,7 +18,7 @@ public final class ErrorView: UIView {
 public final class FeedViewController: UITableViewController {
     var delegate: FeedViewControllerDelegate?
 
-    public let errorView = ErrorView()
+    @IBOutlet private(set) public var errorView: ErrorView!
 
     var tableModel: [FeedImageCellController] = [] {
         didSet {
