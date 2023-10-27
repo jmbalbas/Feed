@@ -74,3 +74,9 @@ extension FeedViewController: FeedLoadingView {
         viewModel.isLoading ? refreshControl?.beginRefreshing() : refreshControl?.endRefreshing()
     }
 }
+
+extension FeedViewController: FeedErrorView {
+    func display(_ viewModel: FeedErrorViewModel) {
+        errorView.message = viewModel.message
+    }
+}
