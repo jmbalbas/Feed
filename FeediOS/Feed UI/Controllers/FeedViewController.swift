@@ -67,7 +67,7 @@ extension FeedViewController: UITableViewDataSourcePrefetching {
 
 extension FeedViewController: FeedLoadingView {
     func display(_ viewModel: FeedLoadingViewModel) {
-        viewModel.isLoading ? refreshControl?.beginRefreshing() : refreshControl?.endRefreshing()
+        refreshControl?.update(isRefreshing: viewModel.isLoading)
     }
 }
 
