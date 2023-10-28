@@ -31,6 +31,7 @@
 		4AA53AA029786AE200D2B713 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA53A9F29786AE200D2B713 /* FeedStore.swift */; };
 		4AE2EBDE2946697F00AACDC1 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE2EBDD2946697F00AACDC1 /* HTTPClient.swift */; };
 		4AE2EBE0294669D600AACDC1 /* FeedItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE2EBDF294669D600AACDC1 /* FeedItemsMapper.swift */; };
+		7303D6922AED67510072D254 /* Feed.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7303D6942AED67510072D254 /* Feed.strings */; };
 		7357885B2AD7F33100030C88 /* UIImage+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7357885A2AD7F33100030C88 /* UIImage+TestHelpers.swift */; };
 		7357885D2AD7F37D00030C88 /* UIRefreshControl+TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7357885C2AD7F37D00030C88 /* UIRefreshControl+TestHelper.swift */; };
 		7357885F2AD7F3E000030C88 /* UIButton+TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7357885E2AD7F3E000030C88 /* UIButton+TestHelper.swift */; };
@@ -148,6 +149,8 @@
 		4AA53A9F29786AE200D2B713 /* FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStore.swift; sourceTree = "<group>"; };
 		4AE2EBDD2946697F00AACDC1 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		4AE2EBDF294669D600AACDC1 /* FeedItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsMapper.swift; sourceTree = "<group>"; };
+		7303D6932AED67510072D254 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Feed.strings; sourceTree = "<group>"; };
+		7303D6952AED67540072D254 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Feed.strings; sourceTree = "<group>"; };
 		7357885A2AD7F33100030C88 /* UIImage+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+TestHelpers.swift"; sourceTree = "<group>"; };
 		7357885C2AD7F37D00030C88 /* UIRefreshControl+TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl+TestHelper.swift"; sourceTree = "<group>"; };
 		7357885E2AD7F3E000030C88 /* UIButton+TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+TestHelper.swift"; sourceTree = "<group>"; };
@@ -462,6 +465,7 @@
 			isa = PBXGroup;
 			children = (
 				735788A32AEAC30C00030C88 /* FeedPresenterTests.swift */,
+				7303D6942AED67510072D254 /* Feed.strings */,
 			);
 			path = "Feed Presentation";
 			sourceTree = "<group>";
@@ -680,6 +684,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7303D6922AED67510072D254 /* Feed.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -833,6 +838,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		7303D6942AED67510072D254 /* Feed.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7303D6932AED67510072D254 /* en */,
+				7303D6952AED67540072D254 /* es */,
+			);
+			name = Feed.strings;
+			sourceTree = "<group>";
+		};
 		735788962AE42BAF00030C88 /* Feed.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
