@@ -44,7 +44,7 @@ private extension ErrorView {
         }
     }
 
-    func hideMessageAnimated() {
+    @IBAction func hideMessageAnimated() {
         UIView.animate(
             withDuration: 0.25,
             animations: { self.alpha = 0 },
