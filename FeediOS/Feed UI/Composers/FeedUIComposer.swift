@@ -21,7 +21,8 @@ public enum FeedUIComposer {
                 controller: feedController,
                 loader: MainQueueDispatchDecorator(decoratee: imageLoader)
             ),
-            loadingView: WeakRefVirtualProxy(feedController)
+            loadingView: WeakRefVirtualProxy(feedController),
+            errorView: WeakRefVirtualProxy(feedController)
         )
         presentationAdapter.presenter = feedPresenter
         return feedController
