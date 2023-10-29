@@ -5,20 +5,65 @@
 //  Created by Juan Santiago Martín Balbás on 29/10/23.
 //
 
+import Feed
 import XCTest
 
-class FeedImagePresenter {
-    init(view: Any) {
+struct FeedImageViewModel {
+    let description: String?
+    let location: String?
+    let image: Any?
+    let isLoading: Bool
+    let shouldRetry: Bool
 
+    var hasLocation: Bool {
+        location != nil
+    }
+}
+
+protocol FeedImageView {
+    func display(_ model: FeedImageViewModel)
+}
+
+class FeedImagePresenter {
+    private let view: FeedImageView
+
+    init(view: FeedImageView) {
+        self.view = view
+    }
+
+    func didStartLoadingImageData(for model: FeedImage) {
+        view.display(FeedImageViewModel(
+            description: model.description,
+            location: model.location,
+            image: nil,
+            isLoading: true,
+            shouldRetry: false
+        ))
     }
 }
 
 final class FeedImagePresenterTests: XCTestCase {
-
     func test_init_doesNotSendMessagesToView() {
         let (_, view) = makeSUT()
 
         XCTAssert(view.messages.isEmpty, "Expected no view messages")
+    }
+
+    func test_didStartLoadingImageData_displaysLoadingImage() throws {
+        let (sut, view) = makeSUT()
+        let image = uniqueImage
+
+        sut.didStartLoadingImageData(for: image)
+
+        let messages = view.messages
+        XCTAssertEqual(messages.count, 1)
+
+        let message = try XCTUnwrap(messages.first)
+        XCTAssertEqual(message.description, image.description)
+        XCTAssertEqual(message.location, image.location)
+        XCTAssert(message.isLoading)
+        XCTAssertFalse(message.shouldRetry)
+        XCTAssertNil(message.image)
     }
 }
 
@@ -32,6 +77,10 @@ private extension FeedImagePresenterTests {
     }
 }
 
-private class ViewSpy {
-    let messages = [Any]()
+private class ViewSpy: FeedImageView {
+    private(set) var messages = [FeedImageViewModel]()
+
+    func display(_ model: FeedImageViewModel) {
+        messages.append(model)
+    }
 }
