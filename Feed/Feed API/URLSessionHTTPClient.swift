@@ -14,12 +14,18 @@ public class URLSessionHTTPClient: HTTPClient {
         self.session = session
     }
 
-    public func get(from url: URL) async throws -> (Data, HTTPURLResponse) {
-        let (data, response) = try await session.data(from: url)
-        guard let httpURLResponse = response as? HTTPURLResponse else {
-            throw Error.nonHTTPUrlResponse
-        }
-        return (data, httpURLResponse)
+    public func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) {
+        session.dataTask(with: url) { data, response, error in
+            completion(Result {
+                if let error {
+                    throw error
+                } else if let data, let response = response as? HTTPURLResponse {
+                    return (data, response)
+                } else {
+                    throw Error.nonHTTPUrlResponse
+                }
+            })
+        }.resume()
     }
 }
 
