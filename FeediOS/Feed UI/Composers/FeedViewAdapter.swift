@@ -5,7 +5,7 @@
 //  Created by Juan Santiago Martín Balbás on 22/10/23.
 //
 
-import Foundation
+import Feed
 import UIKit
 
 final class FeedViewAdapter: FeedView {
