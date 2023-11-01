@@ -24,9 +24,9 @@ public final class RemoteFeedLoader: FeedLoader {
     public func load(completion: @escaping (FeedLoader.Result) -> Void) {
         client.get(from: url) { result in
             switch result {
-            case let .success(tuple):
+            case let .success((data, response)):
                 do {
-                    let feed = try Self.map(tuple.0, from: tuple.1)
+                    let feed = try Self.map(data, from: response)
                     completion(.success(feed))
                 } catch {
                     completion(.failure(error))
