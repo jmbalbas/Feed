@@ -23,10 +23,21 @@ public final class FeedViewController: UITableViewController {
         }
     }
 
+    private var onViewIsAppearing: (() -> Void)?
+
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        refresh()
+        onViewIsAppearing = { [weak self] in
+            self?.refresh()
+            self?.onViewIsAppearing = nil
+        }
+    }
+
+    public override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+
+        onViewIsAppearing?()
     }
 
     @IBAction private func refresh() {
