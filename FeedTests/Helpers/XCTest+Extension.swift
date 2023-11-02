@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 
 extension XCTest {
-    func XCTAssertThrowsError<T: Sendable>(
+    func XCTAssertAwaitThrowsError<T: Sendable>(
         _ expression: @autoclosure () async throws -> T,
         _ message: @autoclosure () -> String = "",
         file: StaticString = #filePath,
@@ -24,7 +24,7 @@ extension XCTest {
         }
     }
 
-    func XCTAssertNoThrow<T: Sendable>(
+    func XCTAssertAwaitNoThrow<T: Sendable>(
         _ expression: @autoclosure () async throws -> T,
         _ message: @autoclosure () -> String = "",
         file: StaticString = #filePath,
