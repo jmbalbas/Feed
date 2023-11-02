@@ -1,5 +1,5 @@
 //
-//  RemoteFeedImageDataLoaderTests.swift
+//  LoadFeedImageDataFromRemoteUseCaseTests.swift
 //  FeedTests
 //
 //  Created by Juan Santiago Martín Balbás on 1/11/23.
@@ -8,7 +8,7 @@
 import Feed
 import XCTest
 
-final class RemoteFeedImageDataLoaderTests: XCTestCase {
+final class LoadFeedImageDataFromRemoteUseCaseTests: XCTestCase {
     func test_init_doesNotPerformAnyURLRequest() {
         let (_, client) = makeSUT()
 
@@ -113,7 +113,7 @@ final class RemoteFeedImageDataLoaderTests: XCTestCase {
     }
 }
 
-private extension RemoteFeedImageDataLoaderTests {
+private extension LoadFeedImageDataFromRemoteUseCaseTests {
     func makeSUT(
         url: URL = anyURL,
         file: StaticString = #file,
