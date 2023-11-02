@@ -9,6 +9,18 @@ import Feed
 import XCTest
 
 final class FeedCacheIntegrationTests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+
+        setupEmptyStoreState()
+    }
+
+    override func tearDown() {
+        undoStoreSideEffects()
+
+        super.tearDown()
+    }
+
     func test_load_deliversNoItemsOnEmptyCache() {
         let sut = makeSUT()
 
@@ -37,6 +49,18 @@ private extension FeedCacheIntegrationTests {
         trackForMemoryLeaks(store, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
+    }
+
+    func setupEmptyStoreState() {
+        deleteStoreArtifacts()
+    }
+
+    func undoStoreSideEffects() {
+        deleteStoreArtifacts()
+    }
+
+    func deleteStoreArtifacts() {
+        try? FileManager.default.removeItem(at: testSpecificStoreURL())
     }
 
     func testSpecificStoreURL() -> URL {
