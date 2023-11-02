@@ -40,6 +40,7 @@
 		733E0A9F2AF2B62F00C8D9BE /* FeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735788712ADAA00200030C88 /* FeedImageDataLoader.swift */; };
 		733E0AA12AF2BEFE00C8D9BE /* RemoteFeedImageDataLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733E0AA02AF2BEFE00C8D9BE /* RemoteFeedImageDataLoaderTests.swift */; };
 		733E0AA42AF3A97E00C8D9BE /* HTTPClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733E0AA32AF3A97E00C8D9BE /* HTTPClientSpy.swift */; };
+		733E0AA62AF3AA2E00C8D9BE /* RemoteFeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733E0AA52AF3AA2E00C8D9BE /* RemoteFeedImageDataLoader.swift */; };
 		7357885B2AD7F33100030C88 /* UIImage+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7357885A2AD7F33100030C88 /* UIImage+TestHelpers.swift */; };
 		7357885D2AD7F37D00030C88 /* UIRefreshControl+TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7357885C2AD7F37D00030C88 /* UIRefreshControl+TestHelper.swift */; };
 		7357885F2AD7F3E000030C88 /* UIButton+TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7357885E2AD7F3E000030C88 /* UIButton+TestHelper.swift */; };
@@ -161,6 +162,7 @@
 		7303D6A02AEE76740072D254 /* FeedLocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLocalizationTests.swift; sourceTree = "<group>"; };
 		733E0AA02AF2BEFE00C8D9BE /* RemoteFeedImageDataLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedImageDataLoaderTests.swift; sourceTree = "<group>"; };
 		733E0AA32AF3A97E00C8D9BE /* HTTPClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientSpy.swift; sourceTree = "<group>"; };
+		733E0AA52AF3AA2E00C8D9BE /* RemoteFeedImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedImageDataLoader.swift; sourceTree = "<group>"; };
 		7357885A2AD7F33100030C88 /* UIImage+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+TestHelpers.swift"; sourceTree = "<group>"; };
 		7357885C2AD7F37D00030C88 /* UIRefreshControl+TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl+TestHelper.swift"; sourceTree = "<group>"; };
 		7357885E2AD7F3E000030C88 /* UIButton+TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+TestHelper.swift"; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 			children = (
 				4AE2EBDF294669D600AACDC1 /* FeedItemsMapper.swift */,
 				4AE2EBDD2946697F00AACDC1 /* HTTPClient.swift */,
+				733E0AA52AF3AA2E00C8D9BE /* RemoteFeedImageDataLoader.swift */,
 				4A207A0529859DD8002A75DB /* RemoteFeedItem.swift */,
 				4A0AE48F293D259B009D95C1 /* RemoteFeedLoader.swift */,
 				4A13647D295F3EB3008CA68C /* URLSessionHTTPClient.swift */,
@@ -732,6 +735,7 @@
 				4A207A0629859DD8002A75DB /* RemoteFeedItem.swift in Sources */,
 				73B7E9822A82B11300ABE056 /* FeedCachePolicy.swift in Sources */,
 				4A0AE490293D259B009D95C1 /* RemoteFeedLoader.swift in Sources */,
+				733E0AA62AF3AA2E00C8D9BE /* RemoteFeedImageDataLoader.swift in Sources */,
 				4A207A0829859E0C002A75DB /* LocalFeedImage.swift in Sources */,
 				7303D69D2AEE73650072D254 /* FeedLoadingViewModel.swift in Sources */,
 				4AA53AA029786AE200D2B713 /* FeedStore.swift in Sources */,
