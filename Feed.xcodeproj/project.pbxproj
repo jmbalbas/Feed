@@ -82,6 +82,8 @@
 		73882BCC2AF3D35B002BADFE /* CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BCB2AF3D35B002BADFE /* CoreDataHelpers.swift */; };
 		73882BCE2AF3D3A9002BADFE /* ManagedCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BCD2AF3D3A9002BADFE /* ManagedCache.swift */; };
 		73882BD02AF3D3BE002BADFE /* ManagedFeedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BCF2AF3D3BE002BADFE /* ManagedFeedImage.swift */; };
+		73882BDF2AF3F077002BADFE /* FeedCacheIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BDE2AF3F077002BADFE /* FeedCacheIntegrationTests.swift */; };
+		73882BE02AF3F077002BADFE /* Feed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A0AE46F293BBF66009D95C1 /* Feed.framework */; };
 		73B4C2242AD1830C00C563C1 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B4C2232AD1830C00C563C1 /* FeedViewController.swift */; };
 		73B4C2262AD2BDC100C563C1 /* FeedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B4C2252AD2BDC100C563C1 /* FeedImageCell.swift */; };
 		73B4C2282AD31AA900C563C1 /* UIView+Shimmering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B4C2272AD31AA900C563C1 /* UIView+Shimmering.swift */; };
@@ -115,6 +117,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 7377A9BF2ACB516500CEA604;
 			remoteInfo = FeediOS;
+		};
+		73882BE12AF3F077002BADFE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A0AE466293BBF66009D95C1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4A0AE46E293BBF66009D95C1;
+			remoteInfo = Feed;
 		};
 		73E14F952AD04F750055004C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -217,6 +226,9 @@
 		73882BCB2AF3D35B002BADFE /* CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelpers.swift; sourceTree = "<group>"; };
 		73882BCD2AF3D3A9002BADFE /* ManagedCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedCache.swift; sourceTree = "<group>"; };
 		73882BCF2AF3D3BE002BADFE /* ManagedFeedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedFeedImage.swift; sourceTree = "<group>"; };
+		73882BDC2AF3F077002BADFE /* FeedCacheIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeedCacheIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		73882BDE2AF3F077002BADFE /* FeedCacheIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCacheIntegrationTests.swift; sourceTree = "<group>"; };
+		73882BE62AF3F118002BADFE /* FeedCacheIntegrationTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = FeedCacheIntegrationTests.xctestplan; sourceTree = "<group>"; };
 		73B4C2232AD1830C00C563C1 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		73B4C2252AD2BDC100C563C1 /* FeedImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageCell.swift; sourceTree = "<group>"; };
 		73B4C2272AD31AA900C563C1 /* UIView+Shimmering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shimmering.swift"; sourceTree = "<group>"; };
@@ -267,6 +279,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		73882BD92AF3F077002BADFE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73882BE02AF3F077002BADFE /* Feed.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -276,6 +296,7 @@
 				4A0AE471293BBF66009D95C1 /* Feed */,
 				4A0AE47B293BBF66009D95C1 /* FeedTests */,
 				4A69A918295F5982006FAD1D /* FeedAPIEndToEndTests */,
+				73882BDD2AF3F077002BADFE /* FeedCacheIntegrationTests */,
 				7377A9C12ACB516500CEA604 /* FeediOS */,
 				7377A9CD2ACB516500CEA604 /* FeediOSTests */,
 				4A0AE470293BBF66009D95C1 /* Products */,
@@ -291,6 +312,7 @@
 				4A69A917295F5982006FAD1D /* FeedAPIEndToEndTests.xctest */,
 				7377A9C02ACB516500CEA604 /* FeediOS.framework */,
 				7377A9C92ACB516500CEA604 /* FeediOSTests.xctest */,
+				73882BDC2AF3F077002BADFE /* FeedCacheIntegrationTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -585,6 +607,15 @@
 			path = Codable;
 			sourceTree = "<group>";
 		};
+		73882BDD2AF3F077002BADFE /* FeedCacheIntegrationTests */ = {
+			isa = PBXGroup;
+			children = (
+				73882BE62AF3F118002BADFE /* FeedCacheIntegrationTests.xctestplan */,
+				73882BDE2AF3F077002BADFE /* FeedCacheIntegrationTests.swift */,
+			);
+			path = FeedCacheIntegrationTests;
+			sourceTree = "<group>";
+		};
 		73E14F922AD04F750055004C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -704,6 +735,24 @@
 			productReference = 7377A9C92ACB516500CEA604 /* FeediOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		73882BDB2AF3F077002BADFE /* FeedCacheIntegrationTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 73882BE52AF3F077002BADFE /* Build configuration list for PBXNativeTarget "FeedCacheIntegrationTests" */;
+			buildPhases = (
+				73882BD82AF3F077002BADFE /* Sources */,
+				73882BD92AF3F077002BADFE /* Frameworks */,
+				73882BDA2AF3F077002BADFE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				73882BE22AF3F077002BADFE /* PBXTargetDependency */,
+			);
+			name = FeedCacheIntegrationTests;
+			productName = FeedCacheIntegrationTests;
+			productReference = 73882BDC2AF3F077002BADFE /* FeedCacheIntegrationTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -711,7 +760,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					4A0AE46E293BBF66009D95C1 = {
@@ -730,6 +779,9 @@
 					7377A9C82ACB516500CEA604 = {
 						CreatedOnToolsVersion = 14.3.1;
 						LastSwiftMigration = 1430;
+					};
+					73882BDB2AF3F077002BADFE = {
+						CreatedOnToolsVersion = 15.0.1;
 					};
 				};
 			};
@@ -750,6 +802,7 @@
 				4A0AE46E293BBF66009D95C1 /* Feed */,
 				4A0AE476293BBF66009D95C1 /* FeedTests */,
 				4A69A916295F5982006FAD1D /* FeedAPIEndToEndTests */,
+				73882BDB2AF3F077002BADFE /* FeedCacheIntegrationTests */,
 				7377A9BF2ACB516500CEA604 /* FeediOS */,
 				7377A9C82ACB516500CEA604 /* FeediOSTests */,
 			);
@@ -789,6 +842,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		7377A9C72ACB516500CEA604 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		73882BDA2AF3F077002BADFE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -910,6 +970,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		73882BD82AF3F077002BADFE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73882BDF2AF3F077002BADFE /* FeedCacheIntegrationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -927,6 +995,11 @@
 			isa = PBXTargetDependency;
 			target = 7377A9BF2ACB516500CEA604 /* FeediOS */;
 			targetProxy = 7377A9CB2ACB516500CEA604 /* PBXContainerItemProxy */;
+		};
+		73882BE22AF3F077002BADFE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4A0AE46E293BBF66009D95C1 /* Feed */;
+			targetProxy = 73882BE12AF3F077002BADFE /* PBXContainerItemProxy */;
 		};
 		73E14F962AD04F750055004C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1326,6 +1399,47 @@
 			};
 			name = Release;
 		};
+		73882BE32AF3F077002BADFE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4L6UTSMVEJ;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.juansantiagomartinbalbas.FeedCacheIntegrationTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		73882BE42AF3F077002BADFE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4L6UTSMVEJ;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.juansantiagomartinbalbas.FeedCacheIntegrationTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1379,6 +1493,15 @@
 			buildConfigurations = (
 				7377A9D52ACB516500CEA604 /* Debug */,
 				7377A9D62ACB516500CEA604 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		73882BE52AF3F077002BADFE /* Build configuration list for PBXNativeTarget "FeedCacheIntegrationTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73882BE32AF3F077002BADFE /* Debug */,
+				73882BE42AF3F077002BADFE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
