@@ -22,22 +22,19 @@ public final class RemoteFeedLoader: FeedLoader {
     }
 
     public func load(completion: @escaping (FeedLoader.Result) -> Void) {
-        Task {
-            do {
-                let feed = try await load()
-                completion(.success(feed))
-            } catch {
-                completion(.failure(error))
+        client.get(from: url) { result in
+            switch result {
+            case let .success((data, response)):
+                do {
+                    let feed = try Self.map(data, from: response)
+                    completion(.success(feed))
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure:
+                completion(.failure(Errors.connectivity))
             }
         }
-    }
-
-    public func load() async throws -> [FeedImage] {
-        guard let (data, response) = try? await client.get(from: url) else {
-            throw Errors.connectivity
-        }
-
-        return try Self.map(data, from: response)
     }
 
     private static func map(_ data: Data, from response: HTTPURLResponse) throws -> [FeedImage] {
