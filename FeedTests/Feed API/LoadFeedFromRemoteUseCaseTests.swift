@@ -109,7 +109,7 @@ private extension LoadFeedFromRemoteUseCaseTests {
     }
 
     func complete(withError error: Error, using client: HTTPClientSpy, at index: Int = 0) {
-        client.complete(withError: error, at: index)
+        client.complete(with: error, at: index)
     }
 
     func complete(withStatusCode code: Int = 200, data: Data = Data(), using client: HTTPClientSpy, at index: Int = 0) {
@@ -169,33 +169,5 @@ private extension LoadFeedFromRemoteUseCaseTests {
 
     func makeItemsJSON(_ items: [[String: Any]]) throws -> Data {
         try JSONSerialization.data(withJSONObject: ["items": items])
-    }
-}
-
-// MARK: - HTTPClientSpy
-
-private class HTTPClientSpy: HTTPClient {
-    private struct Task: HTTPClientTask {
-        func cancel() {}
-    }
-
-    var requestedURLs: [URL] {
-        messages.map { $0.url }
-    }
-
-    private var messages: [(url: URL, completion: (HTTPClient.Result) -> Void)] = []
-
-    func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) -> HTTPClientTask {
-        messages.append((url: url, completion: completion))
-        return Task()
-    }
-    
-    func complete(withError error: Error, at index: Int = 0) {
-        messages[index].completion(.failure(error))
-    }
-
-    func complete(withStatusCode code: Int = 200, data: Data = Data(), at index: Int = 0) {
-        let message = messages[index]
-        message.completion(.success((data, .init(url: message.url, statusCode: code, httpVersion: nil, headerFields: nil)!)))
     }
 }
