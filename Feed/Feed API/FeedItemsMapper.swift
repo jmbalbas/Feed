@@ -12,15 +12,8 @@ enum FeedItemsMapper {
         let items: [RemoteFeedItem]
     }
 
-    private enum C {
-        static let ok200 = 200
-    }
-
     static func map(_ data: Data, from response: HTTPURLResponse) throws -> [RemoteFeedItem] {
-        guard
-            response.statusCode == C.ok200,
-            let feed = try? JSONDecoder().decode(Root.self, from: data).items
-        else {
+        guard response.isOK, let feed = try? JSONDecoder().decode(Root.self, from: data).items else {
             throw RemoteFeedLoader.Errors.invalidData
         }
         return feed
