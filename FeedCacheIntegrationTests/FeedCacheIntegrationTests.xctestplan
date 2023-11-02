@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "281FEB54-58D2-41FB-ABD6-96D498B0DD2C",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Feed.xcodeproj",
+        "identifier" : "73882BDB2AF3F077002BADFE",
+        "name" : "FeedCacheIntegrationTests"
+      }
+    }
+  ],
+  "version" : 1
+}
