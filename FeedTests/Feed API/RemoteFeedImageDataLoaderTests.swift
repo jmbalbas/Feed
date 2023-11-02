@@ -180,11 +180,6 @@ private extension RemoteFeedImageDataLoaderTests {
         return (sut, client)
     }
 
-
-    var anyData: Data {
-        Data("any data".utf8)
-    }
-
     private func failure(_ error: RemoteFeedImageDataLoader.Error) -> FeedImageDataLoader.Result {
         return .failure(error)
     }

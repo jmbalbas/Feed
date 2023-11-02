@@ -53,7 +53,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
     }
 
     func test_getFromURL_succeedsOnHTTPURLResponseWithData() {
-        let data = anyData()
+        let data = anyData
         let response = anyHTTPURLResponse()
 
         let resultValues = resultValuesFor((data: data, response: response, error: nil))
@@ -76,10 +76,6 @@ private extension URLSessionHTTPClientTests {
         let sut = URLSessionHTTPClient(session: session)
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
-    }
-
-    func anyData() -> Data {
-        Data("any data".utf8)
     }
 
     func anyURLResponse() -> URLResponse {
