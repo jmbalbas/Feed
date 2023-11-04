@@ -30,7 +30,7 @@ class FeedImageDataLoaderWithFallbackComposite: FeedImageDataLoader {
         task.wrapped = primary.loadImageData(from: url) { [weak self] result in
             switch result {
             case .success:
-                break
+                completion(result)
             case .failure:
                 task.wrapped = self?.fallback.loadImageData(from: url) { _ in }
             }
@@ -93,11 +93,24 @@ final class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
         XCTAssert(primaryLoader.cancelledURLs.isEmpty, "Expected no cancelled URLs in the primary loader")
         XCTAssertEqual(fallbackLoader.cancelledURLs, [url], "Expected to cancel URL loading from fallback loader")
     }
+
+    func test_loadImageData_deliversPrimaryDataOnPrimaryLoaderSuccess() {
+        let primaryData = anyData
+        let (sut, primaryLoader, _) = makeSUT()
+
+        expect(sut, toCompleteWith: .success(primaryData), when: {
+            primaryLoader.complete(with: primaryData)
+        })
+    }
 }
 
 private extension FeedImageDataLoaderWithFallbackCompositeTests {
     var anyURL: URL {
         URL(string: "http://a-url.com")!
+    }
+
+    var anyData: Data {
+        Data("any data".utf8)
     }
 
     var anyNSError: NSError {
@@ -121,6 +134,35 @@ private extension FeedImageDataLoaderWithFallbackCompositeTests {
         addTeardownBlock { [weak instance] in
             XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
         }
+    }
+
+    func expect(
+        _ sut: FeedImageDataLoader,
+        toCompleteWith expectedResult: FeedImageDataLoader.Result,
+        when action: () -> Void,
+        file: StaticString = #file,
+        line: UInt = #line
+    ) {
+        let exp = expectation(description: "Wait for load completion")
+
+        _ = sut.loadImageData(from: anyURL) { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedFeed), .success(expectedFeed)):
+                XCTAssertEqual(receivedFeed, expectedFeed, file: file, line: line)
+
+            case (.failure, .failure):
+                break
+
+            default:
+                XCTFail("Expected \(expectedResult), got \(receivedResult) instead", file: file, line: line)
+            }
+
+            exp.fulfill()
+        }
+
+        action()
+
+        wait(for: [exp], timeout: 1.0)
     }
 }
 
@@ -147,5 +189,9 @@ private class LoaderSpy: FeedImageDataLoader {
 
     func complete(with error: Error, at index: Int = 0) {
         messages[index].completion(.failure(error))
+    }
+
+    func complete(with data: Data, at index: Int = 0) {
+        messages[index].completion(.success(data))
     }
 }
