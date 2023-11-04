@@ -19,6 +19,7 @@
 		73B2E9C72AF563AC0097DBFB /* FeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73B2E9C42AF563AB0097DBFB /* FeediOS.framework */; };
 		73B2E9C82AF563AC0097DBFB /* FeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73B2E9C42AF563AB0097DBFB /* FeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		73B2E9CB2AF6961D0097DBFB /* FeedLoaderWithFallbackComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2E9CA2AF6961D0097DBFB /* FeedLoaderWithFallbackComposite.swift */; };
+		73B2E9CD2AF697590097DBFB /* FeedImageDataLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2E9CC2AF697590097DBFB /* FeedImageDataLoaderWithFallbackCompositeTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		73B2E9C32AF563AB0097DBFB /* Feed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Feed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73B2E9C42AF563AB0097DBFB /* FeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73B2E9CA2AF6961D0097DBFB /* FeedLoaderWithFallbackComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackComposite.swift; sourceTree = "<group>"; };
+		73B2E9CC2AF697590097DBFB /* FeedImageDataLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				73B2E9C02AF563660097DBFB /* FeedLoaderWithFallbackComposite.swift */,
+				73B2E9CC2AF697590097DBFB /* FeedImageDataLoaderWithFallbackCompositeTests.swift */,
 			);
 			path = EssentialAppTests;
 			sourceTree = "<group>";
@@ -246,6 +249,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73B2E9CD2AF697590097DBFB /* FeedImageDataLoaderWithFallbackCompositeTests.swift in Sources */,
 				73B2E9C12AF563660097DBFB /* FeedLoaderWithFallbackComposite.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
