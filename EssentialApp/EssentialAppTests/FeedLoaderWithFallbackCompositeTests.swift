@@ -34,10 +34,6 @@ final class FeedLoaderWithFallbackCompositeTests: XCTestCase {
 }
 
 private extension FeedLoaderWithFallbackCompositeTests {
-    var uniqueFeed: [FeedImage] {
-        [FeedImage(id: UUID(), description: "Description", location: "Location", url: URL(string: "https://any-url.com")!)]
-    }
-
     func makeSUT(
         primaryResult: FeedLoader.Result,
         fallbackResult: FeedLoader.Result,
