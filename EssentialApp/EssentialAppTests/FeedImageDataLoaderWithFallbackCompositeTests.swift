@@ -94,18 +94,6 @@ final class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
 }
 
 private extension FeedImageDataLoaderWithFallbackCompositeTests {
-    var anyURL: URL {
-        URL(string: "http://a-url.com")!
-    }
-
-    var anyData: Data {
-        Data("any data".utf8)
-    }
-
-    var anyNSError: NSError {
-        NSError(domain: "any error", code: 0)
-    }
-
     func makeSUT(
         file: StaticString = #file,
         line: UInt = #line

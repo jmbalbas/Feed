@@ -34,10 +34,6 @@ final class FeedLoaderWithFallbackCompositeTests: XCTestCase {
 }
 
 private extension FeedLoaderWithFallbackCompositeTests {
-    var anyNSError: NSError {
-        NSError(domain: "any error", code: 0)
-    }
-
     var uniqueFeed: [FeedImage] {
         [FeedImage(id: UUID(), description: "Description", location: "Location", url: URL(string: "https://any-url.com")!)]
     }
