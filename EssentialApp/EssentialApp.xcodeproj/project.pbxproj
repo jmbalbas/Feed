@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7361E3CB2AFA8F5B0099C351 /* Feed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7361E3CA2AFA8F5B0099C351 /* Feed.framework */; };
+		7361E3CC2AFA8F5B0099C351 /* Feed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7361E3CA2AFA8F5B0099C351 /* Feed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7361E3CF2AFA8F600099C351 /* FeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7361E3CE2AFA8F600099C351 /* FeediOS.framework */; };
+		7361E3D02AFA8F600099C351 /* FeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7361E3CE2AFA8F600099C351 /* FeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		73882BF72AF4F341002BADFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BF62AF4F341002BADFE /* AppDelegate.swift */; };
 		73882BF92AF4F341002BADFE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BF82AF4F341002BADFE /* SceneDelegate.swift */; };
 		73882BFB2AF4F341002BADFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BFA2AF4F341002BADFE /* ViewController.swift */; };
@@ -52,6 +56,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7361E3CD2AFA8F5B0099C351 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7361E3D02AFA8F600099C351 /* FeediOS.framework in Embed Frameworks */,
+				7361E3CC2AFA8F5B0099C351 /* Feed.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		73B2E9C92AF563AC0097DBFB /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -67,6 +83,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7361E3CA2AFA8F5B0099C351 /* Feed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Feed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7361E3CE2AFA8F600099C351 /* FeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73882BF32AF4F341002BADFE /* EssentialApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EssentialApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73882BF62AF4F341002BADFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		73882BF82AF4F341002BADFE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +119,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7361E3CF2AFA8F600099C351 /* FeediOS.framework in Frameworks */,
+				7361E3CB2AFA8F5B0099C351 /* Feed.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +197,8 @@
 		73B2E9C22AF563AB0097DBFB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7361E3CE2AFA8F600099C351 /* FeediOS.framework */,
+				7361E3CA2AFA8F5B0099C351 /* Feed.framework */,
 				73B2E9C32AF563AB0097DBFB /* Feed.framework */,
 				73B2E9C42AF563AB0097DBFB /* FeediOS.framework */,
 			);
@@ -214,6 +236,7 @@
 				73882BEF2AF4F341002BADFE /* Sources */,
 				73882BF02AF4F341002BADFE /* Frameworks */,
 				73882BF12AF4F341002BADFE /* Resources */,
+				7361E3CD2AFA8F5B0099C351 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
