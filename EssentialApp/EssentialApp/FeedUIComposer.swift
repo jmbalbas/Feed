@@ -6,6 +6,7 @@
 //
 
 import Feed
+import FeediOS
 import UIKit
 
 public enum FeedUIComposer {

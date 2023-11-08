@@ -7,7 +7,6 @@
 
 import CoreData
 import Feed
-import FeediOS
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

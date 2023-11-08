@@ -8,20 +8,19 @@
 import Feed
 import UIKit
 
-protocol FeedViewControllerDelegate {
+public protocol FeedViewControllerDelegate {
     func didRequestFeedRefresh()
 }
 
 public final class FeedViewController: UITableViewController {
-    var delegate: FeedViewControllerDelegate?
-
     @IBOutlet private(set) public var errorView: ErrorView!
 
-    var tableModel: [FeedImageCellController] = [] {
+    private var tableModel: [FeedImageCellController] = [] {
         didSet {
             tableView.reloadData()
         }
     }
+    public var delegate: FeedViewControllerDelegate?
 
     private var onViewIsAppearing: (() -> Void)?
 
@@ -54,6 +53,10 @@ public final class FeedViewController: UITableViewController {
 
     public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cancelCellControllerLoad(forRowAt: indexPath)
+    }
+
+    public func display(_ cellControllers: [FeedImageCellController]) {
+        tableModel = cellControllers
     }
 
     private func cellController(forRowAt indexPath: IndexPath) -> FeedImageCellController {
