@@ -11,6 +11,7 @@
 		7361E3CC2AFA8F5B0099C351 /* Feed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7361E3CA2AFA8F5B0099C351 /* Feed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7361E3CF2AFA8F600099C351 /* FeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7361E3CE2AFA8F600099C351 /* FeediOS.framework */; };
 		7361E3D02AFA8F600099C351 /* FeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7361E3CE2AFA8F600099C351 /* FeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7361E3D22AFBA0400099C351 /* DebuggingSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7361E3D12AFBA0400099C351 /* DebuggingSceneDelegate.swift */; };
 		73882BF72AF4F341002BADFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BF62AF4F341002BADFE /* AppDelegate.swift */; };
 		73882BF92AF4F341002BADFE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BF82AF4F341002BADFE /* SceneDelegate.swift */; };
 		73882BFB2AF4F341002BADFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BFA2AF4F341002BADFE /* ViewController.swift */; };
@@ -85,6 +86,7 @@
 /* Begin PBXFileReference section */
 		7361E3CA2AFA8F5B0099C351 /* Feed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Feed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7361E3CE2AFA8F600099C351 /* FeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7361E3D12AFBA0400099C351 /* DebuggingSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebuggingSceneDelegate.swift; sourceTree = "<group>"; };
 		73882BF32AF4F341002BADFE /* EssentialApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EssentialApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73882BF62AF4F341002BADFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		73882BF82AF4F341002BADFE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				73882BF62AF4F341002BADFE /* AppDelegate.swift */,
+				7361E3D12AFBA0400099C351 /* DebuggingSceneDelegate.swift */,
 				73B2E9E72AF80E810097DBFB /* FeedImageDataLoaderCacheDecorator.swift */,
 				73B2E9CE2AF6A3BB0097DBFB /* FeedImageDataLoaderWithFallbackComposite.swift */,
 				73B2E9DD2AF809350097DBFB /* FeedLoaderCacheDecorator.swift */,
@@ -363,6 +366,7 @@
 				73882BF72AF4F341002BADFE /* AppDelegate.swift in Sources */,
 				73B2E9CB2AF6961D0097DBFB /* FeedLoaderWithFallbackComposite.swift in Sources */,
 				73B2E9DE2AF809350097DBFB /* FeedLoaderCacheDecorator.swift in Sources */,
+				7361E3D22AFBA0400099C351 /* DebuggingSceneDelegate.swift in Sources */,
 				73882BF92AF4F341002BADFE /* SceneDelegate.swift in Sources */,
 				73B2E9CF2AF6A3BB0097DBFB /* FeedImageDataLoaderWithFallbackComposite.swift in Sources */,
 				73B2E9E82AF80E810097DBFB /* FeedImageDataLoaderCacheDecorator.swift in Sources */,
