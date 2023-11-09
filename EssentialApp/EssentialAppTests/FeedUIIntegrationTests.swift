@@ -5,6 +5,7 @@
 //  Created by Juan Santiago Martín Balbás on 6/10/23.
 //
 
+import EssentialApp
 import Feed
 import FeediOS
 import Foundation
