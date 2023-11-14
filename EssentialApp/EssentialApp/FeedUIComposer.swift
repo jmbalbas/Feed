@@ -5,15 +5,14 @@
 //  Created by Juan Santiago Martín Balbás on 14/10/23.
 //
 
+import Combine
 import Feed
 import FeediOS
 import UIKit
 
 public enum FeedUIComposer {
-    public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader) -> FeedViewController {
-        let presentationAdapter = FeedLoaderPresentationAdapter(
-            feedLoader: MainQueueDispatchDecorator(decoratee: feedLoader)
-        )
+    public static func feedComposedWith(feedLoader: FeedLoader.Publisher, imageLoader: FeedImageDataLoader) -> FeedViewController {
+        let presentationAdapter = FeedLoaderPresentationAdapter(feedLoader: feedLoader.dispatchOnMainQueue())
 
         let feedController = makeFeedViewController(delegate: presentationAdapter, title: FeedPresenter.title)
 
