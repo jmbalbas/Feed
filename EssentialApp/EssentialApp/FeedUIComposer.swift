@@ -15,15 +15,12 @@ public enum FeedUIComposer {
         feedLoader: @escaping () -> FeedLoader.Publisher,
         imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher
     ) -> FeedViewController {
-        let presentationAdapter = FeedLoaderPresentationAdapter(feedLoader: feedLoader().dispatchOnMainQueue())
+        let presentationAdapter = FeedLoaderPresentationAdapter(feedLoader: feedLoader)
 
         let feedController = makeFeedViewController(delegate: presentationAdapter, title: FeedPresenter.title)
 
         let feedPresenter = FeedPresenter(
-            feedView: FeedViewAdapter(
-                controller: feedController,
-                imageLoader: { imageLoader($0).dispatchOnMainQueue() }
-            ),
+            feedView: FeedViewAdapter(controller: feedController, imageLoader: imageLoader),
             loadingView: WeakRefVirtualProxy(feedController),
             errorView: WeakRefVirtualProxy(feedController)
         )
