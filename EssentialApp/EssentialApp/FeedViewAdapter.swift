@@ -5,24 +5,25 @@
 //  Created by Juan Santiago Martín Balbás on 22/10/23.
 //
 
+import Combine
 import Feed
 import FeediOS
 import UIKit
 
 final class FeedViewAdapter: FeedView {
     private weak var controller: FeedViewController?
-    private let loader: FeedImageDataLoader
+    private let imageLoader: (URL) -> FeedImageDataLoader.Publisher
 
-    init(controller: FeedViewController?, loader: FeedImageDataLoader) {
+    init(controller: FeedViewController?, imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher) {
         self.controller = controller
-        self.loader = loader
+        self.imageLoader = imageLoader
     }
 
     func display(_ viewModel: FeedViewModel) {
         controller?.display(viewModel.feed.map { model in
             let adapter = FeedImageDataLoaderPresentationAdapter<WeakRefVirtualProxy<FeedImageCellController>, UIImage>(
                 model: model,
-                imageLoader: loader
+                imageLoader: imageLoader
             )
             let view = FeedImageCellController(delegate: adapter)
 

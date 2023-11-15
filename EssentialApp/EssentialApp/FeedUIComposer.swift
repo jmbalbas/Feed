@@ -11,15 +11,18 @@ import FeediOS
 import UIKit
 
 public enum FeedUIComposer {
-    public static func feedComposedWith(feedLoader: FeedLoader.Publisher, imageLoader: FeedImageDataLoader) -> FeedViewController {
-        let presentationAdapter = FeedLoaderPresentationAdapter(feedLoader: feedLoader.dispatchOnMainQueue())
+    public static func feedComposedWith(
+        feedLoader: @escaping () -> FeedLoader.Publisher,
+        imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher
+    ) -> FeedViewController {
+        let presentationAdapter = FeedLoaderPresentationAdapter(feedLoader: feedLoader().dispatchOnMainQueue())
 
         let feedController = makeFeedViewController(delegate: presentationAdapter, title: FeedPresenter.title)
 
         let feedPresenter = FeedPresenter(
             feedView: FeedViewAdapter(
                 controller: feedController,
-                loader: MainQueueDispatchDecorator(decoratee: imageLoader)
+                imageLoader: { imageLoader($0).dispatchOnMainQueue() }
             ),
             loadingView: WeakRefVirtualProxy(feedController),
             errorView: WeakRefVirtualProxy(feedController)
