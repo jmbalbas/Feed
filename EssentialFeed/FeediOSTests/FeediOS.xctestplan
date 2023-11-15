@@ -1,28 +1,19 @@
 {
   "configurations" : [
     {
-      "id" : "FE7FFB47-63F7-4132-9444-692437A14A39",
-      "name" : "Test Scheme Action",
+      "id" : "36DB7C93-0FF5-453B-82C6-2F145DC53DA2",
+      "name" : "Configuration 1",
       "options" : {
 
       }
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : {
-      "targets" : [
-        {
-          "containerPath" : "container:Feed.xcodeproj",
-          "identifier" : "7377A9BF2ACB516500CEA604",
-          "name" : "FeediOS"
-        }
-      ]
-    },
-    "testExecutionOrdering" : "random"
+    "testExecutionOrdering" : "random",
+    "testTimeoutsEnabled" : true
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:Feed.xcodeproj",
         "identifier" : "7377A9C82ACB516500CEA604",
