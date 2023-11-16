@@ -13,9 +13,13 @@ enum ImageCommentsMapper {
     }
 
     static func map(_ data: Data, from response: HTTPURLResponse) throws -> [RemoteFeedItem] {
-        guard response.isOK, let feed = try? JSONDecoder().decode(Root.self, from: data).items else {
+        guard isOK(response), let feed = try? JSONDecoder().decode(Root.self, from: data).items else {
             throw RemoteImageCommentsLoader.Errors.invalidData
         }
         return feed
+    }
+
+    private static func isOK(_ response: HTTPURLResponse) -> Bool {
+        (200...299).contains(response.statusCode)
     }
 }
