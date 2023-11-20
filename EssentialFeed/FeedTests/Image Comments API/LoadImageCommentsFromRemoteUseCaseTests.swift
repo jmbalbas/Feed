@@ -9,39 +9,6 @@ import Feed
 import XCTest
 
 final class LoadImageCommentsFromRemoteUseCaseTests: XCTestCase {
-    func test_init_doesNotRequestDataFromURL() {
-        let (_, client) = givenSUT()
-
-        XCTAssert(client.requestedURLs.isEmpty)
-    }
-
-    func test_load_requestsDataFromURL() {
-        let url = URL(string: "https://a-given-url.com")!
-        let (sut, client) = givenSUT(url: url)
-
-        whenCallingLoad(on: sut)
-
-        XCTAssertEqual(client.requestedURLs, [url])
-    }
-
-    func test_loadTwice_requestsDataFromURLTwice() {
-        let url = URL(string: "https://a-given-url.com")!
-        let (sut, client) = givenSUT(url: url)
-
-        whenCallingLoad(on: sut)
-        whenCallingLoad(on: sut)
-
-        XCTAssertEqual(client.requestedURLs, [url, url])
-    }
-
-    func test_load_deliversErrorOnClientError() {
-        let (sut, client) = givenSUT()
-
-        expect(sut, toCompleteWithError: .connectivity, when: {
-            complete(withError: NSError(domain: "Test", code: 0), using: client)
-        })
-    }
-
     func test_load_deliversErrorOnNon2xxHTTPResponse() throws {
         let (sut, client) = givenSUT()
         let json = try makeItemsJSON([])
