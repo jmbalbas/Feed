@@ -37,72 +37,52 @@ final class RemoteLoaderTests: XCTestCase {
     func test_load_deliversErrorOnClientError() {
         let (sut, client) = givenSUT()
 
-        expect(sut, toCompleteWithError: .connectivity, when: {
+        expect(sut, toCompleteWith: failure(.connectivity), when: {
             complete(withError: NSError(domain: "Test", code: 0), using: client)
         })
     }
 
-    func test_load_deliversErrorOnNon200HTTPResponse() throws {
-        let (sut, client) = givenSUT()
-        let json = try makeItemsJSON([])
 
-        for (index, code) in [199, 201, 300, 400, 500].enumerated() {
-            expect(sut, toCompleteWithError: .invalidData, when: {
-                complete(withStatusCode: code, data: json, using: client, at: index)
-            })
-        }
-    }
-
-    func test_load_deliversErrorOn200HTTPResponseWithInvalidJSON() {
-        let (sut, client) = givenSUT()
+    func test_load_deliversErrorOnMapperError() {
+        let (sut, client) = givenSUT(mapper: { _, _ in
+            throw anyNSError
+        })
         let invalidJSON = Data("Invalid json".utf8)
 
-        expect(sut, toCompleteWithError: .invalidData, when: {
-            complete(withStatusCode: 200, data: invalidJSON, using: client)
+        expect(sut, toCompleteWith: failure(.invalidData), when: {
+            complete(withStatusCode: 200, data: anyData, using: client)
         })
     }
 
-    func test_load_deliversNoItemsOn200HTTPResponseWithEmptyJSONList() throws {
-        let (sut, client) = givenSUT()
-        let emptyListJSON = try makeItemsJSON([])
+    func test_load_deliversMappedResource() throws {
+        let resource = "A resource"
+        let (sut, client) = givenSUT(mapper: { data, _ in
+            String(data: data, encoding: .utf8)!
+        })
 
-        expect(sut, toCompleteWithItems: [], when: {
-            complete(withStatusCode: 200, data: emptyListJSON, using: client)
+        expect(sut, toCompleteWith: .success(resource), when: {
+            complete(withStatusCode: 200, data: Data(resource.utf8), using: client)
         })
     }
-
-    func test_load_deliversItemsOn200HTTPResponseWithJSONItems() throws {
-        let (sut, client) = givenSUT()
-
-        let item1 = makeItem(id: UUID(), imageURL: URL(string: "http://a-url.com")!)
-        let item2 = makeItem(id: UUID(), description: "A description", location: "A location", imageURL: URL(string: "http://another-url.com")!)
-        let items = [item1, item2].map(\.model)
-        let json = try makeItemsJSON([item1, item2].map(\.json))
-
-        expect(sut, toCompleteWithItems: items, when: {
-            complete(withStatusCode: 200, data: json, using: client)
-        })
-    }
-
 }
 
 // MARK: - Helpers
 
 private extension RemoteLoaderTests {
-
     func givenSUT(
         url: URL = URL(string: "https://a-url.com")!,
+        mapper: @escaping RemoteLoader<String>.Mapper = { _, _ in "any" },
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (sut: RemoteLoader, client: HTTPClientSpy) {
+    ) -> (sut: RemoteLoader<String>, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
-        let sut = RemoteLoader(client: client, url: url)
+        let sut = RemoteLoader<String>(client: client, url: url, mapper: mapper)
         trackForMemoryLeaks(client, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, client)
     }
 
-    func whenCallingLoad(on sut: RemoteLoader, completion: @escaping (FeedLoader.Result) -> Void = { _ in }) {
+    func whenCallingLoad(on sut: RemoteLoader<String>, completion: @escaping (RemoteLoader<String>.Result) -> Void = { _ in }) {
         sut.load(completion: completion)
     }
 
@@ -114,43 +94,36 @@ private extension RemoteLoaderTests {
         client.complete(withStatusCode: code, data: data, at: index)
     }
 
-    func expect(
-        _ sut: RemoteLoader,
-        toCompleteWithItems expectedItems: [FeedImage],
-        when action: () -> Void,
-        line: UInt = #line
-    ) {
-        let exp = expectation(description: "Wait for load completion")
-        whenCallingLoad(on: sut) { receivedResult in
-            switch receivedResult {
-            case let .success(receivedItems):
-                XCTAssertEqual(receivedItems, expectedItems, line: line)
-            default:
-                XCTFail("Expected items \(expectedItems) got \(receivedResult) instead", line: line)
-            }
-            exp.fulfill()
-        }
-        action()
-        wait(for: [exp], timeout: 1.0)
+    func failure(_ error: RemoteLoader<String>.Errors) -> RemoteLoader<String>.Result {
+        .failure(error)
     }
 
     func expect(
-        _ sut: RemoteLoader,
-        toCompleteWithError expectedError: RemoteLoader.Errors,
+        _ sut: RemoteLoader<String>,
+        toCompleteWith expectedResult: RemoteLoader<String>.Result,
         when action: () -> Void,
+        file: StaticString = #file,
         line: UInt = #line
-    )  {
+    ) {
         let exp = expectation(description: "Wait for load completion")
-        whenCallingLoad(on: sut) { receivedResult in
-            switch receivedResult {
-            case let .failure(error):
-                XCTAssertEqual(error as? RemoteLoader.Errors, expectedError, line: line)
+
+        sut.load { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedItems), .success(expectedItems)):
+                XCTAssertEqual(receivedItems, expectedItems, file: file, line: line)
+
+            case let (.failure(receivedError as RemoteLoader<String>.Errors), .failure(expectedError as RemoteLoader<String>.Errors)):
+                XCTAssertEqual(receivedError, expectedError, file: file, line: line)
+
             default:
-                XCTFail("Expected error \(expectedError) got \(receivedResult) instead", line: line)
+                XCTFail("Expected result \(expectedResult) got \(receivedResult) instead", file: file, line: line)
             }
+
             exp.fulfill()
         }
+
         action()
+
         wait(for: [exp], timeout: 1.0)
     }
 
