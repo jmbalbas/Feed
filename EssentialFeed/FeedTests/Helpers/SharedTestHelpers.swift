@@ -18,3 +18,13 @@ var anyURL: URL {
 var anyData: Data {
     Data("any data".utf8)
 }
+
+func makeItemsJSON(_ items: [[String: Any]]) throws -> Data {
+    try JSONSerialization.data(withJSONObject: ["items": items])
+}
+
+extension HTTPURLResponse {
+    convenience init(statusCode: Int) {
+        self.init(url: anyURL, statusCode: statusCode, httpVersion: nil, headerFields: nil)!
+    }
+}

@@ -54,14 +54,4 @@ private extension FeedItemsMapperTests {
         ].compactMapValues { $0 }
         return (model: item, json: json)
     }
-
-    func makeItemsJSON(_ items: [[String: Any]]) throws -> Data {
-        try JSONSerialization.data(withJSONObject: ["items": items])
-    }
-}
-
-private extension HTTPURLResponse {
-    convenience init(statusCode: Int) {
-        self.init(url: anyURL, statusCode: statusCode, httpVersion: nil, headerFields: nil)!
-    }
 }
