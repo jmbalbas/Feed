@@ -47,7 +47,6 @@ final class RemoteLoaderTests: XCTestCase {
         let (sut, client) = givenSUT(mapper: { _, _ in
             throw anyNSError
         })
-        let invalidJSON = Data("Invalid json".utf8)
 
         expect(sut, toCompleteWith: failure(.invalidData), when: {
             complete(withStatusCode: 200, data: anyData, using: client)
