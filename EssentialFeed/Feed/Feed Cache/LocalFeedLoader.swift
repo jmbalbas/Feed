@@ -52,7 +52,7 @@ extension LocalFeedLoader: FeedCache {
     }
 }
 
-extension LocalFeedLoader: FeedLoader {
+extension LocalFeedLoader {
     public func load() async throws -> [FeedImage] {
         try await withCheckedThrowingContinuation { continuation in
             load(completion: continuation.resume(with:))
@@ -61,7 +61,9 @@ extension LocalFeedLoader: FeedLoader {
 }
 
 extension LocalFeedLoader {
-    public func load(completion: @escaping (FeedLoader.Result) -> Void) {
+    public typealias LoadResult = Result<[FeedImage], Error>
+
+    public func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self else { return }
             switch result {
