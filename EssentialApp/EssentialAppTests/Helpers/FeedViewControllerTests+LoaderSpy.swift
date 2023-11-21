@@ -5,30 +5,33 @@
 //  Created by Juan Santiago Martín Balbás on 14/10/23.
 //
 
+import Combine
 import Feed
 import FeediOS
 import Foundation
 
 extension FeedUIIntegrationTests {
-    class LoaderSpy: FeedLoader, FeedImageDataLoader {
+    class LoaderSpy: FeedImageDataLoader {
         // MARK: - FeedLoader
-        private var feedRequests: [(Result<[FeedImage], Error>) -> Void] = []
+        private var feedRequests: [PassthroughSubject<[FeedImage], Error>] = []
 
         var loadFeedCallCount: Int {
             feedRequests.count
         }
 
-        func load(completion: @escaping (Result<[FeedImage], Error>) -> Void) {
-            feedRequests.append(completion)
+        func loadPublisher() -> AnyPublisher<[FeedImage], Error> {
+            let publisher = PassthroughSubject<[FeedImage], Error>()
+            feedRequests.append(publisher)
+            return publisher.eraseToAnyPublisher()
         }
 
         func completeFeedLoading(with feed: [FeedImage] = [], at index: Int = 0) {
-            feedRequests[index](.success(feed))
+            feedRequests[index].send(feed)
         }
 
         func completeFeedLoadingWithError(at index: Int) {
             let error = NSError(domain: "An error", code: 0)
-            feedRequests[index](.failure(error))
+            feedRequests[index].send(completion: .failure(error))
         }
 
         // MARK: - ImageLoader
