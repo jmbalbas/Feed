@@ -14,7 +14,7 @@
 		7361E3D42AFBB8420099C351 /* SceneDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7361E3D32AFBB8420099C351 /* SceneDelegateTests.swift */; };
 		7361E3DB2AFBBBA30099C351 /* FeedImageDataLoaderPresentationAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7361E3D52AFBBBA30099C351 /* FeedImageDataLoaderPresentationAdapter.swift */; };
 		7361E3DC2AFBBBA30099C351 /* FeedViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7361E3D62AFBBBA30099C351 /* FeedViewAdapter.swift */; };
-		7361E3DD2AFBBBA30099C351 /* FeedLoaderPresentationAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7361E3D82AFBBBA30099C351 /* FeedLoaderPresentationAdapter.swift */; };
+		7361E3DD2AFBBBA30099C351 /* LoadResourcePresentationAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7361E3D82AFBBBA30099C351 /* LoadResourcePresentationAdapter.swift */; };
 		7361E3DE2AFBBBA30099C351 /* MainQueueDispatchDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7361E3D72AFBBBA30099C351 /* MainQueueDispatchDecorator.swift */; };
 		7361E3DF2AFBBBA30099C351 /* WeakRefVirtualProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7361E3DA2AFBBBA30099C351 /* WeakRefVirtualProxy.swift */; };
 		7361E3E02AFBBBA30099C351 /* FeedUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7361E3D92AFBBBA30099C351 /* FeedUIComposer.swift */; };
@@ -89,7 +89,7 @@
 		7361E3D52AFBBBA30099C351 /* FeedImageDataLoaderPresentationAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataLoaderPresentationAdapter.swift; sourceTree = "<group>"; };
 		7361E3D62AFBBBA30099C351 /* FeedViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewAdapter.swift; sourceTree = "<group>"; };
 		7361E3D72AFBBBA30099C351 /* MainQueueDispatchDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueDispatchDecorator.swift; sourceTree = "<group>"; };
-		7361E3D82AFBBBA30099C351 /* FeedLoaderPresentationAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderPresentationAdapter.swift; sourceTree = "<group>"; };
+		7361E3D82AFBBBA30099C351 /* LoadResourcePresentationAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadResourcePresentationAdapter.swift; sourceTree = "<group>"; };
 		7361E3D92AFBBBA30099C351 /* FeedUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUIComposer.swift; sourceTree = "<group>"; };
 		7361E3DA2AFBBBA30099C351 /* WeakRefVirtualProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakRefVirtualProxy.swift; sourceTree = "<group>"; };
 		7361E3E12AFBBBE00099C351 /* FeedUIIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUIIntegrationTests.swift; sourceTree = "<group>"; };
@@ -169,9 +169,9 @@
 				73882BF62AF4F341002BADFE /* AppDelegate.swift */,
 				7361E4092B04DA960099C351 /* CombineHelpers.swift */,
 				7361E3D52AFBBBA30099C351 /* FeedImageDataLoaderPresentationAdapter.swift */,
-				7361E3D82AFBBBA30099C351 /* FeedLoaderPresentationAdapter.swift */,
 				7361E3D92AFBBBA30099C351 /* FeedUIComposer.swift */,
 				7361E3D62AFBBBA30099C351 /* FeedViewAdapter.swift */,
+				7361E3D82AFBBBA30099C351 /* LoadResourcePresentationAdapter.swift */,
 				7361E3D72AFBBBA30099C351 /* MainQueueDispatchDecorator.swift */,
 				73882BF82AF4F341002BADFE /* SceneDelegate.swift */,
 				73882BFA2AF4F341002BADFE /* ViewController.swift */,
@@ -335,7 +335,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7361E3DD2AFBBBA30099C351 /* FeedLoaderPresentationAdapter.swift in Sources */,
+				7361E3DD2AFBBBA30099C351 /* LoadResourcePresentationAdapter.swift in Sources */,
 				73882BFB2AF4F341002BADFE /* ViewController.swift in Sources */,
 				73882BF72AF4F341002BADFE /* AppDelegate.swift in Sources */,
 				7361E40A2B04DA960099C351 /* CombineHelpers.swift in Sources */,
