@@ -73,7 +73,7 @@ private extension FeedPresenterTests {
     }
 }
 
-private class ViewSpy: FeedView, FeedLoadingView, FeedErrorView {
+private class ViewSpy: FeedView, ResourceLoadingView, FeedErrorView {
     enum Message: Hashable {
         case display(errorMessage: String?)
         case display(isLoading: Bool)
@@ -82,7 +82,7 @@ private class ViewSpy: FeedView, FeedLoadingView, FeedErrorView {
 
     private(set) var messages = Set<Message>()
 
-    func display(_ viewModel: FeedLoadingViewModel) {
+    func display(_ viewModel: ResourceLoadingViewModel) {
         messages.insert(.display(isLoading: viewModel.isLoading))
     }
 
