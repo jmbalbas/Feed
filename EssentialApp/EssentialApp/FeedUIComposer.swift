@@ -19,10 +19,11 @@ public enum FeedUIComposer {
 
         let feedController = makeFeedViewController(delegate: presentationAdapter, title: FeedPresenter.title)
 
-        let feedPresenter = FeedPresenter(
-            feedView: FeedViewAdapter(controller: feedController, imageLoader: imageLoader),
+        let feedPresenter = LoadResourcePresenter(
+            resourceView: FeedViewAdapter(controller: feedController, imageLoader: imageLoader),
             loadingView: WeakRefVirtualProxy(feedController),
-            errorView: WeakRefVirtualProxy(feedController)
+            errorView: WeakRefVirtualProxy(feedController),
+            mapper: FeedPresenter.map
         )
         presentationAdapter.presenter = feedPresenter
         return feedController
