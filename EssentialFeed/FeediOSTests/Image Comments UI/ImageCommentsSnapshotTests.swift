@@ -22,6 +22,10 @@ final class ImageCommentsSnapshotTests: XCTestCase {
 
 private extension ImageCommentsSnapshotTests {
     var comments: [CellController] {
+        commentControllers.map(CellController.init)
+    }
+
+    var commentControllers: [ImageCommentCellController] {
         [
             ImageCommentCellController(
                 model: ImageCommentViewModel(
