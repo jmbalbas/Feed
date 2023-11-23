@@ -1,0 +1,9 @@
+/* 
+  Shared.strings
+  Feed
+
+  Created by Juan Santiago Martín Balbás on 22/11/23.
+  
+*/
+
+"GENERIC_CONNECTION_ERROR" = "Imposible conectar con el servidor";
