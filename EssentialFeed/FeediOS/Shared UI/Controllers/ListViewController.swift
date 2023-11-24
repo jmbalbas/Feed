@@ -23,6 +23,7 @@ public final class ListViewController: UITableViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
+        dataSource.defaultRowAnimation = .fade
         tableView.dataSource = dataSource
 
         onViewIsAppearing = { [weak self] in
