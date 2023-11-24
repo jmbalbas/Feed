@@ -23,6 +23,10 @@ extension ListViewController {
         refreshControl?.isRefreshing == true
     }
 
+    func simulateErrorViewTap() {
+        errorView.simulateTap()
+    }
+
     var errorMessage: String? {
         errorView.message
     }
