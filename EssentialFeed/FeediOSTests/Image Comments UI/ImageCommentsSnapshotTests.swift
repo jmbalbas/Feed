@@ -22,7 +22,7 @@ final class ImageCommentsSnapshotTests: XCTestCase {
 
 private extension ImageCommentsSnapshotTests {
     var comments: [CellController] {
-        commentControllers.map(CellController.init)
+        commentControllers.map { CellController(id: UUID(), $0) }
     }
 
     var commentControllers: [ImageCommentCellController] {
