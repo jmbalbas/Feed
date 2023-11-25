@@ -11,7 +11,7 @@ import XCTest
 
 extension FeedUIIntegrationTests {
     func assertThat(
-        _ sut: FeedViewController,
+        _ sut: ListViewController,
         isRendering feed: [FeedImage],
         file: StaticString = #file,
         line: UInt = #line
@@ -26,7 +26,7 @@ extension FeedUIIntegrationTests {
     }
 
     func assertThat(
-        _ sut: FeedViewController,
+        _ sut: ListViewController,
         hasViewConfiguredFor image: FeedImage,
         at index: Int,
         file: StaticString = #file,
