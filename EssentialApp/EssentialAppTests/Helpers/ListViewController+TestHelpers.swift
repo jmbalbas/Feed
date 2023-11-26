@@ -36,11 +36,24 @@ extension ListViewController {
     var errorMessage: String? {
         errorView.message
     }
+
+    func numberOfRows(in section: Int) -> Int {
+        tableView.numberOfSections > section ? tableView.numberOfRows(inSection: section) : 0
+    }
+
+    func cell(row: Int, section: Int) -> UITableViewCell? {
+        guard numberOfRows(in: section) > row else {
+            return nil
+        }
+        let dataSource = tableView.dataSource
+        let index = IndexPath(row: row, section: section)
+        return dataSource?.tableView(tableView, cellForRowAt: index)
+    }
 }
 
 extension ListViewController {
     var numberOfRenderedComments: Int {
-        tableView.numberOfSections == 0 ? 0 :  tableView.numberOfRows(inSection: commentsSection)
+        numberOfRows(in: commentsSection)
     }
 
     func commentMessage(at row: Int) -> String? {
@@ -56,17 +69,10 @@ extension ListViewController {
     }
 
     private func commentView(at row: Int) -> ImageCommentCell? {
-        guard numberOfRenderedComments > row else {
-            return nil
-        }
-        let dataSource = tableView.dataSource
-        let index = IndexPath(row: row, section: commentsSection)
-        return dataSource?.tableView(tableView, cellForRowAt: index) as? ImageCommentCell
+        cell(row: row, section: commentsSection) as? ImageCommentCell
     }
 
-    private var commentsSection: Int {
-        0
-    }
+    private var commentsSection: Int { 0 }
 }
 
 extension ListViewController {
@@ -75,23 +81,17 @@ extension ListViewController {
     }
 
     var numberOfRenderedFeedImageViews: Int {
-        tableView.numberOfSections == 0 ? 0 :  tableView.numberOfRows(inSection: feedImagesSection)
+        numberOfRows(in: feedImagesSection)
     }
 
-    var feedImagesSection: Int {
-        0
-    }
+    private var feedImagesSection: Int { 0 }
 
     func renderedFeedImageData(at index: Int) -> Data? {
         simulateFeedImageViewVisible(at: index)?.renderedImage
     }
 
     func feedImageView(at row: Int) -> UITableViewCell? {
-        guard numberOfRenderedFeedImageViews > row else {
-            return nil
-        }
-        let indexPath = IndexPath(row: row, section: feedImagesSection)
-        return tableView.dataSource?.tableView(tableView, cellForRowAt: indexPath)
+        cell(row: row, section: feedImagesSection)
     }
 
     @discardableResult
