@@ -12,7 +12,7 @@ import Foundation
 import XCTest
 
 @MainActor
-final class FeedUIIntegrationTests: XCTestCase {
+class FeedUIIntegrationTests: XCTestCase {
     func test_feedView_hasTitle() {
         let (sut, _) = makeSUT()
         sut.simulateAppearance()
@@ -35,7 +35,7 @@ final class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.loadFeedCallCount, 3, "Expected a third loading request once user initiates another load")
     }
 
-    func test_loadingFeedIndicator_isVisibibleWhileLoadingFeed() {
+    func test_loadingFeedIndicator_isVisibleWhileLoadingFeed() {
         let (sut, loader) = makeSUT()
 
         sut.simulateAppearance()
