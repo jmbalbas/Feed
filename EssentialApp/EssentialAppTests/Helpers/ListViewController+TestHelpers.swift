@@ -36,7 +36,40 @@ extension ListViewController {
     var errorMessage: String? {
         errorView.message
     }
+}
 
+extension ListViewController {
+    var numberOfRenderedComments: Int {
+        tableView.numberOfSections == 0 ? 0 :  tableView.numberOfRows(inSection: commentsSection)
+    }
+
+    func commentMessage(at row: Int) -> String? {
+        commentView(at: row)?.messageLabel.text
+    }
+
+    func commentDate(at row: Int) -> String? {
+        commentView(at: row)?.dateLabel.text
+    }
+
+    func commentUsername(at row: Int) -> String? {
+        commentView(at: row)?.usernameLabel.text
+    }
+
+    private func commentView(at row: Int) -> ImageCommentCell? {
+        guard numberOfRenderedComments > row else {
+            return nil
+        }
+        let dataSource = tableView.dataSource
+        let index = IndexPath(row: row, section: commentsSection)
+        return dataSource?.tableView(tableView, cellForRowAt: index) as? ImageCommentCell
+    }
+
+    private var commentsSection: Int {
+        0
+    }
+}
+
+extension ListViewController {
     func simulateUserInitiatedReload() {
         refreshControl?.simulatePullToRefresh()
     }
