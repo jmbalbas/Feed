@@ -12,7 +12,8 @@ import FeediOS
 import Foundation
 import XCTest
 
-final class CommentsUIIntegrationTests: FeedUIIntegrationTests {
+@MainActor
+final class CommentsUIIntegrationTests: XCTestCase {
     func test_commentsView_hasTitle() {
         let (sut, _) = makeSUT()
 
@@ -47,7 +48,7 @@ final class CommentsUIIntegrationTests: FeedUIIntegrationTests {
         sut.simulateUserInitiatedReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiates a reload")
 
-        loader.completeFeedLoadingWithError(at: 1)
+        loader.completeCommentsLoadingWithError(at: 1)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading completes with error")
     }
 
@@ -89,10 +90,11 @@ final class CommentsUIIntegrationTests: FeedUIIntegrationTests {
         assertThat(sut, isRendering: [comment])
 
         sut.simulateUserInitiatedReload()
-        loader.completeFeedLoadingWithError(at: 1)
+        loader.completeCommentsLoadingWithError(at: 1)
         assertThat(sut, isRendering: [comment])
     }
 
+    
     func test_loadCommentsCompletion_dispatchesFromBackgroundToMainThread() async {
         let (sut, loader) = makeSUT()
         sut.simulateAppearance()
@@ -102,26 +104,26 @@ final class CommentsUIIntegrationTests: FeedUIIntegrationTests {
         }.value
     }
 
-    override func test_loadFeedCompletion_rendersErrorMessageOnErrorUntilNextReload() {
+    func test_loadCommentsCompletion_rendersErrorMessageOnErrorUntilNextReload() {
         let (sut, loader) = makeSUT()
 
         sut.simulateAppearance()
         XCTAssertEqual(sut.errorMessage, nil)
 
-        loader.completeFeedLoadingWithError(at: 0)
+        loader.completeCommentsLoadingWithError(at: 0)
         XCTAssertEqual(sut.errorMessage, loadError)
 
         sut.simulateUserInitiatedReload()
         XCTAssertEqual(sut.errorMessage, nil)
     }
 
-    override func test_tapOnErrorView_hidesErrorMessage() {
+    func test_tapOnErrorView_hidesErrorMessage() {
         let (sut, loader) = makeSUT()
 
         sut.simulateAppearance()
         XCTAssertEqual(sut.errorMessage, nil)
 
-        loader.completeFeedLoadingWithError(at: 0)
+        loader.completeCommentsLoadingWithError(at: 0)
         XCTAssertEqual(sut.errorMessage, loadError)
 
         sut.simulateErrorViewTap()
@@ -174,7 +176,7 @@ private extension CommentsUIIntegrationTests {
             requests[index].send(comments)
         }
 
-        func completeFeedLoadingWithError(at index: Int = 0) {
+        func completeCommentsLoadingWithError(at index: Int = 0) {
             let error = NSError(domain: "an error", code: 0)
             requests[index].send(completion: .failure(error))
         }
