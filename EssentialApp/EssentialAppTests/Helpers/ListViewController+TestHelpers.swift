@@ -1,5 +1,5 @@
 //
-//  FeedViewController+TestHelper.swift
+//  ListViewController+TestHelper.swift
 //  FeediOSTests
 //
 //  Created by Juan Santiago Martín Balbás on 14/10/23.
