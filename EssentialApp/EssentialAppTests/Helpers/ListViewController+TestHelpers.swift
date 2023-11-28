@@ -1,5 +1,5 @@
 //
-//  FeedViewController+TestHelper.swift
+//  ListViewController+TestHelper.swift
 //  FeediOSTests
 //
 //  Created by Juan Santiago Martín Balbás on 14/10/23.
@@ -37,28 +37,61 @@ extension ListViewController {
         errorView.message
     }
 
-    func simulateUserInitiatedFeedReload() {
+    func numberOfRows(in section: Int) -> Int {
+        tableView.numberOfSections > section ? tableView.numberOfRows(inSection: section) : 0
+    }
+
+    func cell(row: Int, section: Int) -> UITableViewCell? {
+        guard numberOfRows(in: section) > row else {
+            return nil
+        }
+        let dataSource = tableView.dataSource
+        let index = IndexPath(row: row, section: section)
+        return dataSource?.tableView(tableView, cellForRowAt: index)
+    }
+}
+
+extension ListViewController {
+    var numberOfRenderedComments: Int {
+        numberOfRows(in: commentsSection)
+    }
+
+    func commentMessage(at row: Int) -> String? {
+        commentView(at: row)?.messageLabel.text
+    }
+
+    func commentDate(at row: Int) -> String? {
+        commentView(at: row)?.dateLabel.text
+    }
+
+    func commentUsername(at row: Int) -> String? {
+        commentView(at: row)?.usernameLabel.text
+    }
+
+    private func commentView(at row: Int) -> ImageCommentCell? {
+        cell(row: row, section: commentsSection) as? ImageCommentCell
+    }
+
+    private var commentsSection: Int { 0 }
+}
+
+extension ListViewController {
+    func simulateUserInitiatedReload() {
         refreshControl?.simulatePullToRefresh()
     }
 
     var numberOfRenderedFeedImageViews: Int {
-        tableView.numberOfSections == 0 ? 0 :  tableView.numberOfRows(inSection: feedImagesSection)
+        numberOfRows(in: feedImagesSection)
     }
 
-    var feedImagesSection: Int {
-        0
-    }
+    private var feedImagesSection: Int { 0 }
 
     func renderedFeedImageData(at index: Int) -> Data? {
         simulateFeedImageViewVisible(at: index)?.renderedImage
     }
 
     func feedImageView(at row: Int) -> UITableViewCell? {
-        guard numberOfRenderedFeedImageViews > row else {
-            return nil
-        }
-        let indexPath = IndexPath(row: row, section: feedImagesSection)
-        return tableView.dataSource?.tableView(tableView, cellForRowAt: indexPath)
+        cell(row: row, section: feedImagesSection)
     }
 
     @discardableResult
@@ -85,6 +118,12 @@ extension ListViewController {
         tableView.delegate?.tableView?(tableView, didEndDisplaying: view, forRowAt: indexPath)
 
         return view
+    }
+
+    func simulateTapOnFeedImage(at row: Int) {
+        let delegate = tableView.delegate
+        let index = IndexPath(row: row, section: feedImagesSection)
+        delegate?.tableView?(tableView, didSelectRowAt: index)
     }
 
     func simulateFeedImageViewNearVisible(at row: Int) {
