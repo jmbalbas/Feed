@@ -30,8 +30,7 @@ public enum FeedUIComposer {
                 selection: selection
             ),
             loadingView: WeakRefVirtualProxy(feedController),
-            errorView: WeakRefVirtualProxy(feedController),
-            mapper: { $0 }
+            errorView: WeakRefVirtualProxy(feedController)
         )
         presentationAdapter.presenter = feedPresenter
         return feedController
