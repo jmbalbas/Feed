@@ -15,8 +15,8 @@ final class FeedAcceptanceTests: XCTestCase {
         let feed = launch(httpClient: .online(response), store: .empty)
 
         XCTAssertEqual(feed.numberOfRenderedFeedImageViews, 2)
-        XCTAssertEqual(feed.renderedFeedImageData(at: 0), makeImageData())
-        XCTAssertEqual(feed.renderedFeedImageData(at: 1), makeImageData())
+        XCTAssertEqual(feed.renderedFeedImageData(at: 0), makeImageData0())
+        XCTAssertEqual(feed.renderedFeedImageData(at: 1), makeImageData1())
     }
 
     func test_onLaunch_displaysCachedRemoteFeedWhenCustomerHasNoConnectivity() {
@@ -28,8 +28,8 @@ final class FeedAcceptanceTests: XCTestCase {
         let offlineFeed = launch(httpClient: .offline, store: sharedStore)
 
         XCTAssertEqual(offlineFeed.numberOfRenderedFeedImageViews, 2)
-        XCTAssertEqual(offlineFeed.renderedFeedImageData(at: 0), makeImageData())
-        XCTAssertEqual(offlineFeed.renderedFeedImageData(at: 1), makeImageData())
+        XCTAssertEqual(offlineFeed.renderedFeedImageData(at: 0), makeImageData0())
+        XCTAssertEqual(offlineFeed.renderedFeedImageData(at: 1), makeImageData1())
     }
 
     func test_onLaunch_displaysEmptyFeedWhenCustomerHasNoConnectivityAndNoCache() {
@@ -84,10 +84,10 @@ private extension FeedAcceptanceTests {
 
     func showCommentsForFirstImage() -> ListViewController {
         let feed = launch(httpClient: .online(response), store: .empty)
-        
+
         feed.simulateTapOnFeedImage(at: 0)
         RunLoop.current.run(until: Date())
-        
+
         let nav = feed.navigationController
         let vc = nav?.topViewController as! ListViewController
         vc.simulateAppearance()
@@ -101,8 +101,10 @@ private extension FeedAcceptanceTests {
 
     func makeData(for url: URL) -> Data {
         switch url.path {
-        case "/image-1", "/image-2":
-            makeImageData()
+        case "/image-0": 
+            makeImageData0()
+        case "/image-1": 
+            makeImageData1()
         case "/essential-feed/v1/feed":
             makeFeedData()
         case "/essential-feed/v1/image/2AB2AE66-A4B7-4A16-B374-51BBAC8DB086/comments":
@@ -112,16 +114,20 @@ private extension FeedAcceptanceTests {
         }
     }
 
-    func makeImageData() -> Data {
+    func makeImageData0() -> Data {
         UIImage.make(withColor: .red).pngData()!
+    }
+
+    func makeImageData1() -> Data {
+        UIImage.make(withColor: .green).pngData()!
     }
 
     func makeFeedData() -> Data {
         try! JSONSerialization.data(
             withJSONObject: [
                 "items": [
-                    ["id": "2AB2AE66-A4B7-4A16-B374-51BBAC8DB086", "image": "http://feed.com/image-1"],
-                    ["id": "A28F5FE3-27A7-44E9-8DF5-53742D0E4A5A", "image": "http://feed.com/image-2"]
+                    ["id": "2AB2AE66-A4B7-4A16-B374-51BBAC8DB086", "image": "http://feed.com/image-0"],
+                    ["id": "A28F5FE3-27A7-44E9-8DF5-53742D0E4A5A", "image": "http://feed.com/image-1"]
                 ]]
         )
     }
