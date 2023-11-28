@@ -51,7 +51,6 @@ private extension ImageCommentsSnapshotTests {
         ]
     }
 
-
     func makeSUT() -> ListViewController {
         let bundle = Bundle(for:  ListViewController.self)
         let storyboard = UIStoryboard(name: "ImageComments", bundle: bundle)

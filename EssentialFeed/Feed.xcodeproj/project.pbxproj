@@ -420,7 +420,6 @@
 				73793AB32B13ACD700567ECB /* FeedEndpoint.swift */,
 				7392F8B02B0D026900C3BA5E /* FeedImageDataMapper.swift */,
 				4AE2EBDF294669D600AACDC1 /* FeedItemsMapper.swift */,
-				73793AB52B13ACF000567ECB /* ImageCommentsEndpoint.swift */,
 			);
 			path = "Feed API";
 			sourceTree = "<group>";
@@ -617,6 +616,7 @@
 		7361E4192B091FCB0099C351 /* Image Comments API */ = {
 			isa = PBXGroup;
 			children = (
+				73793AB52B13ACF000567ECB /* ImageCommentsEndpoint.swift */,
 				7361E40F2B0690D50099C351 /* ImageCommentsMapper.swift */,
 			);
 			path = "Image Comments API";

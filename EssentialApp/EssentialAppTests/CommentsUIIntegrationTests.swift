@@ -93,7 +93,7 @@ final class CommentsUIIntegrationTests: XCTestCase {
         loader.completeCommentsLoadingWithError(at: 1)
         assertThat(sut, isRendering: [comment])
     }
-
+    
     
     func test_loadCommentsCompletion_dispatchesFromBackgroundToMainThread() async {
         let (sut, loader) = makeSUT()
@@ -200,8 +200,7 @@ private extension CommentsUIIntegrationTests {
         }
 
         func completeCommentsLoadingWithError(at index: Int = 0) {
-            let error = NSError(domain: "an error", code: 0)
-            requests[index].send(completion: .failure(error))
+            requests[index].send(completion: .failure(anyNSError))
         }
     }
 }

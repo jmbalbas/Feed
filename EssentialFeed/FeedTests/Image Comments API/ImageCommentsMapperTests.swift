@@ -29,7 +29,7 @@ final class ImageCommentsMapperTests: XCTestCase {
         let emptyListJSON = try makeItemsJSON([])
 
         try [200, 201, 250, 280, 299].forEach { code in
-            XCTAssertEqual(try ImageCommentsMapper.map(emptyListJSON, from: HTTPURLResponse(statusCode: 200)), [])
+            XCTAssertEqual(try ImageCommentsMapper.map(emptyListJSON, from: HTTPURLResponse(statusCode: code)), [])
         }
     }
 
@@ -50,7 +50,7 @@ final class ImageCommentsMapperTests: XCTestCase {
         let json = try makeItemsJSON([item1, item2].map(\.json))
 
         try [200, 201, 250, 280, 299].forEach { code in
-            XCTAssertEqual(try ImageCommentsMapper.map(json, from: HTTPURLResponse(statusCode: 200)), items)
+            XCTAssertEqual(try ImageCommentsMapper.map(json, from: HTTPURLResponse(statusCode: code)), items)
         }
     }
 
