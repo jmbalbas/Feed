@@ -132,6 +132,7 @@
 		73C8DBFF2B16105300459BD0 /* FEED_WITH_LOAD_MORE_ERROR_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C8DBFC2B16105300459BD0 /* FEED_WITH_LOAD_MORE_ERROR_dark.png */; };
 		73C8DC002B16105300459BD0 /* FEED_WITH_LOAD_MORE_ERROR_light.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C8DBFD2B16105300459BD0 /* FEED_WITH_LOAD_MORE_ERROR_light.png */; };
 		73C8DC012B16105300459BD0 /* FEED_WITH_LOAD_MORE_ERROR_extraExtraExtraLarge.png in Resources */ = {isa = PBXBuildFile; fileRef = 73C8DBFE2B16105300459BD0 /* FEED_WITH_LOAD_MORE_ERROR_extraExtraExtraLarge.png */; };
+		73C8DC032B1613F800459BD0 /* Paginated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C8DC022B1613F800459BD0 /* Paginated.swift */; };
 		73E14F932AD04F750055004C /* Feed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A0AE46F293BBF66009D95C1 /* Feed.framework */; platformFilter = ios; };
 		73E14F9B2AD053E50055004C /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A19ACC92955D7AF0007C25D /* XCTestCase+MemoryLeakTracking.swift */; };
 /* End PBXBuildFile section */
@@ -304,6 +305,7 @@
 		73C8DBFC2B16105300459BD0 /* FEED_WITH_LOAD_MORE_ERROR_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FEED_WITH_LOAD_MORE_ERROR_dark.png; sourceTree = "<group>"; };
 		73C8DBFD2B16105300459BD0 /* FEED_WITH_LOAD_MORE_ERROR_light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FEED_WITH_LOAD_MORE_ERROR_light.png; sourceTree = "<group>"; };
 		73C8DBFE2B16105300459BD0 /* FEED_WITH_LOAD_MORE_ERROR_extraExtraExtraLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FEED_WITH_LOAD_MORE_ERROR_extraExtraExtraLarge.png; sourceTree = "<group>"; };
+		73C8DC022B1613F800459BD0 /* Paginated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paginated.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -609,6 +611,7 @@
 			isa = PBXGroup;
 			children = (
 				4AE2EBDD2946697F00AACDC1 /* HTTPClient.swift */,
+				73C8DC022B1613F800459BD0 /* Paginated.swift */,
 			);
 			path = "Shared API";
 			sourceTree = "<group>";
@@ -1170,6 +1173,7 @@
 				7303D69B2AEE732E0072D254 /* FeedViewModel.swift in Sources */,
 				73882BD02AF3D3BE002BADFE /* ManagedFeedImage.swift in Sources */,
 				733E0ABB2AF3C26000C8D9BE /* CoreDataFeedStore.swift in Sources */,
+				73C8DC032B1613F800459BD0 /* Paginated.swift in Sources */,
 				73B2E9DC2AF805C80097DBFB /* FeedCache.swift in Sources */,
 				73793AB42B13ACD700567ECB /* FeedEndpoint.swift in Sources */,
 				73882BD52AF3EAAA002BADFE /* CoreDataFeedStore+FeedImageDataLoader.swift in Sources */,
