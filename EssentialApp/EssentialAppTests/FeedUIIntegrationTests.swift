@@ -135,12 +135,16 @@ class FeedUIIntegrationTests: XCTestCase {
         sut.simulateAppearance()
         try assertThat(sut, isRendering: [])
 
-        loader.completeFeedLoading(with: [image0], at: 0)
-        try assertThat(sut, isRendering: [image0])
+        loader.completeFeedLoading(with: [image0, image1], at: 0)
+        try assertThat(sut, isRendering: [image0, image1])
+
+        sut.simulateLoadMoreFeedAction()
+        loader.completeLoadMore(with: [image0, image1, image2, image3], at: 0)
+        try assertThat(sut, isRendering: [image0, image1, image2, image3])
 
         sut.simulateUserInitiatedReload()
-        loader.completeFeedLoading(with: [image0, image1, image2, image3], at: 1)
-        try assertThat(sut, isRendering: [image0, image1, image2, image3])
+        loader.completeFeedLoading(with: [image0, image1], at: 1)
+        try assertThat(sut, isRendering: [image0, image1])
     }
 
     func test_loadFeedCompletion_rendersSuccessfullyLoadedEmptyFeedAfterNonEmptyFeed() throws {
@@ -151,7 +155,11 @@ class FeedUIIntegrationTests: XCTestCase {
 
         sut.simulateAppearance()
 
-        loader.completeFeedLoading(with: [image0, image1], at: 0)
+        loader.completeFeedLoading(with: [image0], at: 0)
+        try assertThat(sut, isRendering: [image0])
+
+        sut.simulateLoadMoreFeedAction()
+        loader.completeLoadMore(with: [image0, image1], at: 0)
         try assertThat(sut, isRendering: [image0, image1])
 
         sut.simulateUserInitiatedReload()
@@ -170,6 +178,20 @@ class FeedUIIntegrationTests: XCTestCase {
         sut.simulateUserInitiatedReload()
         loader.completeFeedLoadingWithError(at: 1)
         try assertThat(sut, isRendering: [image0])
+        sut.simulateLoadMoreFeedAction()
+        loader.completeLoadMoreWithError(at: 0)
+        try assertThat(sut, isRendering: [image0])
+    }
+
+    func test_loadMoreCompletion_dispatchesFromBackgroundToMainThread() async {
+        let (sut, loader) = makeSUT()
+        sut.simulateAppearance()
+        loader.completeFeedLoading(at: 0)
+        sut.simulateLoadMoreFeedAction()
+
+        await Task.detached {
+            loader.completeLoadMore()
+        }.value
     }
 
     func test_loadFeedCompletion_rendersErrorMessageOnErrorUntilNextReload() {
