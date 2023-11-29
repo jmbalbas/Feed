@@ -162,6 +162,10 @@ extension ListViewController {
         loadMoreFeedCell?.message
     }
 
+    var canLoadMoreFeed: Bool {
+        loadMoreFeedCell != nil
+    }
+
     private var loadMoreFeedCell: LoadMoreCell? {
         cell(row: 0, section: feedLoadMoreSection) as? LoadMoreCell
     }
