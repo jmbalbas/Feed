@@ -321,16 +321,16 @@ class FeedUIIntegrationTests: XCTestCase {
 
         let view0 = try XCTUnwrap(sut.simulateFeedImageViewVisible(at: 0))
         let view1 = try XCTUnwrap(sut.simulateFeedImageViewVisible(at: 1))
-        XCTAssert(view0.isShowingImageLoadingIncator, "Expected loading indicator for first view while loading first image")
-        XCTAssert(view1.isShowingImageLoadingIncator, "Expected loading indicator for second view while loading second image")
+        XCTAssert(view0.isShowingImageLoadingIndicator, "Expected loading indicator for first view while loading first image")
+        XCTAssert(view1.isShowingImageLoadingIndicator, "Expected loading indicator for second view while loading second image")
 
         loader.completeImageLoading(at: 0)
-        XCTAssertFalse(view0.isShowingImageLoadingIncator, "Expected no loading indicator for first view once first image loading completes successfully")
-        XCTAssert(view1.isShowingImageLoadingIncator, "Expected no loading indicator state change for second view once first image loading completes successfully")
+        XCTAssertFalse(view0.isShowingImageLoadingIndicator, "Expected no loading indicator for first view once first image loading completes successfully")
+        XCTAssert(view1.isShowingImageLoadingIndicator, "Expected no loading indicator state change for second view once first image loading completes successfully")
 
         loader.completeImageLoadingWithError(at: 1)
-        XCTAssertFalse(view0.isShowingImageLoadingIncator, "Expected no loading indicator state change for first view once second image loading completes with error")
-        XCTAssertFalse(view1.isShowingImageLoadingIncator, "Expected no loading indicator for second view once second image loading completes with error")
+        XCTAssertFalse(view0.isShowingImageLoadingIndicator, "Expected no loading indicator state change for first view once second image loading completes with error")
+        XCTAssertFalse(view1.isShowingImageLoadingIndicator, "Expected no loading indicator for second view once second image loading completes with error")
     }
 
     func test_feedImageView_rendersImageLoadedFromURL() throws {
@@ -455,14 +455,14 @@ class FeedUIIntegrationTests: XCTestCase {
 
         XCTAssertNil(view0.renderedImage, "Expected no rendered image when view becomes visible again")
         XCTAssertFalse(view0.isShowingRetryAction, "Expected no retry action when view becomes visible again")
-        XCTAssert(view0.isShowingImageLoadingIncator, "Expected loading indicator when view becomes visible again")
+        XCTAssert(view0.isShowingImageLoadingIndicator, "Expected loading indicator when view becomes visible again")
 
         let imageData = try XCTUnwrap(UIImage.make(withColor: .red).pngData())
         loader.completeImageLoading(with: imageData, at: 1)
 
         XCTAssertEqual(view0.renderedImage, imageData, "Expected rendered image when image loads successfully after view becomes visible again")
         XCTAssertFalse(view0.isShowingRetryAction, "Expected no retry when image loads successfully after view becomes visible again")
-        XCTAssertFalse(view0.isShowingImageLoadingIncator, "Expected no loading indicator when image loads successfully after view becomes visible again")
+        XCTAssertFalse(view0.isShowingImageLoadingIndicator, "Expected no loading indicator when image loads successfully after view becomes visible again")
     }
     
     func test_feedImageView_doesNotShowDataFromPreviousRequestWhenCellIsReused() throws {
@@ -508,14 +508,14 @@ class FeedUIIntegrationTests: XCTestCase {
 
         XCTAssertNil(view0.renderedImage, "Expected no rendered image when view becomes visible while still preloading image")
         XCTAssertFalse(view0.isShowingRetryAction, "Expected no retry action when view becomes visible while still preloading image")
-        XCTAssert(view0.isShowingImageLoadingIncator, "Expected loading indicator when view becomes visible while still preloading image")
+        XCTAssert(view0.isShowingImageLoadingIndicator, "Expected loading indicator when view becomes visible while still preloading image")
 
         let imageData = UIImage.make(withColor: .red).pngData()!
         loader.completeImageLoading(with: imageData, at: 0)
 
         XCTAssertEqual(view0.renderedImage, imageData, "Expected rendered image after image preloads successfully")
         XCTAssertFalse(view0.isShowingRetryAction, "Expected no retry action after image preloads successfully")
-        XCTAssertFalse(view0.isShowingImageLoadingIncator, "Expected no loading indicator after image preloads successfully")
+        XCTAssertFalse(view0.isShowingImageLoadingIndicator, "Expected no loading indicator after image preloads successfully")
     }
 
     func test_feedImageView_doesNotRenderLoadedImageWhenNotVisibleAnymore() {
