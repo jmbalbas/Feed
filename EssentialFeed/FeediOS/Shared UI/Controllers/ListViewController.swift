@@ -18,16 +18,18 @@ public final class ListViewController: UITableViewController {
     }()
     public var onRefresh: (() -> Void)?
 
-    private var onViewIsAppearing: (() -> Void)?
+    private var onViewIsAppearing: ((ListViewController) -> Void)?
 
     public override func viewDidLoad() {
         super.viewDidLoad()
 
         configureTableView()
 
-        onViewIsAppearing = { [weak self] in
-            self?.refresh()
-            self?.onViewIsAppearing = nil
+        configureTraitCollectionObservers()
+
+        onViewIsAppearing = { vc in
+            vc.onViewIsAppearing = nil
+            vc.refresh()
         }
     }
 
@@ -40,7 +42,7 @@ public final class ListViewController: UITableViewController {
     public override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
 
-        onViewIsAppearing?()
+        onViewIsAppearing?(self)
     }
 
     @IBAction private func refresh() {
@@ -80,6 +82,12 @@ public final class ListViewController: UITableViewController {
             self?.tableView.beginUpdates()
             self?.tableView.sizeTableHeaderToFit()
             self?.tableView.endUpdates()
+        }
+    }
+
+    private func configureTraitCollectionObservers() {
+        registerForTraitChanges([UITraitPreferredContentSizeCategory.self]) { (self: Self, previous: UITraitCollection) in
+            self.tableView.reloadData()
         }
     }
 
