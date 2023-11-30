@@ -43,6 +43,7 @@
 		73B2E9C82AF563AC0097DBFB /* FeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73B2E9C42AF563AB0097DBFB /* FeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		73B2E9D22AF791F80097DBFB /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2E9D12AF791F80097DBFB /* XCTestCase+MemoryLeakTracking.swift */; };
 		73B2E9D42AF7A0A00097DBFB /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B2E9D32AF7A0A00097DBFB /* SharedTestHelpers.swift */; };
+		73C8DC052B18A25F00459BD0 /* NullStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C8DC042B18A25F00459BD0 /* NullStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,7 @@
 		73B2E9D12AF791F80097DBFB /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		73B2E9D32AF7A0A00097DBFB /* SharedTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestHelpers.swift; sourceTree = "<group>"; };
 		73B2E9EF2AF934410097DBFB /* EssentialAppUIAcceptanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialAppUIAcceptanceTests.swift; sourceTree = "<group>"; };
+		73C8DC042B18A25F00459BD0 /* NullStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NullStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +175,7 @@
 				7361E3D62AFBBBA30099C351 /* FeedViewAdapter.swift */,
 				7361E3D82AFBBBA30099C351 /* LoadResourcePresentationAdapter.swift */,
 				7361E3D72AFBBBA30099C351 /* MainQueueDispatchDecorator.swift */,
+				73C8DC042B18A25F00459BD0 /* NullStore.swift */,
 				73882BF82AF4F341002BADFE /* SceneDelegate.swift */,
 				73882BFA2AF4F341002BADFE /* ViewController.swift */,
 				7361E3DA2AFBBBA30099C351 /* WeakRefVirtualProxy.swift */,
@@ -345,6 +348,7 @@
 				7361E3DF2AFBBBA30099C351 /* WeakRefVirtualProxy.swift in Sources */,
 				7361E3E02AFBBBA30099C351 /* FeedUIComposer.swift in Sources */,
 				73793AB02B13A18600567ECB /* CommentsUIComposer.swift in Sources */,
+				73C8DC052B18A25F00459BD0 /* NullStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
