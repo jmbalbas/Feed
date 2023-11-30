@@ -497,6 +497,27 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(newView.renderedImage, imageData)
     }
 
+    func test_feedImageView_configuresViewCorrectlyWhenTransitioningFromNearVisibleToVisibleWhileStillPreloadingImage() throws {
+        let (sut, loader) = makeSUT()
+
+        sut.simulateAppearance()
+        loader.completeFeedLoading(with: [makeImage()])
+
+        sut.simulateFeedImageViewNearVisible(at: 0)
+        let view0 = try XCTUnwrap(sut.simulateFeedImageViewVisible(at: 0))
+
+        XCTAssertNil(view0.renderedImage, "Expected no rendered image when view becomes visible while still preloading image")
+        XCTAssertFalse(view0.isShowingRetryAction, "Expected no retry action when view becomes visible while still preloading image")
+        XCTAssert(view0.isShowingImageLoadingIncator, "Expected loading indicator when view becomes visible while still preloading image")
+
+        let imageData = UIImage.make(withColor: .red).pngData()!
+        loader.completeImageLoading(with: imageData, at: 0)
+
+        XCTAssertEqual(view0.renderedImage, imageData, "Expected rendered image after image preloads successfully")
+        XCTAssertFalse(view0.isShowingRetryAction, "Expected no retry action after image preloads successfully")
+        XCTAssertFalse(view0.isShowingImageLoadingIncator, "Expected no loading indicator after image preloads successfully")
+    }
+
     func test_feedImageView_doesNotRenderLoadedImageWhenNotVisibleAnymore() {
         let (sut, loader) = makeSUT()
         sut.simulateAppearance()
