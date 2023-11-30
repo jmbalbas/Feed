@@ -1,5 +1,5 @@
 //
-//  CoreDataFeedStore+FeedImageDataLoader.swift
+//  CoreDataFeedStore+FeedImageDataStore.swift
 //  Feed
 //
 //  Created by Juan Santiago Martín Balbás on 2/11/23.

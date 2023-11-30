@@ -101,7 +101,7 @@
 		73882BCE2AF3D3A9002BADFE /* ManagedCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BCD2AF3D3A9002BADFE /* ManagedCache.swift */; };
 		73882BD02AF3D3BE002BADFE /* ManagedFeedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BCF2AF3D3BE002BADFE /* ManagedFeedImage.swift */; };
 		73882BD22AF3E6D3002BADFE /* CoreDataFeedImageDataStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BD12AF3E6D3002BADFE /* CoreDataFeedImageDataStoreTests.swift */; };
-		73882BD52AF3EAAA002BADFE /* CoreDataFeedStore+FeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BD42AF3EAAA002BADFE /* CoreDataFeedStore+FeedImageDataLoader.swift */; };
+		73882BD52AF3EAAA002BADFE /* CoreDataFeedStore+FeedImageDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BD42AF3EAAA002BADFE /* CoreDataFeedStore+FeedImageDataStore.swift */; };
 		73882BD72AF3ED6E002BADFE /* CoreDataFeedStore+FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BD62AF3ED6E002BADFE /* CoreDataFeedStore+FeedStore.swift */; };
 		73882BDF2AF3F077002BADFE /* FeedCacheIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73882BDE2AF3F077002BADFE /* FeedCacheIntegrationTests.swift */; };
 		73882BE02AF3F077002BADFE /* Feed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A0AE46F293BBF66009D95C1 /* Feed.framework */; };
@@ -275,7 +275,7 @@
 		73882BCF2AF3D3BE002BADFE /* ManagedFeedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedFeedImage.swift; sourceTree = "<group>"; };
 		73882BD12AF3E6D3002BADFE /* CoreDataFeedImageDataStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataFeedImageDataStoreTests.swift; sourceTree = "<group>"; };
 		73882BD32AF3E97B002BADFE /* FeedStore2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FeedStore2.xcdatamodel; sourceTree = "<group>"; };
-		73882BD42AF3EAAA002BADFE /* CoreDataFeedStore+FeedImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataFeedStore+FeedImageDataLoader.swift"; sourceTree = "<group>"; };
+		73882BD42AF3EAAA002BADFE /* CoreDataFeedStore+FeedImageDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataFeedStore+FeedImageDataStore.swift"; sourceTree = "<group>"; };
 		73882BD62AF3ED6E002BADFE /* CoreDataFeedStore+FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataFeedStore+FeedStore.swift"; sourceTree = "<group>"; };
 		73882BDC2AF3F077002BADFE /* FeedCacheIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeedCacheIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		73882BDE2AF3F077002BADFE /* FeedCacheIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCacheIntegrationTests.swift; sourceTree = "<group>"; };
@@ -840,7 +840,7 @@
 			isa = PBXGroup;
 			children = (
 				733E0ABA2AF3C26000C8D9BE /* CoreDataFeedStore.swift */,
-				73882BD42AF3EAAA002BADFE /* CoreDataFeedStore+FeedImageDataLoader.swift */,
+				73882BD42AF3EAAA002BADFE /* CoreDataFeedStore+FeedImageDataStore.swift */,
 				73882BD62AF3ED6E002BADFE /* CoreDataFeedStore+FeedStore.swift */,
 				73882BCB2AF3D35B002BADFE /* CoreDataHelpers.swift */,
 				73882BC52AF3CB29002BADFE /* FeedStore.xcdatamodeld */,
@@ -1172,7 +1172,7 @@
 				73C8DC032B1613F800459BD0 /* Paginated.swift in Sources */,
 				73B2E9DC2AF805C80097DBFB /* FeedCache.swift in Sources */,
 				73793AB42B13ACD700567ECB /* FeedEndpoint.swift in Sources */,
-				73882BD52AF3EAAA002BADFE /* CoreDataFeedStore+FeedImageDataLoader.swift in Sources */,
+				73882BD52AF3EAAA002BADFE /* CoreDataFeedStore+FeedImageDataStore.swift in Sources */,
 				73B7E9862A920EF500ABE056 /* CodableFeedStore.swift in Sources */,
 				7361E4102B0690D50099C351 /* ImageCommentsMapper.swift in Sources */,
 				4AE2EBDE2946697F00AACDC1 /* HTTPClient.swift in Sources */,
