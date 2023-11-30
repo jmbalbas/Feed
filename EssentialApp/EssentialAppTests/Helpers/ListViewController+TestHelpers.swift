@@ -86,6 +86,8 @@ extension ListViewController {
 
     private var feedImagesSection: Int { 0 }
 
+    private var feedLoadMoreSection: Int { 1 }
+
     func renderedFeedImageData(at index: Int) -> Data? {
         simulateFeedImageViewVisible(at: index)?.renderedImage
     }
@@ -136,6 +138,36 @@ extension ListViewController {
 
         let index = IndexPath(row: row, section: feedImagesSection)
         tableView.prefetchDataSource?.tableView?(tableView, cancelPrefetchingForRowsAt: [index])
+    }
+
+    func simulateLoadMoreFeedAction() {
+        guard let view = loadMoreFeedCell else { return }
+
+        let delegate = tableView.delegate
+        let index = IndexPath(row: 0, section: feedLoadMoreSection)
+        delegate?.tableView?(tableView, willDisplay: view, forRowAt: index)
+    }
+
+    func simulateTapOnLoadMoreFeedError() {
+        let delegate = tableView.delegate
+        let index = IndexPath(row: 0, section: feedLoadMoreSection)
+        delegate?.tableView?(tableView, didSelectRowAt: index)
+    }
+
+    var isShowingLoadMoreFeedIndicator: Bool {
+        loadMoreFeedCell?.isLoading == true
+    }
+
+    var loadMoreFeedErrorMessage: String? {
+        loadMoreFeedCell?.message
+    }
+
+    var canLoadMoreFeed: Bool {
+        loadMoreFeedCell != nil
+    }
+
+    private var loadMoreFeedCell: LoadMoreCell? {
+        cell(row: 0, section: feedLoadMoreSection) as? LoadMoreCell
     }
 
     private func prepareForFirstAppearance() {
