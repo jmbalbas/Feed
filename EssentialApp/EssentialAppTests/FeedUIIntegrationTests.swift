@@ -38,10 +38,10 @@ class FeedUIIntegrationTests: XCTestCase {
 
     func test_loadFeedActions_requestFeedFromLoader() {
         let (sut, loader) = makeSUT()
-        XCTAssertEqual(loader.loadFeedCallCount, 0, "Expected no loading requests before view is loaded")
+        XCTAssertEqual(loader.loadFeedCallCount, 0, "Expected no loading requests before view appears")
 
         sut.simulateAppearance()
-        XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected a loading request once view is loaded")
+        XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected a loading request once view appears")
 
         sut.simulateUserInitiatedReload()
         XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected no request until previous completes")
@@ -55,11 +55,22 @@ class FeedUIIntegrationTests: XCTestCase {
         XCTAssertEqual(loader.loadFeedCallCount, 3, "Expected yet another loading request once user initiates another reload")
     }
 
+    func test_loadFeedActions_runsAutomaticallyOnlyOnFirstAppearance() {
+        let (sut, loader) = makeSUT()
+        XCTAssertEqual(loader.loadFeedCallCount, 0, "Expected no loading requests before view appears")
+
+        sut.simulateAppearance()
+        XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected a loading request once view appears")
+
+        sut.simulateAppearance()
+        XCTAssertEqual(loader.loadFeedCallCount, 1, "Expected no loading request the second time view appears")
+    }
+
     func test_loadingFeedIndicator_isVisibleWhileLoadingFeed() {
         let (sut, loader) = makeSUT()
 
         sut.simulateAppearance()
-        XCTAssert(sut.isShowingLoadingIndicator, "Expected loading indicator once view is loaded")
+        XCTAssert(sut.isShowingLoadingIndicator, "Expected loading indicator once view appears")
 
         loader.completeFeedLoading(at: 0)
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading completes successfully")
@@ -199,7 +210,7 @@ class FeedUIIntegrationTests: XCTestCase {
         let (sut, loader) = makeSUT()
 
         sut.simulateAppearance()
-        XCTAssertFalse(sut.isShowingLoadMoreFeedIndicator, "Expected no loading indicator once view is loaded")
+        XCTAssertFalse(sut.isShowingLoadMoreFeedIndicator, "Expected no loading indicator once view appears")
 
         loader.completeFeedLoading(at: 0)
         XCTAssertFalse(sut.isShowingLoadMoreFeedIndicator, "Expected no loading indicator once loading completes successfully")
