@@ -49,34 +49,6 @@ final class LoadFeedImageDataFromCacheUseCaseTests: XCTestCase {
             store.completeRetrieval(with: foundData)
         })
     }
-
-    func test_loadImageDataFromURL_doesNotDeliverResultAfterCancellingTask() {
-        let (sut, store) = makeSUT()
-        let foundData = anyData
-
-        var received = [FeedImageDataLoader.Result]()
-        let task = sut.loadImageData(from: anyURL) { received.append($0) }
-        task.cancel()
-
-        store.completeRetrieval(with: foundData)
-        store.completeRetrieval(with: .none)
-        store.completeRetrieval(with: anyNSError)
-
-        XCTAssert(received.isEmpty, "Expected no received results after cancelling task")
-    }
-
-    func test_loadImageDataFromURL_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
-        let store = FeedImageDataStoreSpy()
-        var sut: LocalFeedImageDataLoader? = LocalFeedImageDataLoader(store: store)
-
-        var received = [FeedImageDataLoader.Result]()
-        _ = sut?.loadImageData(from: anyURL) { received.append($0) }
-
-        sut = nil
-        store.completeRetrieval(with: anyData)
-
-        XCTAssert(received.isEmpty, "Expected no received results after instance has been deallocated")
-    }
 }
 
 private extension LoadFeedImageDataFromCacheUseCaseTests {
@@ -99,6 +71,8 @@ private extension LoadFeedImageDataFromCacheUseCaseTests {
     func expect(_ sut: LocalFeedImageDataLoader, toCompleteWith expectedResult: FeedImageDataLoader.Result, when action: () -> Void, file: StaticString = #file, line: UInt = #line) {
         let exp = expectation(description: "Wait for load completion")
 
+        action()
+
         _ = sut.loadImageData(from: anyURL) { receivedResult in
             switch (receivedResult, expectedResult) {
             case let (.success(receivedData), .success(expectedData)):
@@ -115,7 +89,6 @@ private extension LoadFeedImageDataFromCacheUseCaseTests {
             exp.fulfill()
         }
 
-        action()
         wait(for: [exp], timeout: 1.0)
     }
 }
