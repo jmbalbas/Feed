@@ -15,12 +15,6 @@ public final class LocalFeedLoader {
         self.store = store
         self.currentDate = currentDate
     }
-
-    private func deleteCache(completion: ((Result<Void, Error>) -> Void)? = nil) {
-        store.deleteCachedFeed { error in
-            completion?(error)
-        }
-    }
 }
 
 extension LocalFeedLoader: FeedCache {
