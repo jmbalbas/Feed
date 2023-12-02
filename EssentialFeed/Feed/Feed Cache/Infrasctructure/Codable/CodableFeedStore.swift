@@ -35,54 +35,33 @@ public final class CodableFeedStore: FeedStore {
         }
     }
 
-    private let queue = DispatchQueue(label: "\(CodableFeedStore.self)Queue", qos: .userInitiated, attributes: .concurrent)
     private let storeURL: URL
 
     public init(storeURL: URL) {
         self.storeURL = storeURL
     }
 
-    public func retrieve(completion: @escaping RetrievalCompletion) {
-        queue.async { [storeURL] in
-            guard let data = try? Data(contentsOf: storeURL) else {
-                return completion(.success(.none))
-            }
-
-            do {
-                let decoder = JSONDecoder()
-                let cache = try decoder.decode(Cache.self, from: data)
-                completion(.success(CachedFeed(feed: cache.localFeed, timestamp: cache.timestamp)))
-            } catch {
-                completion(.failure(error))
-            }
+    public func retrieve() throws -> CachedFeed? {
+        guard let data = try? Data(contentsOf: storeURL) else {
+            return nil
         }
+
+        let decoder = JSONDecoder()
+        let cache = try decoder.decode(Cache.self, from: data)
+        return CachedFeed(feed: cache.localFeed, timestamp: cache.timestamp)
     }
 
-    public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
-        queue.async(flags: .barrier) { [storeURL] in
-            let encoder = JSONEncoder()
-            let cache = Cache(feed: feed.map(CodableFeedImage.init), timestamp: timestamp)
-            let encoded = try! encoder.encode(cache)
-            do {
-                try encoded.write(to: storeURL)
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
-        }
+    public func insert(_ feed: [LocalFeedImage], timestamp: Date) throws {
+        let encoder = JSONEncoder()
+        let cache = Cache(feed: feed.map(CodableFeedImage.init), timestamp: timestamp)
+        let encoded = try! encoder.encode(cache)
+        try encoded.write(to: storeURL)
     }
 
-    public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-        queue.async(flags: .barrier) { [storeURL] in
-            guard FileManager.default.fileExists(atPath: storeURL.path) else {
-                return completion(.success(()))
-            }
-            do {
-                try FileManager.default.removeItem(at: storeURL)
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
+    public func deleteCachedFeed() throws {
+        guard FileManager.default.fileExists(atPath: storeURL.path) else {
+            return
         }
+        try FileManager.default.removeItem(at: storeURL)
     }
 }
