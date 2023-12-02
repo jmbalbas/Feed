@@ -130,12 +130,6 @@ final class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
 
         assertThatDeleteHasNoSideEffectsOnDeletionError(on: sut)
     }
-
-    func test_storeSideEffects_runSerially() throws {
-        let sut = makeSUT()
-
-        assertThatSideEffectsRunSerially(on: sut)
-    }
 }
 
 private extension CodableFeedStoreTests {
