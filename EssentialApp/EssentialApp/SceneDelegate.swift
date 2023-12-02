@@ -50,10 +50,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             selection: showComments)
     )
 
-    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore) {
+    private lazy var scheduler: AnyDispatchQueueScheduler = DispatchQueue(
+        label: "com.juansantiagomartinbalbas.infra.queue",
+        qos: .userInitiated,
+        attributes: .concurrent
+    ).eraseToAnyScheduler()
+
+    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore, scheduler: AnyDispatchQueueScheduler) {
         self.init()
         self.httpClient = httpClient
         self.store = store
+        self.scheduler = scheduler
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -128,11 +135,15 @@ private extension SceneDelegate {
         let localImageLoader = LocalFeedImageDataLoader(store: store)
         return localImageLoader
             .loadImageDataPublisher(from: url)
-            .fallback(to: { [httpClient] in
+            .fallback(to: { [httpClient, scheduler] in
                 httpClient
                     .getPublisher(url: url)
                     .tryMap(FeedImageDataMapper.map)
                     .caching(to: localImageLoader, using: url)
+                    .subscribe(on: scheduler)
+                    .eraseToAnyPublisher()
             })
+            .subscribe(on: scheduler)
+            .eraseToAnyPublisher()
     }
 }
